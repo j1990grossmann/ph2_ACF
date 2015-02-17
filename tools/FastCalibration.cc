@@ -30,7 +30,7 @@ void FastCalibration::ScanVplus()
 			initializeSCurves( "Vplus", cVplus, cTGrpM.first );
 
 			// measure the SCurves, the false is indicating that I am sweeping Vcth
-			measureSCurves( false, cTGrpM.first );
+			measureSCurvesBinary( false, cTGrpM.first );
 
 			// now process the measured SCuvers, true indicates that I am drawing, the TGraphErrors with Vcth vs Vplus are also filled
 			processSCurves( "Vplus", cVplus, true, cTGrpM.first );
@@ -69,7 +69,7 @@ void FastCalibration::ScanOffset()
 				std::cout << GREEN << "Toggling Bit " << cBit << RESET << std::endl;
 				toggleOffsetBit( cBit, cTGrpM.first );
 				initializeSCurves( "OffsetBit", cBit, cTGrpM.first );
-				measureSCurves( false, cTGrpM.first );
+				measureSCurvesBinary( false, cTGrpM.first );
 				processSCurvesOffset( "OffsetBit", cBit, true, cTGrpM.first ); // this extracts the pedestal per channel, compares and flips back if necessary
 			}
 		}
@@ -83,7 +83,7 @@ void FastCalibration::ScanOffset()
 			initializeSCurves( "Offset", 0x00, cTGrpM.first );
 
 			// // the true indicates that this time I am sweeping Offsets instead of Vcth
-			measureSCurves( true, cTGrpM.first );
+			measureSCurvesBinary( true, cTGrpM.first );
 
 			processSCurves( "Offset", 0x00, true, cTGrpM.first );
 			// set offset accordingly (check for mode, then either 0 or 255)
