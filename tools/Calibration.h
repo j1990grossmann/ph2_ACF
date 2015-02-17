@@ -88,7 +88,7 @@ class Calibration : public SystemController
         }
 	void measureSCurves( BeBoard& pBoard, uint8_t pGroupId, uint32_t pEventsperVcth, uint32_t pTotalChannels, bool pHoleMode ) {
 	     measureSCurves( &pBoard, pGroupId, pEventsperVcth, pTotalChannels, pHoleMode );
-        }
+	}
 	void measureSCurvesBinary( BeBoard& pBoard, uint8_t pGroupId, uint32_t pEventsperVcth, uint32_t pTotalChannels, bool pHoleMode ) {
 		measureSCurvesBinary( &pBoard, pGroupId, pEventsperVcth, pTotalChannels, pHoleMode );
 	}
