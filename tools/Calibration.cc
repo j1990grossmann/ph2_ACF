@@ -605,7 +605,11 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 						std::cout << *cEvent << std::endl;
 						#endif
 					}
-					else break;
+					else 
+					{
+						std::cout << ">>> cTotalHits = " << cTotalHits << " cLow = "<< cLow << " cUp = " << cUp << std::endl;
+						break;
+					}
 				}
 				cNthAcq++;
 			} // End of Analyze Events of last Acquistion loop
