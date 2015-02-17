@@ -548,7 +548,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 	uint32_t cAllOne = 0;
 
 	//new part
-	const int cThresholdNotFound = -1;
+	bool cThresholdNotFound;
 	
 	int cMiddle;
 	int cLeft = 0x00;
@@ -638,7 +638,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 	//alter algorithmus
 	cVcth = pHoleMode ? cVcthMax : cVcthMin;
 	cStep = pHoleMode ? -10 : 10;
-	// std::cout << BOLDYELLOW << "Scanning VCth ... " << RESET << std::endl;
+	std::cout << BOLDYELLOW << "alter algorithmus ... " << RESET << std::endl;
 	while ( 0x00 <= cVcth && cVcth <= 0xFF )
 	{
 		if ( cVcth == cDoubleVcth )
