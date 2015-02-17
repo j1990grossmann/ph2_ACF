@@ -626,7 +626,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 				{
 					cRight=cMiddle-1;
 					std::cout << BOLDRED << "go right "<< RESET << std::endl;
-				}else cLeft=Middle+1;
+				}else cLeft=cMiddle+1;
 			}
             else if( cTotalHits < cLow )
 			{
