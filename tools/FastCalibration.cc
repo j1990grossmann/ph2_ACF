@@ -479,6 +479,112 @@ void FastCalibration::measureSCurves( bool pOffset, int  pTGrpId )
 	if ( pOffset ) setOffset( cStartValue, pTGrpId );
 }
 
+void FastCalibration::measureSCurvesBinary( bool pOffset, int  pTGrpId )
+{
+	// Adaptive Loop to measure SCurves
+
+	if ( pOffset ) std::cout << BOLDGREEN << "Measuring SCurves sweeping Channel Offsets ... " << RESET << std::endl;
+	else std::cout << BOLDGREEN << "Measuring SCurves sweeping VCth ... " << RESET <<  std::endl;
+
+	// Necessary variables
+	bool cNonZero = false;
+	bool cAllOne = false;
+	uint32_t cAllOneCounter = 0;
+	uint8_t cValue, cStartValue, cDoubleValue;
+	int cStep;
+
+	// the expression below mimics XOR
+	if ( !pOffset != !fHoleMode )
+	{
+		cStartValue = cValue = 0xFF;
+		cStep = -10;
+	}
+	else
+	{
+		cStartValue = cValue = 0x00;
+		cStep = 10;
+	}
+
+	// Adaptive VCth loop
+	while ( 0x00 <= cValue && cValue <= 0xFF )
+	{
+		// DEBUG
+		if ( cAllOne ) break;
+		if ( cValue == cDoubleValue )
+		{
+			cValue +=  cStep;
+			continue;
+		}
+
+		// This decides if the SCurve is done sweeping Vcth or Offsets
+		if ( !pOffset )
+		{
+			CbcRegWriter cWriter( fCbcInterface, "VCth", cValue );
+			accept( cWriter );
+		}
+		else
+			setOffset( cValue, pTGrpId ); //need to pass on the testgroup
+
+		uint32_t cN = 0;
+		uint32_t cNthAcq = 0;
+		uint32_t cHitCounter = 0;
+
+		for ( auto cShelve : fShelveVector )
+		{
+			// DEBUG
+			if ( cAllOne ) break;
+
+			for ( BeBoard* pBoard : cShelve->fBoardVector )
+			{
+				Counter cCounter;
+				pBoard->accept( cCounter );
+				while ( cN <  fEventsPerPoint )
+				{
+					Run( pBoard, cNthAcq );
+
+					const Event* cEvent = fBeBoardInterface->GetNextEvent( pBoard );
+
+					// Loop over Events from this Acquisition
+					while ( cEvent )
+					{
+						if ( cN == fEventsPerPoint )
+							break;
+
+						cHitCounter += fillSCurves( pBoard, cEvent, cValue, pTGrpId ); //pass test group here
+
+						cN++;
+
+						if ( cN < fEventsPerPoint )
+							cEvent = fBeBoardInterface->GetNextEvent( pBoard );
+						else break;
+					}
+					cNthAcq++;
+				} // done with this acquisition
+
+				if ( pOffset ) std::cout << "Offset " << int( cValue ) << " Hits: " << cHitCounter << std::endl;
+				// std::cout << "DEBUG Vcth " << int( cValue ) << " Hits " << cHitCounter << std::endl;
+
+				// check if the hitcounter is all ones
+				if ( cNonZero == false && cHitCounter != 0 )
+				{
+					cDoubleValue = cValue;
+					cNonZero = true;
+					if ( ( cStep > 0 && cValue > 0x14 ) || ( cStep < 0 && cValue < 0xEB ) ) cValue -= 2 * cStep;
+					else cValue -= cStep;
+					cStep /= ( pOffset ) ? 2 : 10;
+					continue;
+				}
+				// the above counter counted the CBC objects connected to pBoard
+				if ( cHitCounter > 0.95 * fEventsPerPoint  * cCounter.getNCbc() * fTestGroupChannelMap[pTGrpId].size() ) cAllOneCounter++;
+				if ( cAllOneCounter >= 10 ) cAllOne = true;
+				if ( cAllOne ) break;
+				cValue += cStep;
+			}
+		}
+	} // end of VCth loop
+	if ( pOffset ) setOffset( cStartValue, pTGrpId );
+}
+
 void FastCalibration::initializeSCurves( TString pParameter, uint8_t pValue, int  pTGrpId )
 {
 	// Just call the initializeHist method of every channel and tell it what we are varying

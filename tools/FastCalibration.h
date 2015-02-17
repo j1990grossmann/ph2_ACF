@@ -112,6 +112,7 @@ class FastCalibration : public SystemController
 
   protected:
 	void measureSCurves( bool pOffset, int  pTGrpId );
+	void measureSCurvesBinary( bool pOffset, int  pTGrpId );
 	//void measureSCurves( bool pOffset );
 	void setOffset( uint8_t pOffset, int  pTGrpId );
 	//void setOffset( uint8_t pOffset );

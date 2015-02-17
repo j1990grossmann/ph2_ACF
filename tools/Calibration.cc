@@ -559,89 +559,88 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 	double cLow = cEventsAtMidpoint - cSigma*TMath::Sqrt(cEventsAtMidpoint); 
 	double cUp  = cEventsAtMidpoint + cSigma*TMath::Sqrt(cEventsAtMidpoint); 
 	
+	
+	// 	Find a rough estimate for the turn on point using the binary search.
+	std::cout << BOLDYELLOW << "Scanning VCth binary algorithm... " << RESET << std::endl;
+	while(cLeft <= cRight)
 	{
-        // 	Find a rough estimate for the turn on point using the binary search.
-        std::cout << BOLDYELLOW << "Scanning VCth binary algorithm... " << RESET << std::endl;
-        while(cLeft <= cRight)
-        {
-            cMiddle = cLeft + ((cRight-cLeft) / 2);
+		cMiddle = cLeft + ((cRight-cLeft) / 2);
+		
+		cVcth = cMiddle;
+		// Set current Vcth value on all Cbc's of the current board
+		setGlobalReg( pBoard, "VCth", cVcth );
+		
+		uint32_t cN = 0;
+		uint32_t cNthAcq = 0;
+		uint32_t cTotalHits = 0;
+		
+		while ( cN < pEventsperVcth )
+		{
+			Run( pBoard, cNthAcq );
 			
-			cVcth = cMiddle;
-			// Set current Vcth value on all Cbc's of the current board
-			setGlobalReg( pBoard, "VCth", cVcth );
-
-			uint32_t cN = 0;
-			uint32_t cNthAcq = 0;
-			uint32_t cTotalHits = 0;
+			const Event* cEvent = fBeBoardInterface->GetNextEvent( pBoard );
 			
-			while ( cN < pEventsperVcth )
+			std::cout << ">>> pGroupId = " << +pGroupId << " cVcth = " << cVcth << std::endl;
+			std::cout << ">>> Event #" << cN << " Limit = " << pEventsperVcth << std::endl;
+			std::cout << *cEvent << std::endl;
+			
+			
+			// Loop over Events from this Acquisition
+			while ( cEvent )
 			{
-				Run( pBoard, cNthAcq );
 				
-				const Event* cEvent = fBeBoardInterface->GetNextEvent( pBoard );
+				if ( cN == pEventsperVcth )
+					break;
 				
-				std::cout << ">>> pGroupId = " << +pGroupId << " cVcth = " << cVcth << std::endl;
-				std::cout << ">>> Event #" << cN << " Limit = " << pEventsperVcth << std::endl;
-				std::cout << *cEvent << std::endl;
+				uint32_t cNHits = fillScurveHists( pBoard, pGroupId, cVcth, cEvent );
+				cTotalHits += cNHits;
+				cN++;
 				
-				
-				// Loop over Events from this Acquisition
-				while ( cEvent )
+				if ( cN < pEventsperVcth )
 				{
-					
-					if ( cN == pEventsperVcth )
-						break;
-					
-					uint32_t cNHits = fillScurveHists( pBoard, pGroupId, cVcth, cEvent );
-					cTotalHits += cNHits;
-					cN++;
-					
-					if ( cN < pEventsperVcth )
-					{
-						cEvent = fBeBoardInterface->GetNextEvent( pBoard );
-						#if 0
-						std::cout << ">>> pGroupId = " << +pGroupId << " cVcth = " << cVcth << std::endl;
-						std::cout << ">>> Event #" << cN << std::endl;
-						std::cout << *cEvent << std::endl;
-						#endif
-					}
-					else 
-					{
-						break;
-					}
+					cEvent = fBeBoardInterface->GetNextEvent( pBoard );
+					#if 0
+					std::cout << ">>> pGroupId = " << +pGroupId << " cVcth = " << cVcth << std::endl;
+					std::cout << ">>> Event #" << cN << std::endl;
+					std::cout << *cEvent << std::endl;
+					#endif
 				}
-				cNthAcq++;
-				std::cout << ">>> cTotalHits = " << cTotalHits << " cLow = "<< cLow << " cUp = " << cUp << std::endl;
-			} // End of Analyze Events of last Acquistion loop
-			
-            if( cLow<=cTotalHits && cTotalHits <= cUp)
-            {
-                // 	Do a bitwise threshold scan around the midpoint of the SCurve
-				std::cout << BOLDRED << "Midpoint found at "<<cMiddle << RESET << std::endl;
-				cThresholdNotFound=0;
-                break;
-            }
-            else if( cTotalHits  > cUp )
-			{
-				if(!pHoleMode)
+				else 
 				{
-					cRight=cMiddle-1;
-					std::cout << BOLDRED << "go right "<< RESET << std::endl;
-				}else cLeft=cMiddle+1;
+					break;
+				}
 			}
-            else if( cTotalHits < cLow )
+			cNthAcq++;
+			std::cout << ">>> cTotalHits = " << cTotalHits << " cLow = "<< cLow << " cUp = " << cUp << std::endl;
+		} // End of Analyze Events of last Acquistion loop
+		
+		if( cLow<=cTotalHits && cTotalHits <= cUp)
+		{
+			// 	Do a bitwise threshold scan around the midpoint of the SCurve
+			std::cout << BOLDRED << "Midpoint found at "<<cMiddle << RESET << std::endl;
+			cThresholdNotFound=0;
+			break;
+		}
+		else if( cTotalHits  > cUp )
+		{
+			if(!pHoleMode)
 			{
-				if(!pHoleMode)
-				{
-					cLeft=cMiddle + 1;
-					std::cout << BOLDRED << "go left "<< RESET << std::endl;
-				}else cRight=cMiddle-1;
-			}
-
-        }
-        if(cThresholdNotFound)
-        std::cout << BOLDRED << "Binary search error. Threshold  not found." << RESET << std::endl;
+				cRight=cMiddle-1;
+				// 					std::cout << BOLDRED << "go right "<< RESET << std::endl;
+			}else cLeft=cMiddle+1;
+		}
+		else if( cTotalHits < cLow )
+		{
+			if(!pHoleMode)
+			{
+				cLeft=cMiddle + 1;
+				// 					std::cout << BOLDRED << "go left "<< RESET << std::endl;
+			}else cRight=cMiddle-1;
+		}
 	}
+	if(cThresholdNotFound)
+	std::cout << BOLDRED << "Binary search error. Threshold  not found." << RESET << std::endl;
+	
 	
 	//alter algorithmus
 	cVcth = pHoleMode ? cVcthMax : cVcthMin;
@@ -654,14 +653,14 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 			cVcth +=  cStep;
 			continue;
 		}
-
+		
 		// Set current Vcth value on all Cbc's of the current board
 		setGlobalReg( pBoard, "VCth", cVcth );
-
+		
 		uint32_t cN = 0;
 		uint32_t cNthAcq = 0;
 		uint32_t cTotalHits = 0;
-
+		
 		while ( cN < pEventsperVcth )
 		{
 			Run( pBoard, cNthAcq );
