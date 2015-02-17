@@ -553,7 +553,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 	int cMiddle;
 	int cLeft = 0x00;
 	int cRight = 0xFF;
-	double cSigma = 2., 
+	double cSigma = 2.;
 	
 	int cEventsAtMidpoint = 0.5 * pEventsperVcth * pTotalChannels;
 	double cLow = cEventsAtMidpoint - cSigma*TMath::Sqrt(cEventsAtMidpoint); 
