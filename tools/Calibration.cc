@@ -335,7 +335,7 @@ void Calibration::VplusScan()
 
 					initializeSCurves( board, cGroupId, cVplus, "Vplus" );
 
-					measureSCurves( board, cGroupId, cEventsperVcth, cTotalChannels, cHoleMode );
+					measureSCurvesBinary( board, cGroupId, cEventsperVcth, cTotalChannels, cHoleMode );
 					// Now Fit the hists & fill the VplusVcth Graph & set the TestGroup Offset back to 0x00 or 0xFF
 					processSCurves( board, cGroupId, cEventsperVcth, cVplus, "Vplus", cHoleMode, true );
 
