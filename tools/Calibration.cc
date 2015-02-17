@@ -622,13 +622,19 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
             }
             else if( cTotalHits  > cUp )
 			{
-				cRight=cMiddle-1;
-				std::cout << BOLDRED << "go right "<< RESET << std::endl;
+				if(!pHoleMode)
+				{
+					cRight=cMiddle-1;
+					std::cout << BOLDRED << "go right "<< RESET << std::endl;
+				}else cLeft=Middle+1;
 			}
             else if( cTotalHits < cLow )
 			{
-                cLeft=cMiddle + 1;
-				std::cout << BOLDRED << "go left "<< RESET << std::endl;
+				if(!pHoleMode)
+				{
+					cLeft=cMiddle + 1;
+					std::cout << BOLDRED << "go left "<< RESET << std::endl;
+				}else cRight=cMiddle-1;
 			}
 
         }
