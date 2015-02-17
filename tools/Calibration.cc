@@ -592,7 +592,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 					if ( cN == pEventsperVcth )
 						break;
 					
-// 					uint32_t cNHits = fillScurveHists( pBoard, pGroupId, cVcth, cEvent );
+					uint32_t cNHits = fillScurveHists( pBoard, pGroupId, cVcth, cEvent );
 					cTotalHits += cNHits;
 					cN++;
 					
