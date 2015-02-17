@@ -548,7 +548,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 	uint32_t cAllOne = 0;
 
 	//new part
-	bool cThresholdNotFound;
+	bool cThresholdNotFound=1;
 	
 	int cMiddle;
 	int cLeft = 0x00;
@@ -618,6 +618,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
             {
                 // 	Do a bitwise threshold scan around the midpoint of the SCurve
 				std::cout << BOLDRED << "Midpoint found at "<<cMiddle << RESET << std::endl;
+				cThresholdNotFound=0;
                 break;
             }
             else if( cTotalHits  > cUp )
@@ -638,6 +639,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 			}
 
         }
+        if(cThresholdNotFound)
         std::cout << BOLDRED << "Binary search error. Threshold not found." << RESET << std::endl;
 	}
 	
