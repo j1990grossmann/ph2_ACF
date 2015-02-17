@@ -69,6 +69,7 @@ class Calibration : public SystemController
 	void setGlobalReg( BeBoard* pBoard, const std::string& pRegName, uint8_t pRegValue );
 	void initializeSCurves( BeBoard* pBoard, uint8_t pGroupId, uint8_t pValue, TString pParameter );
 	void measureSCurves( BeBoard* pBoard, uint8_t pGroupId, uint32_t pEventsperVcth, uint32_t pTotalChannels, bool pHoleMode );
+	void measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint32_t pEventsperVcth, uint32_t pTotalChannels, bool pHoleMode );
 	void processSCurves( BeBoard* pBoard, uint8_t pGroupId, uint32_t pEventsperVcth, uint8_t pValue, TString pParameter, bool pHoleMode, bool pDoDraw );
 	uint32_t fillScurveHists( BeBoard* pBoard, uint8_t pGroupId, uint8_t pVcth, const Event* pEvent );
 	uint32_t ToggleTestGroup( BeBoard* pBoard, uint8_t pGroupId, bool pHoleMode, bool pEnable );
