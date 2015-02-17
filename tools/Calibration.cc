@@ -640,7 +640,7 @@ void Calibration::measureSCurvesBinary( BeBoard* pBoard, uint8_t pGroupId, uint3
 
         }
         if(cThresholdNotFound)
-        std::cout << BOLDRED << "Binary search error. Threshold not found." << RESET << std::endl;
+        std::cout << BOLDRED << "Binary search error. Threshold  not found." << RESET << std::endl;
 	}
 	
 	//alter algorithmus
