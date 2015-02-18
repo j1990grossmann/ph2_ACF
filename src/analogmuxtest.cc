@@ -25,7 +25,7 @@ int main( int argc, char* argv[] )
 	ArgvParser cmd;
 
 	// init
-	cmd.setIntroductoryDescription( "CMS Ph2_ACF  calibration routine using K. Uchida's algorithm or a fast algoriithm" );
+	cmd.setIntroductoryDescription( "CMS Ph2_ACF Test procedure using Analog Mux" );
 	// error codes
 	cmd.addErrorCode( 0, "Success" );
 	cmd.addErrorCode( 1, "Error" );
@@ -51,6 +51,8 @@ int main( int argc, char* argv[] )
 	cmd.defineOption( "batch", "Run the application in batch mode", ArgvParser::NoOptionAttribute );
 	cmd.defineOptionAlternative( "batch", "b" );
 
+	cmd.defineOption( "AmuxTest", "Set amux register to dec 2, VCth ", ArgvParser::NoOptionAttribute );
+	cmd.defineOptionAlternative( "AmuxTest", "am" );
 
 	int result = cmd.parse( argc, argv );
 	if ( result != ArgvParser::NoParserError )
@@ -69,12 +71,14 @@ int main( int argc, char* argv[] )
 	bool cOffsetTuneMode = ( cmd.foundOption( "bitmode" ) ) ? true : false;
 	bool cCalibrateTGrp = ( cmd.foundOption( "allChan" ) ) ? true : false;
 	bool batchMode = ( cmd.foundOption( "batch" ) ) ? true : false;
+	bool cAmuxTest = ( cmd.foundOption( "AmuxTest" ) ) ? true : false;
+	
 
 	TApplication cApp( "Root Application", &argc, argv );
 	if ( batchMode ) gROOT->SetBatch( true );
 	else TQObject::Connect( "TCanvas", "Closed()", "TApplication", &cApp, "Terminate()" );
 
-	if ( !cOld )
+	if ( cAmuxTest )
 	{
 		MuxTest cCalibration( cOffsetTuneMode, cCalibrateTGrp );
 		cCalibration.InitializeHw( cHWFile );
