@@ -1,5 +1,5 @@
 #include "MuxTest.h"
-#include<cmath>
+#include <cmath>
 // TODO: Canvas divisions
 
 void MuxTest::ScanVplus()

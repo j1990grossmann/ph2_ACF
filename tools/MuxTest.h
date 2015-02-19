@@ -52,9 +52,9 @@ class MuxTest : public SystemController
 {
   public:
 	MuxTest( bool pbitwisetune , bool pAllChan ) {
-		for(int i=0; i<256; i++)
+		for(int i=0; i<25; i++)
 		{
-			fVplusVec1.push_back(i);
+			fVplusVec1.push_back(i*10);
 		}
 		fVplusVec.push_back( 0x14 );
 		fVplusVec.push_back( 0x64 );
@@ -98,7 +98,7 @@ class MuxTest : public SystemController
 
 	void Validate();
 	
-	void VScanVplusAmux();
+	void ScanVplusAMux();
 
   private:
 	CbcChannelMap fCbcChannelMap;

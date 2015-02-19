@@ -78,34 +78,6 @@ int main( int argc, char* argv[] )
 	if ( batchMode ) gROOT->SetBatch( true );
 	else TQObject::Connect( "TCanvas", "Closed()", "TApplication", &cApp, "Terminate()" );
 
-	if ( !cOld)
-	{
-		MuxTest cCalibration( cOffsetTuneMode, cCalibrateTGrp );
-		cCalibration.InitializeHw( cHWFile );
-		cCalibration.InitializeSettings( cHWFile );
-		cCalibration.CreateResultDirectory( cDirectory );
-		cCalibration.InitResultFile( "CalibrationResults" );
-		cCalibration.ConfigureHw();
-		cCalibration.Initialise(); // canvases etc. for fast calibration
-		if ( !cVplus ) cCalibration.ScanVplus();
-		cCalibration.ScanOffset();
-		cCalibration.Validate();
-		cCalibration.SaveResults();
-
-	}
-	else
-	{
-		Calibration cCalibration;
-		cCalibration.InitializeHw( cHWFile );
-		cCalibration.InitializeSettings( cHWFile );
-		cCalibration.CreateResultDirectory( cDirectory );
-		cCalibration.InitResultFile( "CalibrationResults" );
-		cCalibration.InitialiseTestGroup();
-		cCalibration.ConfigureHw();
-		if ( !cVplus ) cCalibration.VplusScan();
-		cCalibration.OffsetScan();
-		cCalibration.SaveResults();
-	}
 	
 	if( cAmuxTest)
 	{
@@ -116,6 +88,7 @@ int main( int argc, char* argv[] )
 		cAmuxTest.InitResultFile( "AmuxTestResults" );
 		cAmuxTest.ConfigureHw();
 		cAmuxTest.Initialise(); // canvases etc. for fast calibration
+		cAmuxTest.ScanVplusAMux();
 		cAmuxTest.SaveResults();
 	}
 	
