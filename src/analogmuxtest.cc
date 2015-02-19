@@ -93,6 +93,6 @@ int main( int argc, char* argv[] )
 	}
 	
 	if ( !batchMode ) cApp.Run();
-
+	cout<<"finish amux scans"<<endl;
 	return 0;
 }

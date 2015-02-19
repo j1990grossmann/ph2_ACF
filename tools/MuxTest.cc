@@ -1,5 +1,7 @@
 #include "MuxTest.h"
 #include <cmath>
+#include <chrono> 
+#include <thread>
 // TODO: Canvas divisions
 
 void MuxTest::ScanVplus()
@@ -870,6 +872,9 @@ void MuxTest::ScanVplusAMux()
 	// first set the offset of all Channels to 0x0A
 	//setOffset( 0x50,-1 );//change to this function
 	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
+
+	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
+	accept( cWriter1 );
 	for ( auto& cTGrpM : fTestGroupChannelMap )
 	{
 		if ( cTGrpM.first == -1 && fdoTGrpCalib )
@@ -886,7 +891,8 @@ void MuxTest::ScanVplusAMux()
 			accept( cWriter );
 
 			std::cout << "Vplus = " << int( cVplus ) << std::endl;
-			gSystem->Sleep(1000);
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+// 			gSystem->Sleep(1000);
 		}
 		// After finishing with one test group, disable it again
 		std::cout << "Disabling Test Group...." << cTGrpM.first << std::endl;
