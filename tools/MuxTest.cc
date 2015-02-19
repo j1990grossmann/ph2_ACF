@@ -863,3 +863,36 @@ void MuxTest::dumpConfigFiles()
 
 	std::cout << BOLDBLUE << "Configfiles for all Cbcs written to " << fDirectoryName << RESET << std::endl;
 }
+void MuxTest::ScanVplusAMux()
+{
+	// Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
+
+	// first set the offset of all Channels to 0x0A
+	//setOffset( 0x50,-1 );//change to this function
+	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
+	for ( auto& cTGrpM : fTestGroupChannelMap )
+	{
+		if ( cTGrpM.first == -1 && fdoTGrpCalib )
+			continue;
+		if ( cTGrpM.first > -1 && !fdoTGrpCalib )
+			break;
+		// now loop over Vplus values
+		std::cout << "Enabling Test Group...." << cTGrpM.first << std::endl;
+		setOffset( 0x50, cTGrpM.first );
+		for ( auto& cVplus : fVplusVec1 )
+		{
+			// then set the correct Vplus
+			CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
+			accept( cWriter );
+
+			std::cout << "Vplus = " << int( cVplus ) << std::endl;
+			gSystem->Sleep(1000);
+		}
+		// After finishing with one test group, disable it again
+		std::cout << "Disabling Test Group...." << cTGrpM.first << std::endl;
+		uint8_t cOffset = ( fHoleMode ) ? 0xFF : 0x00;
+		setOffset( cOffset, cTGrpM.first );
+	}
+	std::cout << BOLDBLUE << "Finished scanning Vplus with AMuxOutput..." << std::endl;
+
+}

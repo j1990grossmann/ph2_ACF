@@ -78,7 +78,7 @@ int main( int argc, char* argv[] )
 	if ( batchMode ) gROOT->SetBatch( true );
 	else TQObject::Connect( "TCanvas", "Closed()", "TApplication", &cApp, "Terminate()" );
 
-	if ( cAmuxTest )
+	if ( !cOld)
 	{
 		MuxTest cCalibration( cOffsetTuneMode, cCalibrateTGrp );
 		cCalibration.InitializeHw( cHWFile );
@@ -106,7 +106,19 @@ int main( int argc, char* argv[] )
 		cCalibration.OffsetScan();
 		cCalibration.SaveResults();
 	}
-
+	
+	if( cAmuxTest)
+	{
+		MuxTest cAmuxTest( cOffsetTuneMode, cCalibrateTGrp);
+		cAmuxTest.InitializeHw( cHWFile );
+		cAmuxTest.InitializeSettings( cHWFile );
+		cAmuxTest.CreateResultDirectory( cDirectory );
+		cAmuxTest.InitResultFile( "AmuxTestResults" );
+		cAmuxTest.ConfigureHw();
+		cAmuxTest.Initialise(); // canvases etc. for fast calibration
+		cAmuxTest.SaveResults();
+	}
+	
 	if ( !batchMode ) cApp.Run();
 
 	return 0;

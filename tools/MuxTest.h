@@ -29,6 +29,7 @@
 #include "TGraphErrors.h"
 #include "TString.h"
 #include "TText.h"
+#include "TSystem.h"
 
 using namespace Ph2_HwDescription;
 using namespace Ph2_HwInterface;
@@ -51,6 +52,10 @@ class MuxTest : public SystemController
 {
   public:
 	MuxTest( bool pbitwisetune , bool pAllChan ) {
+		for(int i=0; i<256; i++)
+		{
+			fVplusVec1.push_back(i);
+		}
 		fVplusVec.push_back( 0x14 );
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );
@@ -92,6 +97,8 @@ class MuxTest : public SystemController
 	}
 
 	void Validate();
+	
+	void VScanVplusAmux();
 
   private:
 	CbcChannelMap fCbcChannelMap;
@@ -108,6 +115,7 @@ class MuxTest : public SystemController
 	uint8_t fTargetVcth;
 
 	std::vector<uint8_t> fVplusVec;
+	std::vector<uint8_t> fVplusVec1;
 
 
   protected:
