@@ -104,6 +104,7 @@ class MuxTest : public SystemController
 	CbcChannelMap fCbcChannelMap;
 	CanvasMap fCanvasMap;
 	GraphMap fGraphMap;
+	GraphMap fGraphMap1;
 	FitMap fFitMap;
 	HistMap fHistMap;
 	TestGroupChannelMap fTestGroupChannelMap;

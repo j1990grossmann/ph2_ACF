@@ -276,6 +276,13 @@ void MuxTest::Initialise()
 					if ( cHist ) delete cHist;
 					cHist = new TH1F( cHistname, cHistname, 100, 0, 1 );
 					fHistMap[cCbc] = cHist;
+					
+					
+					TString cGraphname1 = Form( "MonitorGraphs_Fe%d_Cbc%d" , cFeId, cCbcId);
+					TGraphErrors* ctmpGraph1 = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname1 ) );
+					if ( ctmpGraph1 ) delete ctmpGraph1;
+					ctmpGraph1->SetName( cGraphname1 );
+					fGraphMap1[cCBC] = ctmpGraph1;
 				}
 			}
 		}
@@ -870,35 +877,24 @@ void MuxTest::ScanVplusAMux()
 	// Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
 
 	// first set the offset of all Channels to 0x0A
-	//setOffset( 0x50,-1 );//change to this function
-	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
 
+	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
 	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
 	accept( cWriter1 );
-	for ( auto& cTGrpM : fTestGroupChannelMap )
+	
+	// now loop over Vplus values
+	setOffset( 0x50, cTGrpM.first );
+	for ( auto& cVplus : fVplusVec1 )
 	{
-		if ( cTGrpM.first == -1 && fdoTGrpCalib )
-			continue;
-		if ( cTGrpM.first > -1 && !fdoTGrpCalib )
-			break;
-		// now loop over Vplus values
-		std::cout << "Enabling Test Group...." << cTGrpM.first << std::endl;
-		setOffset( 0x50, cTGrpM.first );
-		for ( auto& cVplus : fVplusVec1 )
-		{
-			// then set the correct Vplus
-			CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
-			accept( cWriter );
-
-			std::cout << "Vplus = " << int( cVplus ) << std::endl;
-			std::this_thread::sleep_for(std::chrono::seconds(1));
+		// then set the correct Vplus
+		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
+		accept( cWriter );
+		
+		std::cout << "Vplus = " << int( cVplus ) << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 // 			gSystem->Sleep(1000);
-		}
-		// After finishing with one test group, disable it again
-		std::cout << "Disabling Test Group...." << cTGrpM.first << std::endl;
-		uint8_t cOffset = ( fHoleMode ) ? 0xFF : 0x00;
-		setOffset( cOffset, cTGrpM.first );
 	}
+	
 	std::cout << BOLDBLUE << "Finished scanning Vplus with AMuxOutput..." << std::endl;
 
 }

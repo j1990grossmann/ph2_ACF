@@ -64,7 +64,7 @@ int main( int argc, char* argv[] )
 	// now query the parsing results
 	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "settings/Calibration2CBC.xml";
 	std::string cDirectory = ( cmd.foundOption( "output" ) ) ? cmd.optionValue( "output" ) : "Results/";
-	cDirectory += "Calibration";
+	cDirectory += "AMuxTest";
 	bool cVplus = ( cmd.foundOption( "skip" ) ) ? true : false;
 	bool cOld = ( cmd.foundOption( "old" ) ) ? true : false;
 

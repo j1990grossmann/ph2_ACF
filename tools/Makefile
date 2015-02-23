@@ -1,11 +1,14 @@
-Objs                    = Calibration.o FastCalibration.o Channel.o HybridTester.o CMTester.o MuxTest.o
+Objs                    = Calibration.o FastCalibration.o Channel.o HybridTester.o CMTester.o MuxTest.o Hameg4040.o AsyncSerial.o BufferedAsyncSerial.o
 CC              = gcc
 CXX             = g++
 CCFlags         = -g -O1 -w -Wall -pedantic -fPIC `root-config --cflags --evelibs` -Wcpp
 #DevFlags                   = -D__CBCDAQ_DEV__
 DevFlags		=
+#Boost
+BOOST = /localrepo2/vrgm63/tmp/boost
 
-IncludeDirs     =  /opt/cactus/include ../
+IncludeDirs     =  /opt/cactus/include ../ -I$(BOOST)/include
+LinkParam = -L$(BOOST)/lib -lpthread -lncurses -lboost_thread -lboost_system
 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
