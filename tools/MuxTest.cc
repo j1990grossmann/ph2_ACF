@@ -282,7 +282,7 @@ void MuxTest::Initialise()
 					TGraphErrors* ctmpGraph1 = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname1 ) );
 					if ( ctmpGraph1 ) delete ctmpGraph1;
 					ctmpGraph1->SetName( cGraphname1 );
-					fGraphMap1[cCBC] = ctmpGraph1;
+					fGraphMap1[cCbc] = ctmpGraph1;
 				}
 			}
 		}
@@ -883,7 +883,6 @@ void MuxTest::ScanVplusAMux()
 	accept( cWriter1 );
 	
 	// now loop over Vplus values
-	setOffset( 0x50, cTGrpM.first );
 	for ( auto& cVplus : fVplusVec1 )
 	{
 		// then set the correct Vplus
