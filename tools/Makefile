@@ -1,14 +1,14 @@
 Objs                    = Calibration.o FastCalibration.o Channel.o HybridTester.o CMTester.o MuxTest.o Hameg4040.o AsyncSerial.o BufferedAsyncSerial.o
 CC              = gcc
 CXX             = g++
-CCFlags         = -g -O1 -w -Wall -pedantic -fPIC `root-config --cflags --evelibs` -Wcpp
+CCFlags         = -g -O1 -w -Wall -pedantic -fPIC `root-config --cflags --evelibs` -Wcpp -L$(BOOST)/libs -lpthread -lncurses -lboost_thread -lboost_system
 #DevFlags                   = -D__CBCDAQ_DEV__
 DevFlags		=
 #Boost
 BOOST = /opt/boost/boost_1_47_0
 
 IncludeDirs     =  /opt/cactus/include ../ -I$(BOOST)/
-LinkParam = -L$(BOOST)/libs -lpthread -lncurses -lboost_thread -lboost_system
+# LinkParam = -L$(BOOST)/libs -lpthread -lncurses -lboost_thread -lboost_system
 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
