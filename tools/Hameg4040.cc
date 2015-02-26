@@ -6,8 +6,23 @@
 
 void Hameg4040::Initialise()
 {	
-	serial = new BufferedAsyncSerial("/dev/Hameg4040",115200);
+	serial = new BufferedAsyncSerial();
+	
+	string devname("/dev/Hameg4040");
+	unsigned int baudrate = 115200;
+	boost::asio::serial_port_base::parity            parity(boost::asio::serial_port_base::parity::none);
+	boost::asio::serial_port_base::character_size    character_size(8);
+	boost::asio::serial_port_base::flow_control      flow_control(boost::asio::serial_port_base::flow_control::none);
+	boost::asio::serial_port_base::stop_bits         stop_bits(boost::asio::serial_port_base::stop_bits::one);
 	endline = "\n";
+	try{
+		serial->open(devname,baudrate, parity, character_size, flow_control, stop_bits);
+	}catch(boost::system::system_error& e){
+		std::cout<<"boost error catched serial not open  "<<e.what()<<std::endl;
+		exit(1);
+	}
+	
+	
 	
 // 	set the Initial voltages and currents to 0
 	for(int i=0; i<4; i++){
@@ -15,7 +30,7 @@ void Hameg4040::Initialise()
 		fChannelMap[i].at(0)=0;
 		fChannelMap[i].at(1)=0;
 		
-		fChannelMapCurr[i].resize(2);
+		fChannelMapCurr[i].resize(2);  
 		fChannelMapCurr[i].at(0)=0;
 		fChannelMapCurr[i].at(1)=0;
 	}

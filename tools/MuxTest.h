@@ -18,8 +18,10 @@
 #include "../System/SystemController.h"
 #include "../Utils/ConsoleColor.h"
 #include "Channel.h"
+#include "Hameg4040.h"
 #include "../Utils/Visitor.h"
 #include "../Utils/CommonVisitors.h"
+
 
 #include <map>
 
@@ -90,6 +92,7 @@ class MuxTest : public SystemController
 	void Initialise();  // wants to be called after SystemController::ReadHW, ReadSettings
 	void ScanVplus();
 	void ScanOffset();
+	void HamegTest();
 
 	void SaveResults() {
 		writeGraphs();

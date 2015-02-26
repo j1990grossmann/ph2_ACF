@@ -5,7 +5,7 @@ CCFlags         = -g -O1 -w -Wall -pedantic -fPIC `root-config --cflags --evelib
 #DevFlags                   = -D__CBCDAQ_DEV__
 DevFlags		=
 #Boost
-BOOST = /opt/boost/boost_1_47_0/libs
+BOOST = /usr/local/include/boost
 
 IncludeDirs     =  /opt/cactus/include ../ -I$(BOOST)/
 # LinkParam = -L$(BOOST)/libs -lpthread -lncurses -lboost_thread -lboost_system

@@ -42,7 +42,7 @@ using namespace std;
 		~Hameg4040() {
 			OutPutGen(0);
 			SystLocal();
-			
+			serial->close();
 			delete serial;
 		}
 		

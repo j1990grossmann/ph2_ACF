@@ -7,7 +7,6 @@
 #include "../HWDescription/Definition.h"
 #include "../tools/Calibration.h"
 #include "../tools/MuxTest.h"
-#include "../tools/Hameg4040.h"
 #include <TApplication.h>
 #include "../Utils/argvparser.h"
 #include "TROOT.h"
@@ -84,55 +83,21 @@ int main( int argc, char* argv[] )
 	{
 		//File for data:
 		ofstream MeasFile;
-		MeasFile.open("./ResultsScan/Measurement.txt");
+		MeasFile.open("ResultsScan/Measurement.txt");
 		
-		Hameg4040 *h = new Hameg4040();
-		
-		ChannelMap fChannelMap;
-		for(int i=0; i<4; i++)
-		{
-			fChannelMap[i].resize(2);
-		}
-		
-		fChannelMap[0].at(0)=1.2;
-		fChannelMap[1].at(0)=3.3;
-		fChannelMap[2].at(0)=5;
-		fChannelMap[3].at(0)=5;
-		fChannelMap[0].at(1)=0.2;
-		fChannelMap[1].at(1)=0.2;
-		fChannelMap[2].at(1)=0.02;
-		fChannelMap[3].at(1)=0.02;
-		
-		
-		h->Initialise();
-		h->Configure(fChannelMap);
-		
-		double volt, amp;
-		
-		
-		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
-		// 	auto start = std::chrono::system_clock::now();
-// 		for(int j=0; j<100; j++)
-// 		{
-// 			h->MeasAll(fChannelMap);
-// 			for(int i=0;i<4;i++)
-// 			{
-// 				std::cout<<fChannelMap[i].at(0)<<"\t"<<fChannelMap[i].at(1)<<"\t";
-// 			}
-// 			std::cout<<std::endl;
-// 		}
+
 		MuxTest cAmuxTest( cOffsetTuneMode, cCalibrateTGrp);
 		cAmuxTest.InitializeHw( cHWFile );
 		cAmuxTest.InitializeSettings( cHWFile );
 		cAmuxTest.CreateResultDirectory( cDirectory );
 		cAmuxTest.InitResultFile( "AmuxTestResults" );
-		cAmuxTest.ConfigureHw();
-		cAmuxTest.Initialise(); // canvases etc. for fast calibration
-		cAmuxTest.ScanVplusAMux();
-		cAmuxTest.SaveResults();
+		cAmuxTest.HamegTest();
+// 		cAmuxTest.ConfigureHw();
+// 		cAmuxTest.Initialise(); // canvases etc. for fast calibration
+// 		cAmuxTest.ScanVplusAMux();
+// 		cAmuxTest.SaveResults();
 		
 			
-		delete h;
 	}
 
 	
