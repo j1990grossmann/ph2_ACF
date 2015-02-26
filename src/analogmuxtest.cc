@@ -86,12 +86,13 @@ int main( int argc, char* argv[] )
 		MeasFile.open("ResultsScan/Measurement.txt");
 		
 
+
 		MuxTest cAmuxTest( cOffsetTuneMode, cCalibrateTGrp);
-		cAmuxTest.InitializeHw( cHWFile );
-		cAmuxTest.InitializeSettings( cHWFile );
-		cAmuxTest.CreateResultDirectory( cDirectory );
-		cAmuxTest.InitResultFile( "AmuxTestResults" );
 		cAmuxTest.HamegTest();
+// 		cAmuxTest.InitializeHw( cHWFile );
+// 		cAmuxTest.InitializeSettings( cHWFile );
+// 		cAmuxTest.CreateResultDirectory( cDirectory );
+// 		cAmuxTest.InitResultFile( "AmuxTestResults" );
 // 		cAmuxTest.ConfigureHw();
 // 		cAmuxTest.Initialise(); // canvases etc. for fast calibration
 // 		cAmuxTest.ScanVplusAMux();
