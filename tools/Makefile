@@ -7,7 +7,7 @@ DevFlags		=
 #Boost
 BOOST = /usr/local/include/boost/
 
-IncludeDirs     =  /opt/cactus/include ../ 
+IncludeDirs     =  /opt/cactus/include ../ $(BOOST)
 # LinkParam = -L$(BOOST)/libs -lpthread -lncurses -lboost_thread -lboost_system
 
 IncludePaths            = $(IncludeDirs:%=-I%) 
