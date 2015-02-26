@@ -304,38 +304,39 @@ std::cout << "	Hole Mode = " << fHoleMode << std::endl;
 std::cout << "	Nevents = " << fEventsPerPoint << std::endl;
 std::cout << "	TargetVcth = " << int( fTargetVcth ) << std::endl;
 }
-/*Currently this function sets offset for all 1-254 channels. But now to add testgroups, it has to set for 32
-* channels in the group only. So it has to take the group id as well.
-* Change to void MuxTest::setOffset( uint8_t pOffset , int TGrpId )
-* Then by accessing the strip numbers for that particluar group it will set the offsets
-*/////
-* void MuxTest::setOffset( uint8_t pOffset, int  pTGrpId )
-* {
-* 
-*	// sets the offset to pOffset on each channel
-*	struct OffsetWriter : public HwDescriptionVisitor
-*	{
-*		CbcInterface* fInterface;
-*		RegisterVector fRegVec;
-*		uint8_t fOffset;
-*		std::vector<uint8_t> fTestGrpChannelIdVec;
-*		//will have to pass the channel vector to OffsetWriter
-*		OffsetWriter( CbcInterface* pInterface, uint8_t pOffset, std::vector<uint8_t> pTestGroupChnlVec ): fInterface( pInterface ),  fOffset( pOffset ) , fTestGrpChannelIdVec( pTestGroupChnlVec ) {
-*			//Here the loop will be over channels in the test group
-*			for ( auto& cChannel : fTestGrpChannelIdVec ) {
-*				TString cRegName = Form( "Channel%03d", cChannel + 1 );
-*				fRegVec.push_back( std::make_pair( cRegName.Data(), fOffset ) );
-}
-}
-void visit( Cbc& pCbc ) {
-	fInterface->WriteCbcMultReg( &pCbc, fRegVec );
-}
-};
-if ( fTestGroupChannelMap.find( pTGrpId ) != fTestGroupChannelMap.end() )
+/*
+ Currently this function sets offset for all 1-254 channels. But now to add testgroups, it has to set for 32
+ channels in the group only. So it has to take the group id as well.
+ Change to void MuxTest::setOffset( uint8_t pOffset , int TGrpId )
+ Then by accessing the strip numbers for that particluar group it will set the offsets
+*/
+void MuxTest::setOffset( uint8_t pOffset, int  pTGrpId )
 {
-	OffsetWriter cWriter( fCbcInterface, pOffset, fTestGroupChannelMap[pTGrpId] );
-	accept( cWriter );
-}
+	
+	// sets the offset to pOffset on each channel
+	struct OffsetWriter : public HwDescriptionVisitor
+	{
+		CbcInterface* fInterface;
+		RegisterVector fRegVec;
+		uint8_t fOffset;
+		std::vector<uint8_t> fTestGrpChannelIdVec;
+		//will have to pass the channel vector to OffsetWriter
+		OffsetWriter( CbcInterface* pInterface, uint8_t pOffset, std::vector<uint8_t> pTestGroupChnlVec ): fInterface( pInterface ),  fOffset( pOffset ) , fTestGrpChannelIdVec( pTestGroupChnlVec ) {
+			//Here the loop will be over channels in the test group
+			for ( auto& cChannel : fTestGrpChannelIdVec ) {
+				TString cRegName = Form( "Channel%03d", cChannel + 1 );
+				fRegVec.push_back( std::make_pair( cRegName.Data(), fOffset ) );
+			}
+		}
+		void visit( Cbc& pCbc ) {
+			fInterface->WriteCbcMultReg( &pCbc, fRegVec );
+		}
+	};
+	if ( fTestGroupChannelMap.find( pTGrpId ) != fTestGroupChannelMap.end() )
+	{
+		OffsetWriter cWriter( fCbcInterface, pOffset, fTestGroupChannelMap[pTGrpId] );
+		accept( cWriter );
+	}
 }
 
 void MuxTest::toggleOffsetBit( uint8_t pBit, int  pTGrpId )
