@@ -12,8 +12,12 @@ IncludeDirs     =  /opt/cactus/include ../ $(BOOST)
 
 IncludePaths            = $(IncludeDirs:%=-I%) 
 
+LibraryDirs = /usr/local/lib
+# /opt/xdaq/lib
+LibraryPaths = $(LibraryDirs:%=-L%)
+
 %.o: %.cc %.h
-	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths)  -lpthread -lncurses -lboost_thread -lboost_system -c -o $@ $<
+	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) -lpthread -lncurses -lboost_thread -lboost_system -c -o $@ $<
 
 all: $(Objs) ../HWDescription/Definition.h
 	$(CC) -std=c++11 -shared -o libPh2_Tools.so $(Objs) -pthread
