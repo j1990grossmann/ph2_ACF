@@ -13,6 +13,7 @@ LibraryDirs = /opt/cactus/lib ../lib /usr/local/lib
 LibraryPaths = $(LibraryDirs:%=-L%)
 
 ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lboost_system  -lncurses -lboost_thread `root-config --glibs` -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
+DynamicLibs= -rdynamic /usr/local/lib/libboost_thread.so /usr/local/lib/libboost_date_time.so /usr/local/lib/libboost_system.so -lpthread -Wl,-rpath,/usr/local/lib
 
 # -lboost_thread -lboost_filesystem -lboost_regex -lboost_system -lboost_thread
 
@@ -47,7 +48,7 @@ cmtest: cmtest.cc
 	cp $@ ../bin
 	
 analogmuxtest: analogmuxtest.cc
-	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
+	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects) $(DynamicLibs)
 	cp $@ ../bin
 
 .PHONY: clean
