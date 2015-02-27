@@ -82,9 +82,9 @@ int main( int argc, char* argv[] )
 	if( cAmuxTest)
 	{
 		//File for data:
-		ofstream MeasFile;
-		MeasFile.open("ResultsScan/Measurement.txt");
-		
+	  //		ofstream MeasFile;
+	  //	MeasFile.open("ResultsScan/Measurement.txt");
+	
 
 
 		MuxTest cAmuxTest( cOffsetTuneMode, cCalibrateTGrp);
