@@ -900,9 +900,9 @@ void MuxTest::ScanVplusAMux()
 }
 void MuxTest::HamegTest()
 {
-	Hameg4040 *h = new Hameg4040();
+	HAMEG4040::Hameg4040 *h = new Hameg4040();
 	
-	ChannelMap fChannelMap;
+	HAMEG4040::ChannelMap fChannelMap;
 	for(int i=0; i<4; i++)
 	{
 		fChannelMap[i].resize(2);

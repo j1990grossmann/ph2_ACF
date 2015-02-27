@@ -20,7 +20,7 @@
 using namespace std;
 // using namespace BufferedAsyncSerial;
 
-// namespace Hameg4040{
+namespace HAMEG4040{
 	typedef std::map< int, std::vector<double> >  ChannelMap;
 	
 	class Hameg4040
@@ -92,6 +92,6 @@ using namespace std;
 		void ReadSynchronized(string &command, string &readstring);
 		void Timeout();
 	};
-// };
+};
 
 #endif 

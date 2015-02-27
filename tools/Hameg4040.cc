@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-// using namespace Hameg4040;
+using namespace HAMEG4040;
 
 void Hameg4040::Initialise()
 {	
