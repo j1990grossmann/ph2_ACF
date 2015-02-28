@@ -18,9 +18,10 @@
 #include "../System/SystemController.h"
 #include "../Utils/ConsoleColor.h"
 #include "Channel.h"
-// #include "Hameg4040.h"
 #include "../Utils/Visitor.h"
 #include "../Utils/CommonVisitors.h"
+#include "../SMUTools/Hameg4040.h"
+#include "../SMUTools/Keithley2700.h"
 
 
 #include <map>

@@ -3,8 +3,6 @@ CXX             = g++
 CCFlags         = -g -O1 -w -Wall -pedantic -std=c++11 -fPIC `root-config --cflags --evelibs`
 #DevFlags                    = -D__CBCDAQ_DEV__
 DevFlags                   =
-debug: CXXFLAGS += -DDEBUG -g
-debug: CCFLAGS += -DDEBUG -g
 IncludeDirs     =  /opt/cactus/include ../ /usr/local/include/boost
 
 IncludePaths            = $(IncludeDirs:%=-I%)
@@ -13,7 +11,7 @@ LibraryDirs = /opt/cactus/lib ../lib /usr/local/lib
 
 LibraryPaths = $(LibraryDirs:%=-L%)
 
-ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lboost_thread -lboost_filesystem -lboost_regex -lboost_system `root-config --glibs` -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
+ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lboost_thread -lboost_filesystem -lboost_regex -lboost_system `root-config --glibs` -lSMUTools -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
 
 # -lboost_thread -lboost_filesystem -lboost_regex -lboost_system -lboost_thread
 
