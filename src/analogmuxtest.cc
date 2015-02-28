@@ -89,6 +89,7 @@ int main( int argc, char* argv[] )
 
 
 		MuxTest cAmuxTest( cOffsetTuneMode, cCalibrateTGrp);
+		
 // 		cAmuxTest.HamegTest();
 // 		cAmuxTest.InitializeHw( cHWFile );
 // 		cAmuxTest.InitializeSettings( cHWFile );

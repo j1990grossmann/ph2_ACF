@@ -1,11 +1,11 @@
 /*!
 *
 * \file MuxTest.h
-* \brief Calibration class, calibration of the hardware
-* \author Georg AUZINGER
-* \date 16 / 10 / 14
+* \brief Analoge MUX Test class for irradiation testing, temperature scans and general testing 
+* \author Johannes Grossmann
+* \date 18 / 02 / 15
 *
-* \Support : georg.auzinger@cern.ch
+* \Support : johannes.grossmann@cern.ch
 *
 */
 
@@ -20,6 +20,9 @@
 #include "Channel.h"
 #include "../Utils/Visitor.h"
 #include "../Utils/CommonVisitors.h"
+// #include "../SMUTools/Hameg4040.h"
+// #include "../SMUTools/Keithley2700.h"
+
 
 #include <map>
 
@@ -29,6 +32,7 @@
 #include "TGraphErrors.h"
 #include "TString.h"
 #include "TText.h"
+#include "TSystem.h"
 
 using namespace Ph2_HwDescription;
 using namespace Ph2_HwInterface;
@@ -51,6 +55,10 @@ class MuxTest : public SystemController
 {
   public:
 	MuxTest( bool pbitwisetune , bool pAllChan ) {
+		for(int i=0; i<25; i++)
+		{
+			fVplusVec1.push_back(i*10);
+		}
 		fVplusVec.push_back( 0x14 );
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );
@@ -85,6 +93,7 @@ class MuxTest : public SystemController
 	void Initialise();  // wants to be called after SystemController::ReadHW, ReadSettings
 	void ScanVplus();
 	void ScanOffset();
+// 	void HamegTest();
 
 	void SaveResults() {
 		writeGraphs();
@@ -92,11 +101,14 @@ class MuxTest : public SystemController
 	}
 
 	void Validate();
+	
+	void ScanVplusAMux();
 
   private:
 	CbcChannelMap fCbcChannelMap;
 	CanvasMap fCanvasMap;
 	GraphMap fGraphMap;
+	GraphMap fGraphMap1;
 	FitMap fFitMap;
 	HistMap fHistMap;
 	TestGroupChannelMap fTestGroupChannelMap;
@@ -108,6 +120,7 @@ class MuxTest : public SystemController
 	uint8_t fTargetVcth;
 
 	std::vector<uint8_t> fVplusVec;
+	std::vector<uint8_t> fVplusVec1;
 
 
   protected:

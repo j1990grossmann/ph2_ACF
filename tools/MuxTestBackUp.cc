@@ -1,308 +1,318 @@
 #include "MuxTest.h"
-#include<cmath>
+#include <cmath>
+#include <chrono> 
+#include <thread>
 // TODO: Canvas divisions
 
 void MuxTest::ScanVplus()
 {
-	// Method to perform a Vplus Scan
+// Method to perform a Vplus Scan
 
-	// first set the offset of all Channels to 0x0A
-	//setOffset( 0x50,-1 );//change to this function
-	std::cout << BOLDBLUE << "Scanning Vplus ..." << RESET << std::endl;
-	for ( auto& cTGrpM : fTestGroupChannelMap )
+// first set the offset of all Channels to 0x0A
+//setOffset( 0x50,-1 );//change to this function
+std::cout << BOLDBLUE << "Scanning Vplus ..." << RESET << std::endl;
+for ( auto& cTGrpM : fTestGroupChannelMap )
+{
+	if ( cTGrpM.first == -1 && fdoTGrpCalib )
+		continue;
+	if ( cTGrpM.first > -1 && !fdoTGrpCalib )
+		break;
+	// now loop over Vplus values
+	std::cout << "Enabling Test Group...." << cTGrpM.first << std::endl;
+	setOffset( 0x50, cTGrpM.first );
+	for ( auto& cVplus : fVplusVec )
 	{
-		if ( cTGrpM.first == -1 && fdoTGrpCalib )
-			continue;
-		if ( cTGrpM.first > -1 && !fdoTGrpCalib )
-			break;
-		// now loop over Vplus values
-		std::cout << "Enabling Test Group...." << cTGrpM.first << std::endl;
-		setOffset( 0x50, cTGrpM.first );
-		for ( auto& cVplus : fVplusVec )
-		{
-			// then set the correct Vplus
-			CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
-			accept( cWriter );
-
-			std::cout << "Vplus = " << int( cVplus ) << std::endl;
-
-			// now initialize the Scurves
-			initializeSCurves( "Vplus", cVplus, cTGrpM.first );
-
-			// measure the SCurves, the false is indicating that I am sweeping Vcth
-			measureSCurvesBinary( false, cTGrpM.first );
-
-			// now process the measured SCuvers, true indicates that I am drawing, the TGraphErrors with Vcth vs Vplus are also filled
-			processSCurves( "Vplus", cVplus, true, cTGrpM.first );
-		}
-		// After finishing with one test group, disable it again
-		std::cout << "Disabling Test Group...." << cTGrpM.first << std::endl;
-		uint8_t cOffset = ( fHoleMode ) ? 0xFF : 0x00;
-		setOffset( cOffset, cTGrpM.first );
+		// then set the correct Vplus
+		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
+		accept( cWriter );
+		
+		std::cout << "Vplus = " << int( cVplus ) << std::endl;
+		
+		// now initialize the Scurves
+		initializeSCurves( "Vplus", cVplus, cTGrpM.first );
+		
+		// measure the SCurves, the false is indicating that I am sweeping Vcth
+		measureSCurvesBinary( false, cTGrpM.first );
+		
+		// now process the measured SCuvers, true indicates that I am drawing, the TGraphErrors with Vcth vs Vplus are also filled
+		processSCurves( "Vplus", cVplus, true, cTGrpM.first );
 	}
-	std::cout << BOLDBLUE << "Finished scanning Vplus ..." << std::endl << "Now Fitting ... " << RESET << std::endl;
+	// After finishing with one test group, disable it again
+	std::cout << "Disabling Test Group...." << cTGrpM.first << std::endl;
+	uint8_t cOffset = ( fHoleMode ) ? 0xFF : 0x00;
+	setOffset( cOffset, cTGrpM.first );
+}
+std::cout << BOLDBLUE << "Finished scanning Vplus ..." << std::endl << "Now Fitting ... " << RESET << std::endl;
 
-	//  fit the Vcth vs Vplus graphs
-	findVplus( true );
+//  fit the Vcth vs Vplus graphs
+findVplus( true );
 
 }
 void MuxTest::ScanOffset()
 {
 
-	// Method to tune the individual channel Offsets
+// Method to tune the individual channel Offsets
 
-	std::cout << BOLDBLUE << "Scanning Offsets..." << RESET << std::endl;
-	for ( auto& cTGrpM : fTestGroupChannelMap )
-	{
-		if ( cTGrpM.first == -1 && fdoTGrpCalib )
-			continue;
-		if ( cTGrpM.first > -1 && !fdoTGrpCalib )
-			break;
-		std::cout << "Enabling Test Group...." << cTGrpM.first << std::endl;
-		if ( fdoBitWisetuning )
-		{
-			uint8_t cOffset = ( fHoleMode ) ? 0xFF : 0x00;
-			setOffset( cOffset, cTGrpM.first );
-			// for bit 7 to 0
-			for ( int cBit = 7; cBit >= 0; cBit-- )
-			{
-				std::cout << GREEN << "Toggling Bit " << cBit << RESET << std::endl;
-				toggleOffsetBit( cBit, cTGrpM.first );
-				initializeSCurves( "OffsetBit", cBit, cTGrpM.first );
-				measureSCurvesBinary( false, cTGrpM.first );
-				processSCurvesOffset( "OffsetBit", cBit, true, cTGrpM.first ); // this extracts the pedestal per channel, compares and flips back if necessary
-			}
-		}
-		else
-		{
-			CbcRegReader cReader( fCbcInterface, "Vplus" );
-			accept( cReader );
-
-			CbcRegReader aReader( fCbcInterface, "VCth" );
-			accept( aReader );
-			initializeSCurves( "Offset", 0x00, cTGrpM.first );
-
-			// // the true indicates that this time I am sweeping Offsets instead of Vcth
-			measureSCurvesBinary( true, cTGrpM.first );
-
-			processSCurves( "Offset", 0x00, true, cTGrpM.first );
-			// set offset accordingly (check for mode, then either 0 or 255)
-
-		}
-		std::cout << "Disabling Test Group...." << cTGrpM.first << std::endl;
-	}
-	// reset VCth to the fTargetVcth
+std::cout << BOLDBLUE << "Scanning Offsets..." << RESET << std::endl;
+for ( auto& cTGrpM : fTestGroupChannelMap )
+{
+	if ( cTGrpM.first == -1 && fdoTGrpCalib )
+		continue;
+	if ( cTGrpM.first > -1 && !fdoTGrpCalib )
+		break;
+	std::cout << "Enabling Test Group...." << cTGrpM.first << std::endl;
 	if ( fdoBitWisetuning )
 	{
-		CbcRegWriter cWriter( fCbcInterface, "VCth", fTargetVcth );
-		accept( cWriter );
+		uint8_t cOffset = ( fHoleMode ) ? 0xFF : 0x00;
+		setOffset( cOffset, cTGrpM.first );
+		// for bit 7 to 0
+		for ( int cBit = 7; cBit >= 0; cBit-- )
+		{
+			std::cout << GREEN << "Toggling Bit " << cBit << RESET << std::endl;
+			toggleOffsetBit( cBit, cTGrpM.first );
+			initializeSCurves( "OffsetBit", cBit, cTGrpM.first );
+			measureSCurvesBinary( false, cTGrpM.first );
+			processSCurvesOffset( "OffsetBit", cBit, true, cTGrpM.first ); // this extracts the pedestal per channel, compares and flips back if necessary
+		}
 	}
-	std::cout << BOLDBLUE << "Finished scanning Offsets ..." << RESET << std::endl;
+	else
+	{
+		CbcRegReader cReader( fCbcInterface, "Vplus" );
+		accept( cReader );
+		
+		CbcRegReader aReader( fCbcInterface, "VCth" );
+		accept( aReader );
+		initializeSCurves( "Offset", 0x00, cTGrpM.first );
+		
+		// // the true indicates that this time I am sweeping Offsets instead of Vcth
+		measureSCurvesBinary( true, cTGrpM.first );
+		
+		processSCurves( "Offset", 0x00, true, cTGrpM.first );
+		// set offset accordingly (check for mode, then either 0 or 255)
+		
+	}
+	std::cout << "Disabling Test Group...." << cTGrpM.first << std::endl;
+}
+// reset VCth to the fTargetVcth
+if ( fdoBitWisetuning )
+{
+	CbcRegWriter cWriter( fCbcInterface, "VCth", fTargetVcth );
+	accept( cWriter );
+}
+std::cout << BOLDBLUE << "Finished scanning Offsets ..." << RESET << std::endl;
 
 }
 
 void MuxTest::Validate()
 {
-	// Validate the calibration result by applying the calibration, taking data & histograming the variation of occupancies
+// Validate the calibration result by applying the calibration, taking data & histograming the variation of occupancies
 
-	std::cout << "Mesuring Efficiency per Strip ... " << std::endl;
+std::cout << "Mesuring Efficiency per Strip ... " << std::endl;
 
-	// Initialize Temporary Profile for single strip efficiency / occupancy
-	std::map<Cbc*, TProfile*> cProfileMap;
-	for ( auto& cShelve : fShelveVector )
+// Initialize Temporary Profile for single strip efficiency / occupancy
+std::map<Cbc*, TProfile*> cProfileMap;
+for ( auto& cShelve : fShelveVector )
+{
+	for ( BeBoard* pBoard : cShelve->fBoardVector )
 	{
-		for ( BeBoard* pBoard : cShelve->fBoardVector )
+		for ( auto cFe : pBoard->fModuleVector )
 		{
-			for ( auto cFe : pBoard->fModuleVector )
+			// just refresh all register values from the actual HW before doing the test!
+			fCbcInterface->ReadAllCbc( cFe );
+			
+			for ( auto cCbc : cFe->fCbcVector )
 			{
-				// just refresh all register values from the actual HW before doing the test!
-				fCbcInterface->ReadAllCbc( cFe );
-
-				for ( auto cCbc : cFe->fCbcVector )
-				{
-					TString cProfileName = Form( "Fe%dCBC%d_Occupancy", cFe->getFeId(), cCbc->getCbcId() );
-					TProfile* cTempProf = dynamic_cast<TProfile*>( gROOT->FindObject( cProfileName ) );
-					if ( cTempProf ) delete cTempProf;
-					cTempProf = new TProfile( cProfileName, cProfileName, 255, -0.5, 254.5 );
-					cProfileMap[cCbc] =  cTempProf;
-				}
-
+				TString cProfileName = Form( "Fe%dCBC%d_Occupancy", cFe->getFeId(), cCbc->getCbcId() );
+				TProfile* cTempProf = dynamic_cast<TProfile*>( gROOT->FindObject( cProfileName ) );
+				if ( cTempProf ) delete cTempProf;
+				cTempProf = new TProfile( cProfileName, cProfileName, 255, -0.5, 254.5 );
+				cProfileMap[cCbc] =  cTempProf;
 			}
+			
 		}
 	}
+}
 
-	// Now Take Data
+// Now Take Data
 
-	uint32_t cTotalEvents = 200;
+uint32_t cTotalEvents = 200;
 
-	CbcRegReader cReader( fCbcInterface, "VCth" );
-	accept( cReader );
+CbcRegReader cReader( fCbcInterface, "VCth" );
+accept( cReader );
 
-	std::cout << "Taking data ... " << std::endl;
+std::cout << "Taking data ... " << std::endl;
 
-	for ( auto& cShelve : fShelveVector )
+for ( auto& cShelve : fShelveVector )
+{
+	for ( BeBoard* pBoard : cShelve->fBoardVector )
 	{
-		for ( BeBoard* pBoard : cShelve->fBoardVector )
+		uint32_t cN = 0;
+		uint32_t cNthAcq = 0;
+		
+		while ( cN <  cTotalEvents )
 		{
-			uint32_t cN = 0;
-			uint32_t cNthAcq = 0;
-
-			while ( cN <  cTotalEvents )
+			Run( pBoard, cNthAcq );
+			
+			const Event* cEvent = fBeBoardInterface->GetNextEvent( pBoard );
+			// Loop over Events from this Acquisition
+			while ( cEvent )
 			{
-				Run( pBoard, cNthAcq );
-
-				const Event* cEvent = fBeBoardInterface->GetNextEvent( pBoard );
-				// Loop over Events from this Acquisition
-				while ( cEvent )
+				
+				if ( cN == cTotalEvents )
+					break;
+				
+				uint32_t cHitCounter = 0;
+				for ( auto cFe : pBoard->fModuleVector )
 				{
-
-					if ( cN == cTotalEvents )
-						break;
-
-					uint32_t cHitCounter = 0;
-					for ( auto cFe : pBoard->fModuleVector )
+					
+					for ( auto cCbc : cFe->fCbcVector )
 					{
-
-						for ( auto cCbc : cFe->fCbcVector )
+						auto cHitProfile = cProfileMap.find( cCbc );
+						if ( cHitProfile == std::end( cProfileMap ) ) std::cout << "Error: could not find the profile for CBC " << int( cCbc->getCbcId() ) << std::endl;
+						else
 						{
-							auto cHitProfile = cProfileMap.find( cCbc );
-							if ( cHitProfile == std::end( cProfileMap ) ) std::cout << "Error: could not find the profile for CBC " << int( cCbc->getCbcId() ) << std::endl;
-							else
+							for ( uint8_t cChannel = 0; cChannel < 254; cChannel++ )
 							{
-								for ( uint8_t cChannel = 0; cChannel < 254; cChannel++ )
-								{
-									uint32_t cFillValue  = ( cEvent->DataBit( cFe->getFeId(), cCbc->getCbcId(), cChannel ) )  ? 1 : 0;
-									cHitProfile->second->Fill( cChannel, cFillValue );
-								}
+								uint32_t cFillValue  = ( cEvent->DataBit( cFe->getFeId(), cCbc->getCbcId(), cChannel ) )  ? 1 : 0;
+								cHitProfile->second->Fill( cChannel, cFillValue );
 							}
 						}
 					}
-					cN++;
-
-					if ( cN < cTotalEvents )
-						cEvent = fBeBoardInterface->GetNextEvent( pBoard );
-					else break;
 				}
-				cNthAcq++;
-			} // End of Analyze Events of last Acquistion loop
-		}
+				cN++;
+				
+				if ( cN < cTotalEvents )
+					cEvent = fBeBoardInterface->GetNextEvent( pBoard );
+				else break;
+			}
+			cNthAcq++;
+		} // End of Analyze Events of last Acquistion loop
 	}
+}
 
-	// done with datataking, now iterate over ProfileMap, find corresponding validation hist in member map and fill it with the deviation of the bin content from the mean bin content, then draw it to canvas
-	for ( auto& cHist : fHistMap )
+// done with datataking, now iterate over ProfileMap, find corresponding validation hist in member map and fill it with the deviation of the bin content from the mean bin content, then draw it to canvas
+for ( auto& cHist : fHistMap )
+{
+	auto cProfile = cProfileMap.find( cHist.first );
+	if ( cProfile == std::end( cProfileMap ) ) std::cout << "Error: could not find the profile for CBC " << int( cHist.first->getCbcId() ) << std::endl;
+	else
 	{
-		auto cProfile = cProfileMap.find( cHist.first );
-		if ( cProfile == std::end( cProfileMap ) ) std::cout << "Error: could not find the profile for CBC " << int( cHist.first->getCbcId() ) << std::endl;
-		else
-		{
-			for ( uint32_t iBin = 0; iBin < cProfile->second->GetNbinsX(); iBin++ )
-				cHist.second->Fill( cProfile->second->GetBinContent( iBin ) );
-		}
-		// now find the canvas, cd to pad?? and draw
-		auto cCanvas = fCanvasMap.find( cHist.first );
-		if ( cCanvas == std::end( fCanvasMap ) ) std::cout << "Error: could not find the Canvas for CBC " << int( cHist.first->getCbcId() ) << std::endl;
-		else
-		{
-			cCanvas->second->cd( 4 );
-			cHist.second->DrawCopy();
-			cCanvas->second->Update();
-		}
-		cProfile->second->SetDirectory( fResultFile );
-
+		for ( uint32_t iBin = 0; iBin < cProfile->second->GetNbinsX(); iBin++ )
+			cHist.second->Fill( cProfile->second->GetBinContent( iBin ) );
 	}
+	// now find the canvas, cd to pad?? and draw
+	auto cCanvas = fCanvasMap.find( cHist.first );
+	if ( cCanvas == std::end( fCanvasMap ) ) std::cout << "Error: could not find the Canvas for CBC " << int( cHist.first->getCbcId() ) << std::endl;
+	else
+	{
+		cCanvas->second->cd( 4 );
+		cHist.second->DrawCopy();
+		cCanvas->second->Update();
+	}
+	cProfile->second->SetDirectory( fResultFile );
+	
+}
 }
 
 
 void MuxTest::Initialise()
 {
-	//is to be called after system controller::ReadHW, ReadSettings
-	// populates all the maps
+//is to be called after system controller::ReadHW, ReadSettings
+// populates all the maps
 
-	uint32_t cCbcCount = 0;
+uint32_t cCbcCount = 0;
 
-	for ( auto cShelve : fShelveVector )
+for ( auto cShelve : fShelveVector )
+{
+	uint32_t cShelveId = cShelve->getShelveId();
+	
+	for ( auto cBoard : cShelve->fBoardVector )
 	{
-		uint32_t cShelveId = cShelve->getShelveId();
-
-		for ( auto cBoard : cShelve->fBoardVector )
+		uint32_t cBoardId = cBoard->getBeId();
+		
+		for ( auto cFe : cBoard->fModuleVector )
 		{
-			uint32_t cBoardId = cBoard->getBeId();
-
-			for ( auto cFe : cBoard->fModuleVector )
+			uint32_t cFeId = cFe->getFeId();
+			
+			for ( auto cCbc : cFe->fCbcVector )
 			{
-				uint32_t cFeId = cFe->getFeId();
-
-				for ( auto cCbc : cFe->fCbcVector )
-				{
-					uint32_t cCbcId = cCbc->getCbcId();
-					cCbcCount++;
-
-					// populate the channel vector
-					std::vector<Channel> cChanVec;
-
-					for ( uint8_t cChan = 0; cChan < 254; cChan++ )
-						cChanVec.push_back( Channel( cBoardId, cFeId, cCbcId, cChan ) );
-
-					fCbcChannelMap[cCbc] = cChanVec;
-
-					// now create the canvasses
-					TString cCanvasname = Form( "Fe%d_Cbc%d_Calibration", cFeId, cCbcId );
-					TCanvas* ctmpCanvas = dynamic_cast<TCanvas*>( gROOT->FindObject( cCanvasname ) );
-					if ( ctmpCanvas ) delete ctmpCanvas;
-					ctmpCanvas =  new TCanvas( cCanvasname, cCanvasname );
-					ctmpCanvas->Divide( 2, 2 );
-					fCanvasMap[cCbc] = ctmpCanvas;
-
-
-					// now the TGraphErrors
-					TString cGraphname = Form( "VplusVcthGraph_Fe%d_Cbc%d", cFeId, cCbcId );
-					TGraphErrors* ctmpGraph = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname ) );
-					if ( ctmpGraph ) delete ctmpGraph;
-					ctmpGraph = new TGraphErrors();
-					ctmpGraph->SetName( cGraphname );
-					ctmpGraph->GetXaxis()->SetTitle( "SCurve Midpoint [VCth]" );
-					ctmpGraph->GetXaxis()->SetRangeUser( 0, 255 );
-					ctmpGraph->GetYaxis()->SetTitle( "Vplus" );
-					ctmpGraph->GetYaxis()->SetRangeUser( 0, 255 );
-					fGraphMap[cCbc] = ctmpGraph;
-
-					// the fits are initialized when I fit!
-
-					// validiation histograms
-					TString cHistname = Form( "Validation_Fe%d_Cbc%d", cFeId, cCbcId );
-					TH1F* cHist = dynamic_cast<TH1F*>( gROOT->FindObject( cHistname ) );
-					if ( cHist ) delete cHist;
-					cHist = new TH1F( cHistname, cHistname, 100, 0, 1 );
-					fHistMap[cCbc] = cHist;
-				}
+				uint32_t cCbcId = cCbc->getCbcId();
+				cCbcCount++;
+				
+				// populate the channel vector
+				std::vector<Channel> cChanVec;
+				
+				for ( uint8_t cChan = 0; cChan < 254; cChan++ )
+					cChanVec.push_back( Channel( cBoardId, cFeId, cCbcId, cChan ) );
+				
+				fCbcChannelMap[cCbc] = cChanVec;
+				
+				// now create the canvasses
+				TString cCanvasname = Form( "Fe%d_Cbc%d_Calibration", cFeId, cCbcId );
+				TCanvas* ctmpCanvas = dynamic_cast<TCanvas*>( gROOT->FindObject( cCanvasname ) );
+				if ( ctmpCanvas ) delete ctmpCanvas;
+				ctmpCanvas =  new TCanvas( cCanvasname, cCanvasname );
+				ctmpCanvas->Divide( 2, 2 );
+				fCanvasMap[cCbc] = ctmpCanvas;
+				
+				
+				// now the TGraphErrors
+				TString cGraphname = Form( "VplusVcthGraph_Fe%d_Cbc%d", cFeId, cCbcId );
+				TGraphErrors* ctmpGraph = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname ) );
+				if ( ctmpGraph ) delete ctmpGraph;
+				ctmpGraph = new TGraphErrors();
+				ctmpGraph->SetName( cGraphname );
+				ctmpGraph->GetXaxis()->SetTitle( "SCurve Midpoint [VCth]" );
+				ctmpGraph->GetXaxis()->SetRangeUser( 0, 255 );
+				ctmpGraph->GetYaxis()->SetTitle( "Vplus" );
+				ctmpGraph->GetYaxis()->SetRangeUser( 0, 255 );
+				fGraphMap[cCbc] = ctmpGraph;
+				
+				// the fits are initialized when I fit!
+				
+				// validiation histograms
+				TString cHistname = Form( "Validation_Fe%d_Cbc%d", cFeId, cCbcId );
+				TH1F* cHist = dynamic_cast<TH1F*>( gROOT->FindObject( cHistname ) );
+				if ( cHist ) delete cHist;
+				cHist = new TH1F( cHistname, cHistname, 100, 0, 1 );
+				fHistMap[cCbc] = cHist;
+				
+				
+				TString cGraphname1 = Form( "MonitorGraphs_Fe%d_Cbc%d" , cFeId, cCbcId);
+				TGraphErrors* ctmpGraph1 = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname1 ) );
+				if ( ctmpGraph1 ) delete ctmpGraph1;
+				ctmpGraph1->SetName( cGraphname1 );
+				fGraphMap1[cCbc] = ctmpGraph1;
 			}
 		}
 	}
-	// now read the settings from the map
-	// fHoleMode = fSettingsMap.find( "HoleMode" )->second;
-	// fEventsPerPoint = fSettingsMap.find( "Nevents" )->second;
-	// fTargetVcth = fSettingsMap.find( "TargetVcth" )->second;
-	auto cSetting = fSettingsMap.find( "HoleMode" );
-	fHoleMode = ( cSetting != std::end( fSettingsMap ) ) ? cSetting->second : 1;
-	cSetting = fSettingsMap.find( "TargetVcth" );
-	fTargetVcth = ( cSetting != std::end( fSettingsMap ) ) ? cSetting->second : 120;
-	cSetting = fSettingsMap.find( "Nevents" );
-	fEventsPerPoint = ( cSetting != std::end( fSettingsMap ) ) ? cSetting->second : 10;
-	fNCbc = cCbcCount;
-
-	std::cout << "Created Object Maps and parsed settings:" << std::endl;
-	std::cout << "	Hole Mode = " << fHoleMode << std::endl;
-	std::cout << "	Nevents = " << fEventsPerPoint << std::endl;
-	std::cout << "	TargetVcth = " << int( fTargetVcth ) << std::endl;
 }
-/*Currently this function sets offset for all 1-254 channels. But now to add testgroups, it has to set for 32
-channels in the group only. So it has to take the group id as well.
-Change to void MuxTest::setOffset( uint8_t pOffset , int TGrpId )
-Then by accessing the strip numbers for that particluar group it will set the offsets
-*/////
+// now read the settings from the map
+// fHoleMode = fSettingsMap.find( "HoleMode" )->second;
+// fEventsPerPoint = fSettingsMap.find( "Nevents" )->second;
+// fTargetVcth = fSettingsMap.find( "TargetVcth" )->second;
+auto cSetting = fSettingsMap.find( "HoleMode" );
+fHoleMode = ( cSetting != std::end( fSettingsMap ) ) ? cSetting->second : 1;
+cSetting = fSettingsMap.find( "TargetVcth" );
+fTargetVcth = ( cSetting != std::end( fSettingsMap ) ) ? cSetting->second : 120;
+cSetting = fSettingsMap.find( "Nevents" );
+fEventsPerPoint = ( cSetting != std::end( fSettingsMap ) ) ? cSetting->second : 10;
+fNCbc = cCbcCount;
+
+std::cout << "Created Object Maps and parsed settings:" << std::endl;
+std::cout << "	Hole Mode = " << fHoleMode << std::endl;
+std::cout << "	Nevents = " << fEventsPerPoint << std::endl;
+std::cout << "	TargetVcth = " << int( fTargetVcth ) << std::endl;
+}
+/*
+ Currently this function sets offset for all 1-254 channels. But now to add testgroups, it has to set for 32
+ channels in the group only. So it has to take the group id as well.
+ Change to void MuxTest::setOffset( uint8_t pOffset , int TGrpId )
+ Then by accessing the strip numbers for that particluar group it will set the offsets
+*/
 void MuxTest::setOffset( uint8_t pOffset, int  pTGrpId )
 {
-
+	
 	// sets the offset to pOffset on each channel
 	struct OffsetWriter : public HwDescriptionVisitor
 	{
@@ -353,7 +363,7 @@ void MuxTest::toggleOffsetBit( uint8_t pBit, int  pTGrpId )
 			// fInterface->ReadCbcMultReg( &pCbc, fReadVec );
 			// now loop over the channels, get the register value, flip the target bit and encode it in the write vec
 			//Loop over the channels in this particular vector of the this testgroup
-
+			
 			for ( auto& cChannel : fTestGrpChannelIdVec ) {
 				TString cRegName = Form( "Channel%03d", cChannel + 1 );
 				uint8_t cOffset = pCbc.getReg( cRegName.Data() );
@@ -376,17 +386,17 @@ void MuxTest::toggleOffsetBit( uint8_t pBit, int  pTGrpId )
 void MuxTest::measureSCurves( bool pOffset, int  pTGrpId )
 {
 	// Adaptive Loop to measure SCurves
-
+	
 	if ( pOffset ) std::cout << BOLDGREEN << "Measuring SCurves sweeping Channel Offsets ... " << RESET << std::endl;
 	else std::cout << BOLDGREEN << "Measuring SCurves sweeping VCth ... " << RESET <<  std::endl;
-
+	
 	// Necessary variables
 	bool cNonZero = false;
 	bool cAllOne = false;
 	uint32_t cAllOneCounter = 0;
 	uint8_t cValue, cStartValue, cDoubleValue;
 	int cStep;
-
+	
 	// the expression below mimics XOR
 	if ( !pOffset != !fHoleMode )
 	{
@@ -398,7 +408,7 @@ void MuxTest::measureSCurves( bool pOffset, int  pTGrpId )
 		cStartValue = cValue = 0x00;
 		cStep = 10;
 	}
-
+	
 	// Adaptive VCth loop
 	while ( 0x00 <= cValue && cValue <= 0xFF )
 	{
@@ -409,7 +419,7 @@ void MuxTest::measureSCurves( bool pOffset, int  pTGrpId )
 			cValue +=  cStep;
 			continue;
 		}
-
+		
 		// This decides if the SCurve is done sweeping Vcth or Offsets
 		if ( !pOffset )
 		{
@@ -418,16 +428,16 @@ void MuxTest::measureSCurves( bool pOffset, int  pTGrpId )
 		}
 		else
 			setOffset( cValue, pTGrpId ); //need to pass on the testgroup
-
-		uint32_t cN = 0;
+			
+			uint32_t cN = 0;
 		uint32_t cNthAcq = 0;
 		uint32_t cHitCounter = 0;
-
+		
 		for ( auto cShelve : fShelveVector )
 		{
 			// DEBUG
 			if ( cAllOne ) break;
-
+			
 			for ( BeBoard* pBoard : cShelve->fBoardVector )
 			{
 				Counter cCounter;
@@ -435,29 +445,29 @@ void MuxTest::measureSCurves( bool pOffset, int  pTGrpId )
 				while ( cN <  fEventsPerPoint )
 				{
 					Run( pBoard, cNthAcq );
-
+					
 					const Event* cEvent = fBeBoardInterface->GetNextEvent( pBoard );
-
+					
 					// Loop over Events from this Acquisition
 					while ( cEvent )
 					{
 						if ( cN == fEventsPerPoint )
 							break;
-
+						
 						cHitCounter += fillSCurves( pBoard, cEvent, cValue, pTGrpId ); //pass test group here
-
+						
 						cN++;
-
+						
 						if ( cN < fEventsPerPoint )
 							cEvent = fBeBoardInterface->GetNextEvent( pBoard );
 						else break;
 					}
 					cNthAcq++;
 				} // done with this acquisition
-
+				
 				if ( pOffset ) std::cout << "Offset " << int( cValue ) << " Hits: " << cHitCounter << std::endl;
 				// std::cout << "DEBUG Vcth " << int( cValue ) << " Hits " << cHitCounter << std::endl;
-
+				
 				// check if the hitcounter is all ones
 				if ( cNonZero == false && cHitCounter != 0 )
 				{
@@ -482,17 +492,17 @@ void MuxTest::measureSCurves( bool pOffset, int  pTGrpId )
 void MuxTest::measureSCurvesBinary( bool pOffset, int  pTGrpId )
 {
 	// Adaptive Loop to measure SCurves
-
+	
 	if ( pOffset ) std::cout << BOLDGREEN << "Measuring SCurves sweeping Channel Offsets ... " << RESET << std::endl;
 	else std::cout << BOLDGREEN << "Measuring SCurves sweeping VCth ... " << RESET <<  std::endl;
-
+	
 	// Necessary variables
 	bool cNonZero = false;
 	bool cAllOne = false;
 	uint32_t cAllOneCounter = 0;
 	uint8_t cValue, cStartValue, cDoubleValue;
 	int cStep;
-
+	
 	// the expression below mimics XOR
 	if ( !pOffset != !fHoleMode )
 	{
@@ -504,7 +514,7 @@ void MuxTest::measureSCurvesBinary( bool pOffset, int  pTGrpId )
 		cStartValue = cValue = 0x00;
 		cStep = 10;
 	}
-
+	
 	// Adaptive VCth loop
 	while ( 0x00 <= cValue && cValue <= 0xFF )
 	{
@@ -515,7 +525,7 @@ void MuxTest::measureSCurvesBinary( bool pOffset, int  pTGrpId )
 			cValue +=  cStep;
 			continue;
 		}
-
+		
 		// This decides if the SCurve is done sweeping Vcth or Offsets
 		if ( !pOffset )
 		{
@@ -524,16 +534,16 @@ void MuxTest::measureSCurvesBinary( bool pOffset, int  pTGrpId )
 		}
 		else
 			setOffset( cValue, pTGrpId ); //need to pass on the testgroup
-
-		uint32_t cN = 0;
+			
+			uint32_t cN = 0;
 		uint32_t cNthAcq = 0;
 		uint32_t cHitCounter = 0;
-
+		
 		for ( auto cShelve : fShelveVector )
 		{
 			// DEBUG
 			if ( cAllOne ) break;
-
+			
 			for ( BeBoard* pBoard : cShelve->fBoardVector )
 			{
 				Counter cCounter;
@@ -541,19 +551,19 @@ void MuxTest::measureSCurvesBinary( bool pOffset, int  pTGrpId )
 				while ( cN <  fEventsPerPoint )
 				{
 					Run( pBoard, cNthAcq );
-
+					
 					const Event* cEvent = fBeBoardInterface->GetNextEvent( pBoard );
-
+					
 					// Loop over Events from this Acquisition
 					while ( cEvent )
 					{
 						if ( cN == fEventsPerPoint )
 							break;
-
+						
 						cHitCounter += fillSCurves( pBoard, cEvent, cValue, pTGrpId ); //pass test group here
-
+						
 						cN++;
-
+						
 						if ( cN < fEventsPerPoint )
 							cEvent = fBeBoardInterface->GetNextEvent( pBoard );
 						else break;
@@ -561,10 +571,10 @@ void MuxTest::measureSCurvesBinary( bool pOffset, int  pTGrpId )
 					}
 					cNthAcq++;
 				} // done with this acquisition
-
+				
 				if ( pOffset ) std::cout << "Offset " << int( cValue ) << " Hits: " << cHitCounter << std::endl;
 				std::cout << "DEBUG Vcth " << int( cValue ) << " Hits " << cHitCounter << std::endl;
-
+				
 				// check if the hitcounter is all ones
 				if ( cNonZero == false && cHitCounter != 0 )
 				{
@@ -604,10 +614,10 @@ uint32_t MuxTest::fillSCurves( BeBoard* pBoard,  const Event* pEvent, uint8_t pV
 	uint32_t cHitCounter = 0;
 	for ( auto cFe : pBoard->fModuleVector )
 	{
-
+		
 		for ( auto cCbc : cFe->fCbcVector )
 		{
-
+			
 			CbcChannelMap::iterator cChanVec = fCbcChannelMap.find( cCbc );
 			if ( cChanVec != fCbcChannelMap.end() )
 			{
@@ -619,7 +629,7 @@ uint32_t MuxTest::fillSCurves( BeBoard* pBoard,  const Event* pEvent, uint8_t pV
 						cChanVec->second.at( cChanId ).fillHist( pValue );
 						cHitCounter++;
 					}
-
+					
 				}
 			}
 			else std::cout << RED << "Error: could not find the channels for CBC " << int( cCbc->getCbcId() ) << RESET << std::endl;
@@ -646,16 +656,16 @@ void MuxTest::processSCurves( TString pParameter, uint8_t pValue, bool pDraw, in
 			}
 			else cCanvas->second->cd( cPad );
 		}
-
+		
 		// this happens if I am scanning VCth
 		// Find the Graph
 		GraphMap::iterator cGraph = fGraphMap.find( cCbc.first );
 		if ( !cOffset && cGraph == fGraphMap.end() ) std::cout << "Could not find the correct graph for Fe " << int( cCbc.first->getFeId() ) << " Cbc " << int( cCbc.first->getCbcId() ) << std::endl;
-
+		
 		// Loop the Channels
 		bool cFirst = true;
 		TString cOption;
-
+		
 		// Reg Vec for Offset Writing
 		RegisterVector cRegVec;
 		std::vector<uint8_t> cTestGrpChannelVec = fTestGroupChannelMap[pTGrpId];
@@ -667,10 +677,10 @@ void MuxTest::processSCurves( TString pParameter, uint8_t pValue, bool pDraw, in
 			// the expression below mimics XOR
 			if ( !fHoleMode != !cOffset ) cFitMode = true;
 			else cFitMode = false;
-
+			
 			// Fit
 			cChan.fitHist( fEventsPerPoint, cFitMode, pValue, pParameter, fResultFile );
-
+			
 			if ( !cOffset )
 			{
 				// Put in VplusVcthGraph
@@ -712,7 +722,7 @@ void MuxTest::processSCurves( TString pParameter, uint8_t pValue, bool pDraw, in
 		}
 		if ( pDraw )  cCanvas->second->Update();
 		// if ( cOffset ) mypause();
-
+		
 		// writing offset midpoints to CBC
 		if ( cOffset )
 		{
@@ -721,7 +731,7 @@ void MuxTest::processSCurves( TString pParameter, uint8_t pValue, bool pDraw, in
 		}
 		// fResultFile->Flush();
 	}
-
+	
 }
 
 void MuxTest::processSCurvesOffset( TString pParameter, uint8_t pTargetBit, bool pDraw, int pTGrpId )
@@ -740,14 +750,14 @@ void MuxTest::processSCurvesOffset( TString pParameter, uint8_t pTargetBit, bool
 			}
 			else cCanvas->second->cd( 3 );
 		}
-
+		
 		// Loop the Channels
 		bool cFirst = true;
 		TString cOption;
-
+		
 		// Reg Vec for Offset Writing
 		RegisterVector cRegVec;
-
+		
 		std::vector<uint8_t> cTestGrpChannelVec = fTestGroupChannelMap[pTGrpId];
 		for ( auto& cChanId : cTestGrpChannelVec )
 		{
@@ -755,17 +765,17 @@ void MuxTest::processSCurvesOffset( TString pParameter, uint8_t pTargetBit, bool
 			// Fit
 			Channel cChan = cCbc.second.at( cChanId );
 			cChan.fitHist( fEventsPerPoint, fHoleMode, pTargetBit, pParameter, fResultFile );
-
+			
 			// check if the pedestal is larger than the targetVcth
 			// if so, flip bit back down
 			uint8_t cCurrentOffset = cCbc.first->getReg( Form( "Channel%03d", cChan.fChannelId + 1 ) );
 			if ( ( fHoleMode && int( cChan.getPedestal() + 0.5 ) < fTargetVcth ) ||
-					( !fHoleMode && int( cChan.getPedestal() + 0.5 ) > fTargetVcth ) ) cCurrentOffset ^= ( 1 << pTargetBit );
+				( !fHoleMode && int( cChan.getPedestal() + 0.5 ) > fTargetVcth ) ) cCurrentOffset ^= ( 1 << pTargetBit );
 			std::cout <<  "Pedestal is " << int( cChan.getPedestal() + 0.5 ) << " and target Vcth is " << int( fTargetVcth ) << " Offset Value " << +cCurrentOffset << std::endl;
 			cChan.setOffset( cCurrentOffset );
 			cRegVec.push_back( std::make_pair( Form( "Channel%03d", cChan.fChannelId + 1 ), cCurrentOffset ) );
-
-
+			
+			
 			//Draw
 			if ( pDraw )
 			{
@@ -775,7 +785,7 @@ void MuxTest::processSCurvesOffset( TString pParameter, uint8_t pTargetBit, bool
 					cFirst = false;
 				}
 				else cOption = "P same";
-
+				
 				cCanvas->second->cd( 3 );
 				cChan.fScurve->Draw( cOption );
 				cChan.fFit->Draw( "same" );
@@ -791,41 +801,41 @@ void MuxTest::findVplus( bool pDraw )
 	// fit the VplusVcthGraph and evaluate at fTargetVcth, then use the key of the map I am iterating (Cbc*) with fCbcInterface to write the object
 	for ( auto& cGraph : fGraphMap )
 	{
-
-
+		
+		
 		cGraph.second->Fit( "pol1" , "Q+" );
 		TF1* cFit = cGraph.second->GetFunction( "pol1" );
 		fFitMap[cGraph.first] = cFit;
 		cFit->SetName( Form( "VplusVcthFit_Fe%d_Cbc%d", cGraph.first->getFeId(), cGraph.first->getCbcId() ) );
-
+		
 		CanvasMap::iterator cCanvas = fCanvasMap.find( cGraph.first );
-
+		
 		if ( pDraw )
 		{
 			if ( cCanvas != fCanvasMap.end() )
 			{
-
+				
 				//cCanvas->second->cd( 2 );
 				cCanvas->second->cd( 2 );
 				cGraph.second->Draw( "AP" );
 				cFit->Draw( "same" );
 				// cTmpFit->Draw( "same" );
 				cCanvas->second->Update();
-
+				
 			}
 			else std::cout << "Could not find the correct Canvas for Fe " << int( cGraph.first->getFeId() ) << " Cbc " << int( cGraph.first->getCbcId() ) << std::endl;
 		}
-
+		
 		// now evaluate the fit at fTargetVcth and write to Cbcs
 		uint8_t cVplusResult = ( uint8_t )( cFit->GetParameter( 1 ) * fTargetVcth + cFit->GetParameter( 0 ) );
 		std::cout << BOLDBLUE << "TargetVCth = " << int( fTargetVcth ) << " -> Vplus = " << int( cVplusResult ) << RESET << std::endl;
-
+		
 		RegisterVector cRegVec;
 		cRegVec.push_back( std::make_pair( "VCth", fTargetVcth ) );
 		cRegVec.push_back( std::make_pair( "Vplus", cVplusResult ) );
 		fCbcInterface->WriteCbcMultReg( cGraph.first, cRegVec );
 	}
-
+	
 }
 
 void MuxTest::writeGraphs()
@@ -857,9 +867,85 @@ void MuxTest::dumpConfigFiles()
 			else std::cout << "Error: no results Directory initialized! "  << std::endl;
 		}
 	};
-
+	
 	RegMapDumper cDumper( fDirectoryName );
 	accept( cDumper );
-
+	
 	std::cout << BOLDBLUE << "Configfiles for all Cbcs written to " << fDirectoryName << RESET << std::endl;
 }
+void MuxTest::ScanVplusAMux()
+{
+	// Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
+	
+	// first set the offset of all Channels to 0x0A
+	
+	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
+	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
+	accept( cWriter1 );
+	
+	// now loop over Vplus values
+	for ( auto& cVplus : fVplusVec1 )
+	{
+		// then set the correct Vplus
+		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
+		accept( cWriter );
+		
+		std::cout << "Vplus = " << int( cVplus ) << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		// 			gSystem->Sleep(1000);
+	}
+	
+	std::cout << BOLDBLUE << "Finished scanning Vplus with AMuxOutput..." << std::endl;
+	
+}
+// void MuxTest::HamegTest()
+// {
+// 	HAMEG4040::Hameg4040 *h = new Hameg4040();
+// 	
+// 	HAMEG4040::ChannelMap fChannelMap;
+// 	for(int i=0; i<4; i++)
+// 	{
+// 		fChannelMap[i].resize(2);
+// 	}
+// 	
+// 	fChannelMap[0].at(0)=1.2;
+// 	fChannelMap[1].at(0)=3.3;
+// 	fChannelMap[2].at(0)=5;
+// 	fChannelMap[3].at(0)=5;
+// 	fChannelMap[0].at(1)=0.2;
+// 	fChannelMap[1].at(1)=0.2;
+// 	fChannelMap[2].at(1)=0.02;
+// 	fChannelMap[3].at(1)=0.02;
+// 	
+// 	
+// 	h->Initialise();
+// 	h->Configure(fChannelMap);
+// 	
+// 	double volt, amp;
+// 	
+// 	
+// 	std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
+// 	// 	while(1)
+// 	// 	auto start = std::chrono::system_clock::now();
+// 	for(int j=0; j<100; j++)
+// 	{
+// 		h->MeasAll(fChannelMap);
+// 		for(int i=0;i<4;i++)
+// 		{
+// 			std::cout<<fChannelMap[i].at(0)<<"\t"<<fChannelMap[i].at(1)<<"\t";
+// 			// 			std::cout<<"depper"<<std::endl;
+// 		}
+// 		std::cout<<std::endl;
+// 	}
+// 	// 	auto stop = std::chrono::system_clock::now();
+// 	
+// 	// 	auto diff = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+// 	
+// 	// 	std::cout<<"readout rate 4 channels "<<diff.count()<<std::endl;
+// 	// 	
+// 	
+// 	
+// 	delete h;
+// }
+// 
+//  
