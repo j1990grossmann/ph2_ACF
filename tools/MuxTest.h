@@ -20,6 +20,7 @@
 #include "Channel.h"
 #include "../Utils/Visitor.h"
 #include "../Utils/CommonVisitors.h"
+#include "../SMUTools/Hameg4040.h"
 
 #include <map>
 
@@ -93,6 +94,8 @@ class MuxTest : public SystemController
 
 	void Validate();
 
+	void HamegTest();
+	
   private:
 	CbcChannelMap fCbcChannelMap;
 	CanvasMap fCanvasMap;

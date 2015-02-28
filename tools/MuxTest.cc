@@ -863,3 +863,9 @@ void MuxTest::dumpConfigFiles()
 
 	std::cout << BOLDBLUE << "Configfiles for all Cbcs written to " << fDirectoryName << RESET << std::endl;
 }
+void MuxTest::HamegTest()
+{
+	HAMEG4040::Hameg4040 *hameg = new HAMEG4040::Hameg4040();
+	hameg->Initialise();
+	std::cout<<"hameg Initialised"<<std::endl;
+}
