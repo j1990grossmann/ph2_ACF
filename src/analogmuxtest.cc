@@ -88,16 +88,16 @@ int main( int argc, char* argv[] )
 	
 
 		MuxTest cAnalogmuxTest( cOffsetTuneMode, cCalibrateTGrp );
-// 		cAnalogmuxTest.InitializeHw( cHWFile );
-// 		cAnalogmuxTest.InitializeSettings( cHWFile );
-// 		cAnalogmuxTest.CreateResultDirectory( cDirectory );
-// 		cAnalogmuxTest.InitResultFile( "CalibrationResults" );
-// 		cAnalogmuxTest.ConfigureHw();
-// 		cAnalogmuxTest.Initialise(); // canvases etc. for fast calibration
-// 		if ( !cVplus ) cAnalogmuxTest.ScanVplus();
-// 		cAnalogmuxTest.ScanOffset();
-// 		cAnalogmuxTest.Validate();
-// 		cAnalogmuxTest.SaveResults();
+		cAnalogmuxTest.InitializeHw( cHWFile );
+		cAnalogmuxTest.InitializeSettings( cHWFile );
+		cAnalogmuxTest.CreateResultDirectory( cDirectory );
+		cAnalogmuxTest.InitResultFile( "CalibrationResults" );
+		cAnalogmuxTest.ConfigureHw();
+		cAnalogmuxTest.Initialise(); // canvases etc. for fast calibration
+		if ( !cVplus ) cAnalogmuxTest.ScanVplus();
+		cAnalogmuxTest.ScanOffset();
+		cAnalogmuxTest.Validate();
+		cAnalogmuxTest.SaveResults();
 		
 			
 	}
