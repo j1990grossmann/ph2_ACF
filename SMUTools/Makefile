@@ -16,9 +16,9 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) $(LinkParam) -c -o $@ $<
 
 all: $(Objs) 
-	$(CC) -std=c++11 -shared -o libHameg4040.so $(Objs) -pthread 
-	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lHameg4040 $(LinkParam)
-	cp -p libHameg4040.so ../lib
+	$(CC) -std=c++11 -shared -o libSMUTools.so $(Objs) -pthread 
+	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
+	cp -p libSMUTools.so ../lib
 
 clean:
 	rm -f *.o
