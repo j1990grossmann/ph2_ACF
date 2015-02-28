@@ -18,7 +18,7 @@ LibraryDirs = /usr/local/lib
 LibraryPaths = $(LibraryDirs:%=-L%)
 
 %.o: %.cc %.h
-	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) -lpthread  -c -o $@ $< 
+	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) -lpthread -lSMUTools -c -o $@ $< 
 
 all: $(Objs) ../HWDescription/Definition.h
 	$(CC) -std=c++11 -shared -o libPh2_Tools.so $(Objs) -pthread  
