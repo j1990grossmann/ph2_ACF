@@ -40,6 +40,7 @@ void Keithley2700::Configure()
 
 void Keithley2700::ConfigureSingleRead()
 {
+	this->TracCle();
 	this->InitCont(0);
 	this->TrigCoun(1);
 	this->SampCoun(1);
@@ -220,7 +221,7 @@ void Keithley2700::SystAzerStat(int onoff)
 		write_str+="OFF";
 	}else
 		write_str+="ON";
-	this->WriteSynchronized(write_str);
+	this->WriteNotSynchronized(write_str);
 }
 
 void Keithley2700::SystLSyn(int onoff)
@@ -282,10 +283,10 @@ void Keithley2700::WriteNotSynchronized(string& command)
 {
 	int counter = 0;
 	this->serial->writeString(command+endline);
+	std::cout<<"written "<<command<<std::endl;
 //  	auto start = std::chrono::system_clock::now();
-	for(int i=0; i<1000000; i++){
+	for(int i=0; i<10000; i++){
 		this->Timeout();	
-		
 	}
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
