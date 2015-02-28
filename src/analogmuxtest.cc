@@ -87,18 +87,17 @@ int main( int argc, char* argv[] )
 	  //	MeasFile.open("ResultsScan/Measurement.txt");
 	
 
-
-		MuxTest cAmuxTest( cOffsetTuneMode, cCalibrateTGrp);
-		
-// 		cAmuxTest.HamegTest();
-// 		cAmuxTest.InitializeHw( cHWFile );
-// 		cAmuxTest.InitializeSettings( cHWFile );
-// 		cAmuxTest.CreateResultDirectory( cDirectory );
-// 		cAmuxTest.InitResultFile( "AmuxTestResults" );
-// 		cAmuxTest.ConfigureHw();
-// 		cAmuxTest.Initialise(); // canvases etc. for fast calibration
-// 		cAmuxTest.ScanVplusAMux();
-// 		cAmuxTest.SaveResults();
+		MuxTest cCalibration( cOffsetTuneMode, cCalibrateTGrp );
+		cCalibration.InitializeHw( cHWFile );
+		cCalibration.InitializeSettings( cHWFile );
+		cCalibration.CreateResultDirectory( cDirectory );
+		cCalibration.InitResultFile( "CalibrationResults" );
+		cCalibration.ConfigureHw();
+		cCalibration.Initialise(); // canvases etc. for fast calibration
+		if ( !cVplus ) cCalibration.ScanVplus();
+		cCalibration.ScanOffset();
+		cCalibration.Validate();
+		cCalibration.SaveResults();
 		
 			
 	}
