@@ -92,7 +92,7 @@ class MuxTest : public SystemController
 	void Initialise();  // wants to be called after SystemController::ReadHW, ReadSettings
 	void ScanVplus();
 	void ScanOffset();
-	void HamegTest();
+// 	void HamegTest();
 
 	void SaveResults() {
 		writeGraphs();

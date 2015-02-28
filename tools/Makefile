@@ -1,4 +1,4 @@
-Objs                    = Calibration.o FastCalibration.o Channel.o HybridTester.o CMTester.o MuxTest.o Hameg4040.o AsyncSerial.o BufferedAsyncSerial.o
+Objs                    = Calibration.o FastCalibration.o Channel.o HybridTester.o CMTester.o MuxTest.o
 CC              = gcc
 CXX             = g++
 CCFlags         = -g -O1 -w -Wall -pedantic -fPIC `root-config --cflags --evelibs` -Wcpp 
@@ -14,20 +14,14 @@ IncludeDirs     =  /opt/cactus/include ../ $(BOOST)
 IncludePaths            = $(IncludeDirs:%=-I%) 
 
 LibraryDirs = /usr/local/lib
-# /opt/xdaq/lib
+
 LibraryPaths = $(LibraryDirs:%=-L%)
-<<<<<<< HEAD
-# DynamicLibs= -rdynamic /usr/local/lib/libboost_thread.so /usr/local/lib/libboost_date_time.so /usr/local/lib/libboost_system.so -lpthread -Wl,-rpath,/usr/local/lib
+
 %.o: %.cc %.h
-	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) -lpthread -lncurses -lboost_thread -lboost_system -c -o $@ $<
-=======
-#DynamicLibs= -rdynamic /usr/local/lib/libboost_thread.so /usr/local/lib/libboost_date_time.so /usr/local/lib/libboost_system.so -lpthread -Wl,-rpath,/usr/local/lib
-%.o: %.cc %.h
-	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) -lpthread -lncurses -lboost_thread -lboost_system -c -o $@ $< 
->>>>>>> 059ab6c8d3319e71b9768a84c0a7f51515105b0b
+	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) -lpthread -c -o $@ $< 
 
 all: $(Objs) ../HWDescription/Definition.h
-	$(CC) -std=c++11 -shared -o libPh2_Tools.so $(Objs) -pthread  -L$(LibraryDirs) -lpthread -lncurses -lboost_thread -lboost_system
+	$(CC) -std=c++11 -shared -o libPh2_Tools.so $(Objs) -pthread  
 	mv libPh2_Tools.so ../lib
 
 clean:

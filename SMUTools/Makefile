@@ -18,7 +18,7 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 all: $(Objs) 
 	$(CC) -std=c++11 -shared -o libHameg4040.so $(Objs) -pthread 
 	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lHameg4040 $(LinkParam)
-#	cp -p libHameg4040.so ../lib
+	cp -p libHameg4040.so ../lib
 
 clean:
 	rm -f *.o

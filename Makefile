@@ -1,5 +1,7 @@
-all: Utils HWDescription HWInterface System tools src
+all: SMUTools Utils HWDescription HWInterface System tools src
 
+SMUTools::
+	$(MAKE) -C $@
 HWDescription::
 	$(MAKE) -C $@
 Utils::
@@ -17,6 +19,7 @@ doc::
 
 
 clean:
+	(cd SMUTools; make clean)
 	(cd System; make clean)
 	(cd Utils; make clean)
 	(cd HWInterface; make clean)
@@ -24,4 +27,3 @@ clean:
 	(cd tools; make clean)
 	(cd doc; make clean)
 	(rm -f lib/* bin/*)
-
