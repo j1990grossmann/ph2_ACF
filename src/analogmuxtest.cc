@@ -87,17 +87,17 @@ int main( int argc, char* argv[] )
 	  //	MeasFile.open("ResultsScan/Measurement.txt");
 	
 
-		MuxTest cCalibration( cOffsetTuneMode, cCalibrateTGrp );
-		cCalibration.InitializeHw( cHWFile );
-		cCalibration.InitializeSettings( cHWFile );
-		cCalibration.CreateResultDirectory( cDirectory );
-		cCalibration.InitResultFile( "CalibrationResults" );
-		cCalibration.ConfigureHw();
-		cCalibration.Initialise(); // canvases etc. for fast calibration
-		if ( !cVplus ) cCalibration.ScanVplus();
-		cCalibration.ScanOffset();
-		cCalibration.Validate();
-		cCalibration.SaveResults();
+		MuxTest cAnalogmuxTest( cOffsetTuneMode, cCalibrateTGrp );
+// 		cAnalogmuxTest.InitializeHw( cHWFile );
+// 		cAnalogmuxTest.InitializeSettings( cHWFile );
+// 		cAnalogmuxTest.CreateResultDirectory( cDirectory );
+// 		cAnalogmuxTest.InitResultFile( "CalibrationResults" );
+// 		cAnalogmuxTest.ConfigureHw();
+// 		cAnalogmuxTest.Initialise(); // canvases etc. for fast calibration
+// 		if ( !cVplus ) cAnalogmuxTest.ScanVplus();
+// 		cAnalogmuxTest.ScanOffset();
+// 		cAnalogmuxTest.Validate();
+// 		cAnalogmuxTest.SaveResults();
 		
 			
 	}
