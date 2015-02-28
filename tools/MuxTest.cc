@@ -884,6 +884,7 @@ void MuxTest::HamegTest()
 	
 
 	h->Initialise();
+	std::cout<<"now Initialise"<<std::endl;
 	h->Configure(fHamegChannelMap);
 
 	std::cout<<"now keithley"<<std::endl;
