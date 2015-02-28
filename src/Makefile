@@ -11,9 +11,8 @@ LibraryDirs = /opt/cactus/lib ../lib /usr/local/lib
 
 LibraryPaths = $(LibraryDirs:%=-L%)
 
-ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lboost_thread -lboost_filesystem -lboost_regex -lboost_system `root-config --glibs` -lSMUTools -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
+ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lncurses -lboost_thread -lboost_system `root-config --glibs` -lSMUTools -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
 
-# -lboost_thread -lboost_filesystem -lboost_regex -lboost_system -lboost_thread
 
 %.o: %.cc %.h
 	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) -c -o $@ $<
