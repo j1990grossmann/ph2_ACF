@@ -866,25 +866,26 @@ void MuxTest::dumpConfigFiles()
 
 void MuxTest::ScanVplusAMux()
 {
-	// Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
+// 	Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
 	
-	// first set the offset of all Channels to 0x0A
+// 	first set the offset of all Channels to 0x0A
 	
-// 	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
-// 	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
-// 	accept( cWriter1 );
-// 	
-// 	// now loop over Vplus values
-// 	for ( auto& cVplus : fVplusVec1 )
-// 	{
-// 		// then set the correct Vplus
-// 		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
-// 		accept( cWriter );
-// 		
-// 		std::cout << "Vplus = " << int( cVplus ) << std::endl;
-// 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-// 		// 			gSystem->Sleep(1000);
-// 	}
+	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
+	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
+	accept( cWriter1 );
+	
+	// now loop over Vplus values
+	for ( auto& cVplus : fCBCRegVector )
+	{
+		// then set the correct Vplus
+		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
+		accept( cWriter );
+		std::cout << "Vplus = " << int( cVplus ) << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		this->SMUScan();
+		
+		// 			gSystem->Sleep(1000);
+	}
 	
 	std::cout << BOLDBLUE << "Finished scanning Vplus with AMuxOutput..." << std::endl;
 	
@@ -923,7 +924,7 @@ void MuxTest::SMUScan()
 {
 	string readstring;
 	std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
-		for(int j=0; j<10; j++)
+// 		for(int j=0; j<10; j++)
 		{
 			hameg->MeasAll(fHamegChannelMap);
 			for(int i=0;i<4;i++)
