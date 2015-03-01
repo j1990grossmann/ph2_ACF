@@ -1,19 +1,21 @@
 CC              = gcc
 CXX             = g++
-CCFlags         = -g -O1 -w -Wall -pedantic -std=c++11 -fPIC -Wcpp `root-config --cflags --evelibs`
+CCFlags         = -g -O1 -w -Wall -pedantic -fPIC -Wcpp `root-config --cflags --evelibs`
 #DevFlags                    = -D__CBCDAQ_DEV__
 DevFlags     =
 
-IncludeDirs     =  /opt/cactus/include /usr/local/include/boost ../ 
+# IncludeDirs     =  /opt/cactus/include /usr/local/include/boost ../ 
+IncludeDirs     =  /opt/cactus/include  ../ 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
 LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
+Boost = -L./lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lboost_system -lSMUTools 
 
 LibraryDirs = /opt/cactus/lib /usr/local/lib ../lib 
 
 LibraryPaths = $(LibraryDirs:%=-L%)
 
-ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal `root-config --glibs` -lSMUTools $(LinkParam) -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
+ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal `root-config --glibs` -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
 
 
 %.o: %.cc %.h
@@ -51,7 +53,7 @@ analogmuxtest: analogmuxtest.cc
 	cp $@ ../bin
 	
 smutest: smutest.cc
-	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects) 
+	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects) 
 	cp $@ ../bin	
 
 .PHONY: clean
