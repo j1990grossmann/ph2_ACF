@@ -276,6 +276,10 @@ void Keithley2700::WriteSynchronized(string& command)
 		if(!read_str.empty()){
 // 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 		}
+		if(counter%10)
+		{
+			std::cout<<counter<<endl;
+		}
 		counter++;
 	}
 // 	auto end = std::chrono::system_clock::now();
