@@ -25,27 +25,27 @@ binaries=systemtest calibrate interfacetest datatest hybridtest cmtest analogmux
 all: clean $(binaries)
 
 systemtest: systemtest.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects)
+	$(CXX) -std=c++11 $(CCFlags)   -o $@ $< $(IncludePaths) $(ExternalObjects)
 	cp $@ ../bin
 
 calibrate: calibrate.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects)
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
 	cp $@ ../bin
 
 interfacetest: interfacetest.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects)
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
 	cp $@ ../bin
 
 datatest: datatest.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects)
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
 	cp $@ ../bin
 
 hybridtest: hybridtest.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects)
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
 	cp $@ ../bin
 
 cmtest: cmtest.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects)
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
 	cp $@ ../bin
 	
 analogmuxtest: analogmuxtest.cc
