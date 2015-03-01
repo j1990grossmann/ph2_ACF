@@ -921,7 +921,7 @@ void MuxTest::SMUInitialiseAndConfigure()
 }
 void MuxTest::SMUScan()
 {
-	TString readstring;
+	string readstring;
 // 	std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
 // 		for(int j=0; j<10; j++)
 		{
@@ -931,9 +931,9 @@ void MuxTest::SMUScan()
 				std::cout<<fHamegChannelMap[i].at(0)<<"\t"<<fHamegChannelMap[i].at(1)<<"\t";
 				
 			}
-			keithley->Read((string)readstring);
+			keithley->Read(readstring);
 			
-			std::cout<<readstring(0,14)<<std::endl;
+			std::cout<<(TString)readstring(0,14)<<std::endl;
 			std::cout<<std::endl;
 		}
 }
