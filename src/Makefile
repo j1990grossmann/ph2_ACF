@@ -4,20 +4,21 @@ CCFlags         = -g -O1 -w -Wall -pedantic -std=c++11 -fPIC `root-config --cfla
 #DevFlags                    = -D__CBCDAQ_DEV__
 DevFlags                   =
 IncludeDirs     =  /opt/cactus/include ../ /usr/local/include/boost
-
 IncludePaths            = $(IncludeDirs:%=-I%)
 
-LibraryDirs = /opt/cactus/lib ../lib /usr/local/lib
+LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
+
+LibraryDirs = /opt/cactus/lib /usr/local/lib ../lib 
 
 LibraryPaths = $(LibraryDirs:%=-L%)
 
-ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lncurses -lboost_thread -lboost_system `root-config --glibs` -lSMUTools -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
+ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal $(LinkParam) `root-config --glibs` -lSMUTools -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
 
 
 %.o: %.cc %.h
 	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) -c -o $@ $<
 
-binaries=systemtest calibrate interfacetest datatest hybridtest cmtest analogmuxtest
+binaries=systemtest calibrate interfacetest datatest hybridtest cmtest analogmuxtest smutest
 all: clean $(binaries)
 
 systemtest: systemtest.cc

@@ -7,8 +7,8 @@ DevFlags		=
 
 #Boost
 IncludeDirs     =  /usr/local/include/boost/
-LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
 IncludePaths            = $(IncludeDirs:%=-I%) 
+LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
 LibraryDirs = /usr/local/lib .
 LibraryPaths = $(LibraryDirs:%=-L%)
 
