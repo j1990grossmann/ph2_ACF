@@ -221,7 +221,7 @@ void Keithley2700::SystAzerStat(int onoff)
 		write_str+="OFF";
 	}else
 		write_str+="ON";
-	this->WriteNotSynchronized(write_str);
+	this->WriteSynchronized(write_str);
 }
 
 void Keithley2700::SystLSyn(int onoff)
@@ -296,6 +296,6 @@ void Keithley2700::WriteNotSynchronized(string& command)
 
 void Keithley2700::Timeout()
 {
-	std::this_thread::sleep_for(std::chrono::microseconds(10));
+	std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
 
