@@ -9,7 +9,7 @@ IncludeDirs     =  /opt/cactus/include  ../
 IncludePaths            = $(IncludeDirs:%=-I%)
 
 LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
-Boost = -L./lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lboost_system -lSMUTools 
+Boost = -L../lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lboost_system -lSMUTools 
 
 LibraryDirs = /opt/cactus/lib /usr/local/lib ../lib 
 
