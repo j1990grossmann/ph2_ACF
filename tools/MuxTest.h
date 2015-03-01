@@ -95,7 +95,11 @@ class MuxTest : public SystemController
 
 	void Validate();
 
-	void HamegTest();
+	void SMUInitialiseAndConfigure();
+	void SMUScan();
+	void SMUKill();
+	
+	void ScanVplusAMux();
 	
   private:
 	CbcChannelMap fCbcChannelMap;
@@ -113,6 +117,10 @@ class MuxTest : public SystemController
 
 	std::vector<uint8_t> fVplusVec;
 
+	
+	HAMEG4040::Hameg4040 *hameg;
+	KEITHLEY2700::Keithley2700 *keithley;
+	HAMEG4040::HamegChannelMap fHamegChannelMap;
 
   protected:
 	void measureSCurves( bool pOffset, int  pTGrpId );
@@ -132,7 +140,8 @@ class MuxTest : public SystemController
 	void findVplus( bool pDraw );
 	void writeGraphs();
 	void dumpConfigFiles();
-
+	
+	
 };
 
 

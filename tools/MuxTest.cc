@@ -863,60 +863,81 @@ void MuxTest::dumpConfigFiles()
 
 	std::cout << BOLDBLUE << "Configfiles for all Cbcs written to " << fDirectoryName << RESET << std::endl;
 }
-void MuxTest::HamegTest()
-{
-	 		HAMEG4040::Hameg4040 *h = new HAMEG4040::Hameg4040();
- 		
- 		HAMEG4040::HamegChannelMap fHamegChannelMap;
- 		for(int i=0; i<4; i++)
- 		{
- 			fHamegChannelMap[i].resize(2);
- 		}
- 		
-		fHamegChannelMap[0].at(0)=1.2;
-		fHamegChannelMap[1].at(0)=3.3;
-		fHamegChannelMap[2].at(0)=5;
-		fHamegChannelMap[3].at(0)=5;
-		fHamegChannelMap[0].at(1)=0.2;
-		fHamegChannelMap[1].at(1)=0.2;
-		fHamegChannelMap[2].at(1)=0.02;
-		fHamegChannelMap[3].at(1)=0.02;
-		
-		
-		h->Initialise();
-		h->Configure(fHamegChannelMap);
-		
-		std::cout<<"now keithley"<<std::endl;
-		KEITHLEY2700::Keithley2700 *d = new KEITHLEY2700::Keithley2700();
-		d->Initialise();
-		std::cout<<"initialized"<<endl;
-		d->Configure(); 
-		std::cout<<"configured"<<endl;
-		d->SenseVolt();
-		std::cout<<"sense_volt"<<endl;
-		d->ConfigureSingleRead();
-		
-		double volt, amp;
-		vector<double> values;
-		string readstring;
-		
-		
-		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
 
+void MuxTest::ScanVplusAMux()
+{
+	// Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
+	
+	// first set the offset of all Channels to 0x0A
+	
+	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
+	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
+	accept( cWriter1 );
+	
+	// now loop over Vplus values
+	for ( auto& cVplus : fVplusVec1 )
+	{
+		// then set the correct Vplus
+		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
+		accept( cWriter );
+		
+		std::cout << "Vplus = " << int( cVplus ) << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		// 			gSystem->Sleep(1000);
+	}
+	
+	std::cout << BOLDBLUE << "Finished scanning Vplus with AMuxOutput..." << std::endl;
+	
+}
+
+void MuxTest::SMUInitialiseAndConfigure()
+{
+
+	*hameg = new HAMEG4040::Hameg4040();
+	
+
+	for(int i=0; i<4; i++)
+	{
+		fHamegChannelMap[i].resize(2);
+	}
+	
+	fHamegChannelMap[0].at(0)=1.2;
+	fHamegChannelMap[1].at(0)=3.3;
+	fHamegChannelMap[2].at(0)=5;
+	fHamegChannelMap[3].at(0)=5;
+	fHamegChannelMap[0].at(1)=0.2;
+	fHamegChannelMap[1].at(1)=0.2;
+	fHamegChannelMap[2].at(1)=0.02;
+	fHamegChannelMap[3].at(1)=0.02;
+
+	hameg->Initialise();
+	hameg->Configure(fHamegChannelMap);
+	
+	*keithley = new KEITHLEY2700::Keithley2700();
+	keithley->Initialise();
+	keithley->Configure(); 
+	keithley->SenseVolt();
+	keithley->ConfigureSingleRead();
+}
+void MuxTest::SMUScan()
+{
+	std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
 		for(int j=0; j<10; j++)
 		{
-			h->MeasAll(fHamegChannelMap);
+			hameg->MeasAll(fHamegChannelMap);
 			for(int i=0;i<4;i++)
 			{
 				std::cout<<fHamegChannelMap[i].at(0)<<"\t"<<fHamegChannelMap[i].at(1)<<"\t";
 				
 			}
-			d->Read(readstring);
+			keithley->Read(readstring);
 			std::cout<<readstring<<std::endl;
 			std::cout<<std::endl;
 		}
-		
-		delete h;
-		delete d;
-
+}
+void MuxTest::SMUKill()
+{
+	delete hameg;
+	delete keithley;
+	std::cout<<"Shutdown Hameg and Multimeter"<<std::endl;
 }
