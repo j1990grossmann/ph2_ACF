@@ -266,7 +266,11 @@ void Keithley2700::WriteSynchronized(string& command)
 	read_str ="";
 	while(read_str.empty())
 	{		
-//  		if(counter == 10000){break;}
+ 		if(counter == 1000000)
+		{
+			std::cout<<"no OPC received"<<std::endl;
+			break;
+		}
  		this->Timeout();
  		read_str=serial->readStringUntil(endline);
 		if(!read_str.empty()){
@@ -296,6 +300,6 @@ void Keithley2700::WriteNotSynchronized(string& command)
 
 void Keithley2700::Timeout()
 {
-	std::this_thread::sleep_for(std::chrono::microseconds(1));
+	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }
 
