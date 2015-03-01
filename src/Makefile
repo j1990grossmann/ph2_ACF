@@ -7,7 +7,7 @@ DevFlags     =
 IncludeDirs     =  /opt/cactus/include /usr/local/include/boost ../ 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
-LinkParam = -lncurses -lboost_thread -lboost_system
+LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
 
 LibraryDirs = /opt/cactus/lib /usr/local/lib ../lib 
 
