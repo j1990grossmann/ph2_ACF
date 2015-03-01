@@ -276,7 +276,7 @@ void Keithley2700::WriteSynchronized(string& command)
 		if(!read_str.empty()){
 // 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 		}
-		if(counter%1000==0)
+		if(counter%10000==0 && counter!=0)
 		{
 			std::cout<<counter<<endl;
 		}
