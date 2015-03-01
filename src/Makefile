@@ -2,7 +2,8 @@ CC              = gcc
 CXX             = g++
 CCFlags         = -g -O1 -w -Wall -pedantic -std=c++11 -fPIC -Wcpp `root-config --cflags --evelibs`
 #DevFlags                    = -D__CBCDAQ_DEV__
-DevFlags                   =
+DevFlags     =
+
 IncludeDirs     =  /opt/cactus/include /usr/local/include/boost ../ 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
@@ -12,7 +13,7 @@ LibraryDirs = /opt/cactus/lib /usr/local/lib ../lib
 
 LibraryPaths = $(LibraryDirs:%=-L%)
 
-ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal $(LinkParam) `root-config --glibs` -lSMUTools -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
+ExternalObjects = $(LibraryPaths) -lpthread  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal `root-config --glibs` -lSMUTools $(LinkParam) -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
 
 
 %.o: %.cc %.h

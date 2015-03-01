@@ -1,7 +1,7 @@
 Objs            = AsyncSerial.o BufferedAsyncSerial.o Hameg4040.o Keithley2700.o 
 CC              = gcc
 CXX             = g++
-CCFlags         = -g -O1 -w -Wall -pedantic -fPIC -Wcpp 
+CCFlags         = -g -O1 -w -Wall -pedantic -std=c++11 -fPIC -Wcpp 
 #DevFlags                   = -D__CBCDAQ_DEV__
 DevFlags		=
 
@@ -18,7 +18,7 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 all: $(Objs) 
 	$(CC) -std=c++11 -shared -o libSMUTools.so $(Objs) -pthread 
 	mv libSMUTools.so ../lib
-	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
+	$(CXX)  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
 
 
 clean:
