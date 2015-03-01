@@ -932,8 +932,9 @@ void MuxTest::SMUScan()
 				
 			}
 			keithley->Read(readstring);
+			double volt = TString(((TString)readstring)(0,15)).Atof();
 			
-			std::cout<<((TString)readstring)(0,14)<<std::endl;
+			std::cout<<((TString)readstring)(0,15)<<std::endl;
 			std::cout<<std::endl;
 		}
 }
