@@ -94,6 +94,7 @@ int main( int argc, char* argv[] )
 
 		
 		MuxTest cAnalogmuxTest( cOffsetTuneMode, cCalibrateTGrp );
+		cAnalogmuxTest.HamegTest();
 		cAnalogmuxTest.InitializeHw( cHWFile );
 		cAnalogmuxTest.InitializeSettings( cHWFile );
 		cAnalogmuxTest.CreateResultDirectory( cDirectory );
