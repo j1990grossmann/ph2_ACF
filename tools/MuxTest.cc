@@ -870,21 +870,21 @@ void MuxTest::ScanVplusAMux()
 	
 	// first set the offset of all Channels to 0x0A
 	
-	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
-	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
-	accept( cWriter1 );
-	
-	// now loop over Vplus values
-	for ( auto& cVplus : fVplusVec1 )
-	{
-		// then set the correct Vplus
-		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
-		accept( cWriter );
-		
-		std::cout << "Vplus = " << int( cVplus ) << std::endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		// 			gSystem->Sleep(1000);
-	}
+// 	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
+// 	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
+// 	accept( cWriter1 );
+// 	
+// 	// now loop over Vplus values
+// 	for ( auto& cVplus : fVplusVec1 )
+// 	{
+// 		// then set the correct Vplus
+// 		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
+// 		accept( cWriter );
+// 		
+// 		std::cout << "Vplus = " << int( cVplus ) << std::endl;
+// 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+// 		// 			gSystem->Sleep(1000);
+// 	}
 	
 	std::cout << BOLDBLUE << "Finished scanning Vplus with AMuxOutput..." << std::endl;
 	
