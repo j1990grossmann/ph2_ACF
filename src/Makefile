@@ -8,14 +8,14 @@ DevFlags     =
 IncludeDirs     =  /opt/cactus/include  ../ 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
-LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
 Boost = -L../lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lboost_system -lSMUTools 
+Boost = -L../lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lSMUTools 
 
 LibraryDirs = /opt/cactus/lib /usr/local/lib ../lib 
 
 LibraryPaths = $(LibraryDirs:%=-L%)
 
-ExternalObjects = $(LibraryPaths)  -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lboost_system `root-config --glibs` -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
+ExternalObjects = $(LibraryPaths) -lpthread -lcactus_extern_pugixml -lcactus_uhal_log -lcactus_uhal_grammars -lcactus_uhal_uhal -lboost_system `root-config --glibs` -lPh2_Interface -lPh2_Description -lPh2_System -lPh2_Tools -lPh2_Utils
 
 
 %.o: %.cc %.h
