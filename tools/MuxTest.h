@@ -44,6 +44,7 @@ typedef std::map<Cbc*, TF1*> FitMap;
 typedef std::map<Cbc*, TH1F*> HistMap;
 typedef std::vector<std::pair< std::string, uint8_t> > RegisterVector;
 typedef std::map< int, std::vector<uint8_t> >  TestGroupChannelMap;
+typedef std::map<Cbc*, TGraphErrors*> TGraphErrorsMap;
 /*
 Key=-1 to do calibration on all channels
 Key=0-7 for the 8 Test Groups
@@ -112,6 +113,7 @@ class MuxTest : public SystemController
 	FitMap fFitMap;
 	HistMap fHistMap;
 	TestGroupChannelMap fTestGroupChannelMap;
+	TGraphErrorsMap fTGraphErrorsMap;
 	bool fdoTGrpCalib;
 	bool fdoBitWisetuning;
 	bool fHoleMode;
