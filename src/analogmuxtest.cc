@@ -98,9 +98,9 @@ int main( int argc, char* argv[] )
 		cAnalogmuxTest.SMUScan();
 		cAnalogmuxTest.InitializeHw( cHWFile );
 		cAnalogmuxTest.InitializeSettings( cHWFile );
+		cAnalogmuxTest.SMUKill();
 		cAnalogmuxTest.CreateResultDirectory( cDirectory );
 		cAnalogmuxTest.InitResultFile( "AmuxResults" );
-		cAnalogmuxTest.SMUKill();
 		cAnalogmuxTest.ConfigureHw();
 		cAnalogmuxTest.Initialise(); // canvases etc. for fast calibration
 		if ( !cVplus ) cAnalogmuxTest.ScanVplus();
