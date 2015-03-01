@@ -8,8 +8,8 @@ DevFlags     =
 IncludeDirs     =  /opt/cactus/include  ../ 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
-Boost = -L../lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lboost_system -lSMUTools 
-Boost = -L../lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lSMUTools 
+# Boost = -L../lib -L/usr/local/lib -lpthread -lncurses -lboost_thread -lboost_system -lSMUTools 
+Boost = -L../lib -L/usr/local/lib -lncurses -lboost_thread -lSMUTools 
 
 LibraryDirs = /opt/cactus/lib /usr/local/lib ../lib 
 
