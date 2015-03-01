@@ -931,7 +931,7 @@ void MuxTest::SMUScan()
 				std::cout<<fHamegChannelMap[i].at(0)<<"\t"<<fHamegChannelMap[i].at(1)<<"\t";
 				
 			}
-			keithley->Read(readstring);
+			keithley->Read((string)readstring);
 			
 			std::cout<<readstring(0,14)<<std::endl;
 			std::cout<<std::endl;
