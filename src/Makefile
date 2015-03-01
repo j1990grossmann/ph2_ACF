@@ -47,6 +47,10 @@ cmtest: cmtest.cc
 analogmuxtest: analogmuxtest.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects) 
 	cp $@ ../bin
+	
+smutest: smutest.cc
+	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects) 
+	cp $@ ../bin	
 
 .PHONY: clean
 
