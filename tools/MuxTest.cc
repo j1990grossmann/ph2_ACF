@@ -933,7 +933,7 @@ void MuxTest::SMUScan()
 			}
 			keithley->Read(readstring);
 			
-			std::cout<<(TString)readstring(0,14)<<std::endl;
+			std::cout<<((TString)readstring)(0,14)<<std::endl;
 			std::cout<<std::endl;
 		}
 }
