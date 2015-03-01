@@ -921,6 +921,7 @@ void MuxTest::SMUInitialiseAndConfigure()
 }
 void MuxTest::SMUScan()
 {
+	string readstring;
 	std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
 		for(int j=0; j<10; j++)
 		{
