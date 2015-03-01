@@ -869,7 +869,6 @@ void MuxTest::ScanVplusAMux()
 // 	Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
 	
 // 	first set the offset of all Channels to 0x0A
-	
 	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
 	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
 	accept( cWriter1 );
