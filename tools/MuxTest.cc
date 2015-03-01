@@ -893,7 +893,7 @@ void MuxTest::ScanVplusAMux()
 void MuxTest::SMUInitialiseAndConfigure()
 {
 
-	*hameg = new HAMEG4040::Hameg4040();
+	hameg = new HAMEG4040::Hameg4040();
 	
 
 	for(int i=0; i<4; i++)
@@ -913,7 +913,7 @@ void MuxTest::SMUInitialiseAndConfigure()
 	hameg->Initialise();
 	hameg->Configure(fHamegChannelMap);
 	
-	*keithley = new KEITHLEY2700::Keithley2700();
+	keithley = new KEITHLEY2700::Keithley2700();
 	keithley->Initialise();
 	keithley->Configure(); 
 	keithley->SenseVolt();
