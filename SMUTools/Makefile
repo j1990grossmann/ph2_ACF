@@ -9,7 +9,7 @@ DevFlags		=
 IncludeDirs     =  /usr/local/include/boost/
 IncludePaths            = $(IncludeDirs:%=-I%) 
 LinkParam = -lpthread -lncurses -lboost_thread -lboost_system
-LibraryDirs = /usr/local/lib .
+LibraryDirs = /usr/local/lib ../lib
 LibraryPaths = $(LibraryDirs:%=-L%)
 
 %.o: %.cc %.h
@@ -17,8 +17,9 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 
 all: $(Objs) 
 	$(CC) -std=c++11 -shared -o libSMUTools.so $(Objs) -pthread 
+	mv libSMUTools.so ../lib
 	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
-	cp -p libSMUTools.so ../lib
+
 
 clean:
 	rm -f *.o
