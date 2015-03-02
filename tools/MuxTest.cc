@@ -827,14 +827,15 @@ void MuxTest::writeGraphs()
 {
 	// just use auto iterators to write everything to disk
 	for ( const auto& cGraph : fGraphMap )
-		for(const auto& graphs :cGraph.second)
-			graphs->Write( graphs->GetName(), TObject::kOverwrite );
-	for ( const auto& cFit : fFitMap )
-		cFit.second->Write( cFit.second->GetName(), TObject::kOverwrite );
+		for(const auto& graphsvector :cGraph.second)
+			for(const auto& graphs: graphsvector)
+				graphs->Write( graphs->GetName(), TObject::kOverwrite );
+			// 	for ( const auto& cFit : fFitMap )
+// 		cFit.second->Write( cFit.second->GetName(), TObject::kOverwrite );
 	for ( const auto& cCanvas : fCanvasMap )
 		cCanvas.second->Write( cCanvas.second->GetName(), TObject::kOverwrite );
-	for ( const auto& cHist : fHistMap )
-		cHist.second->SetDirectory( fResultFile );
+// 	for ( const auto& cHist : fHistMap )
+// 		cHist.second->SetDirectory( fResultFile );
 }
 
 void MuxTest::dumpConfigFiles()
@@ -900,9 +901,9 @@ void MuxTest::ScanVplusAMux()
 						
 						if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
 						{
-							// 				fGraphMap[Cbc].second.at(i)->SetPoint(j, j, fSMUScanVector.at(8));
+							// 				fGraphMap[0].at(i)->SetPoint(j, j, fSMUScanVector.at(8));
 						}else
-							// 				fGraphMap[Cbc].second.at(i)->SetPoint(j, j, fSMUScanVector.at(2));
+							// 				fGraphMap[0].at(i)->SetPoint(j, j, fSMUScanVector.at(2));
 							fGraphMap[0].at(i)->SetPoint(j, j, j*j);
 						j++;
 					}
