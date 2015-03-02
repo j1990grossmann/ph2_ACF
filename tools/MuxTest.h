@@ -54,7 +54,7 @@ Key=0-7 for the 8 Test Groups
 class MuxTest : public SystemController
 {
   public:
-	MuxTest( bool pbitwisetune , bool pAllChan ) {
+	MuxTest( bool pbitwisetune , bool pAllChan, string pHardwarefile ) {
 		fVplusVec.push_back( 0x14 );
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );

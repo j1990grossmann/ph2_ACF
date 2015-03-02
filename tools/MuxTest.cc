@@ -871,22 +871,25 @@ void MuxTest::ScanVplusAMux()
 	int i=0;
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
+		std::cout<<pHardwarefile<<std::endl;
+// 		this->InitializeHw(pHardwarefile);
+// 		this->InitializeSettings(pHardwarefile);
 		this->ConfigureHw();
 		std::cout<<BOLDBLUE<<"Scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<RESET<<endl;
 
-		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
-		accept( cWriter1 );
-// 		now loop over all register values
-		for ( auto& cRegVal : fCBCRegVector )
-		{
-			// then set the correct Vplus
-			CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
-			accept( cWriter );
-			std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
-			
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			this->SMUScan();
-		}
+// 		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
+// 		accept( cWriter1 );
+// // 		now loop over all register values
+// 		for ( auto& cRegVal : fCBCRegVector )
+// 		{
+// 			// then set the correct Vplus
+// 			CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
+// 			accept( cWriter );
+// 			std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
+// 			
+// 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+// 			this->SMUScan();
+// 		}
 // 		
 // 		std::cout << BOLDBLUE << "Finished scanwith AMuxOutput..." << std::endl;
 			i++;
