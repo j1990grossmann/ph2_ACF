@@ -267,7 +267,7 @@ void MuxTest::Initialise()
 						GraphVector.push_back(ctmpGraph);
 					}
 
-					fGraphMap[cCbc] = GraphVector;
+					fGraphMap[0] = GraphVector;
 				}
 			}
 		}
@@ -868,29 +868,47 @@ void MuxTest::ScanVplusAMux()
 		this->InitializeSettings(pHWfile);
 		this->ConfigureHw();
 		std::cout<<BOLDBLUE<<"Scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<RESET<<endl;
-
-/*for(auto& CBCno : )	*/	
-		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
-		accept( cWriter1 );
-// 		now loop over all register values
-		int j=0;
-		for ( auto& cRegVal : fCBCRegVector )
+		
+		
+		for ( auto cShelve : fShelveVector )
 		{
-			// then set the correct Vplus
-			CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
-			accept( cWriter );
-			std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
-			
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
-			this->SMUScan();
-			for(int i=0; i<8; i++)
+			for ( auto cBoard : cShelve->fBoardVector )
 			{
-				std::cout<<fSMUScanVector.at(i);
+				for ( auto cFe : cBoard->fModuleVector )
+				{
+					for ( auto cCbc : cFe->fCbcVector )
+					{
+						CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
+						accept( cWriter1 );
+						// 		now loop over all register values
+						int j=0;
+						for ( auto& cRegVal : fCBCRegVector )
+						{
+							// Set a register for scanning
+							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
+							accept( cWriter );
+							std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
+							j++;
+						}
+					}
+				}
 			}
-			std::cout<<std::endl;
-//  			fGraphMap[cCbc].second.at(i)->SetPoint(j, j, j*j);
-			j++;
 		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		this->SMUScan();
+		for(int i=0; i<9; i++)
+		{
+			std::cout<<fSMUScanVector.at(i);
+		}
+		std::cout<<std::endl;
+		
+		if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
+		{
+			// 				fGraphMap[Cbc].second.at(i)->SetPoint(j, j, fSMUScanVector.at(8));
+		}else
+			// 				fGraphMap[Cbc].second.at(i)->SetPoint(j, j, fSMUScanVector.at(2));
+			fGraphMap[0].second.at(i)->SetPoint(j, j, j*j);
 		
 		std::cout<<BOLDBLUE<<"Finnished scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<"\t reconfigure "<<RESET<<endl;
 		i++;
@@ -941,8 +959,8 @@ void MuxTest::SMUScan()
 		keithley->Read(readstring);
 		volt = TString(((TString)readstring)(0,15)).Atof();
 		
-		std::cout<<((TString)readstring)(0,15)<<"\t"<<volt<<std::endl;
-		std::cout<<std::endl;
+// 		std::cout<<((TString)readstring)(0,15)<<"\t"<<volt<<std::endl;
+// 		std::cout<<std::endl;
 	}
 	for(int i=0;i<8;i++)
 	{
