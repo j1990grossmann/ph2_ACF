@@ -49,13 +49,13 @@ all: clean $(binaries)
 # 	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
 # 	cp $@ ../bin
 	
-analogmuxtest: analogmuxtest.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects) 
-	cp $@ ../bin
-# 	
-# smutest: smutest.cc
+# analogmuxtest: analogmuxtest.cc
 # 	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects) 
-# 	cp $@ ../bin	
+# 	cp $@ ../bin
+	
+test: test.cc
+	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< 
+	cp $@ ../bin	
 
 .PHONY: clean
 
