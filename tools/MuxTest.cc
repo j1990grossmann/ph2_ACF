@@ -905,12 +905,12 @@ void MuxTest::ScanVplusAMux()
 						
 						if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
 						{
-							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(8));
-							std::cout<<j<<"\t"<<cRegVal<<"\t"<<fSMUScanVector.at(8)<<endl;
+							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(8));
+							std::cout<<j<<"\t"<<int(cRegVal)<<"\t"<<fSMUScanVector.at(8)<<endl;
 						}else
 						{
-							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(1));
-							std::cout<<j<<"\t"<<cRegVal<<"\t"<<fSMUScanVector.at(1)<<endl;
+							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(1));
+							std::cout<<j<<"\t"<<int(cRegVal)<<"\t"<<fSMUScanVector.at(1)<<endl;
 						}
 						j++;
 						
@@ -984,14 +984,19 @@ void MuxTest::SMUKill()
 void MuxTest::drawOnline(Cbc* cbc)
 {
 	CanvasMap::iterator cCanvas = fCanvasMap.find(cbc);
-	GraphMap::iterator cGraphs = fGraphMap.find(0);
-	cCanvas->second->Draw();
-	int padno = 0;
-	for(auto&graph : cGraphs->second)
+	if ( cCanvas == std::end( fCanvasMap )) std::cout << "Error: could not find the CBC " << int( cbc->getCbcId() ) << std::endl;
+	else
 	{
-		cCanvas->second->cd(padno);
-		graph->Draw("ap");
-		std::cout<<"padno "<<padno<<std::endl;
-		padno++;
+		GraphMap::iterator cGraphs = fGraphMap.find(0);
+		int padno = 0;
+		for(auto&graph : cGraphs->second)
+		{
+			cCanvas->second->cd(padno);
+			graph->Draw("ap");
+
+			padno++;
+		}
+		cCanvas->second->Draw();
+		std::cout<<"draw "<<std::endl;
 	}
 }
