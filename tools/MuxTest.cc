@@ -978,7 +978,7 @@ void MuxTest::SMUKill()
 	std::cout<<RESET<<"Shutdown Hameg and Multimeter"<<std::endl;
 }
 
-void MuxTest::drawOnline(Cbc& cbc)
+void MuxTest::drawOnline(Cbc* cbc)
 {
 	CanvasMap::iterator cCanvas = fCanvasMap.find(cbc);
 	GraphMap::iterator cGraphs = fGraphMap.find(0);
