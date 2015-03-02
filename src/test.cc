@@ -33,7 +33,8 @@ int main( int argc, char* argv[] )
 		for(const auto& graphsvector : cGraph.second)
 			graphsvector->Write(graphsvector->GetTitle());
 	
-	
+	file->Write();
+	file->Close();
 
 	std::cout<<"finish scans"<<std::endl;
 	return 0;
