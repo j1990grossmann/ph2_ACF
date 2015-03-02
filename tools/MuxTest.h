@@ -171,7 +171,7 @@ protected:
 // 	void findVplus( bool pDraw );
     void writeGraphs();
     void dumpConfigFiles();
-    void drawOnline(Cbc* cbc);
+    void drawOnline();
 
 
 };
