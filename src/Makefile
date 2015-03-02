@@ -54,7 +54,7 @@ all: clean $(binaries)
 # 	cp $@ ../bin
 	
 test: test.cc
-	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< 
+	$(CXX) -std=c++11 $(CCFlags) -o $@ $< 
 	cp $@ ../bin	
 
 .PHONY: clean
