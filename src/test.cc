@@ -5,6 +5,7 @@
 #include "TGraphErrors.h"
 #include "TFile.h"
 #include <string>
+#include <map>
 
 typedef std::map<uint8_t, std::vector<TGraphErrors*> > GraphMap;
 
