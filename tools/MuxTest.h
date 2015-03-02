@@ -72,16 +72,6 @@ class MuxTest : public SystemController
 		fTestRegisterVector.push_back( std::make_pair("Vpafb",16 ) );
 		
 		
-		fCBCAmuxRegVector.push_back(1);
-		fCBCAmuxRegVector.push_back(4);
-		fCBCAmuxRegVector.push_back(9);
-		fCBCAmuxRegVector.push_back(10);
-		fCBCAmuxRegVector.push_back(11);
-		fCBCAmuxRegVector.push_back(12);
-		fCBCAmuxRegVector.push_back(13);
-		fCBCAmuxRegVector.push_back(14);
-		fCBCAmuxRegVector.push_back(16);
-		
 		for(int i=0; i<10; i++)
 		{
 			fCBCRegVector.push_back(i*25);
@@ -148,6 +138,7 @@ class MuxTest : public SystemController
 
 	std::vector<uint8_t> fVplusVec;
 	std::vector<uint8_t> fCBCRegVector;
+	
 	RegisterVector1 fTestRegisterVector;
 	string pHWfile;
 
