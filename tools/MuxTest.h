@@ -1,11 +1,11 @@
 /*!
 *
 * \file MuxTest.h
-* \brief Calibration class, calibration of the hardware
-* \author Georg AUZINGER
-* \date 16 / 10 / 14
+* \brief Test procedures for the AMuxTest
+* \author Johannes Grossmann
+* \date 01 / 03 / 15
 *
-* \Support : georg.auzinger@cern.ch
+* \Support : 
 *
 */
 
@@ -39,7 +39,7 @@ using namespace Ph2_System;
 
 typedef std::map<Cbc*, std::vector<Channel> > CbcChannelMap;
 typedef std::map<Cbc*, TCanvas*> CanvasMap;
-typedef std::map<Cbc*, TGraphErrors*> GraphMap;
+typedef std::map<Cbc*, std::vector<TGraphErrors*> > GraphMap;
 typedef std::map<Cbc*, TF1*> FitMap;
 typedef std::map<Cbc*, TH1F*> HistMap;
 typedef std::vector<std::pair< std::string, uint8_t> > RegisterVector;
@@ -59,6 +59,8 @@ class MuxTest : public SystemController
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );
 		
+		fSMUScanVector.resize(9);
+		
 		pHWfile=pHardwarefile;
 		
 		fTestRegisterVector.push_back( std::make_pair("Vplus",1 ) );
@@ -74,7 +76,7 @@ class MuxTest : public SystemController
 		
 		for(int i=0; i<10; i++)
 		{
-			fCBCRegVector.push_back(i*25);
+			fCBCRegVector.push_back(i*25+1);
 		}
 		fdoTGrpCalib = !pAllChan;
 		fdoBitWisetuning = pbitwisetune;
@@ -138,6 +140,7 @@ class MuxTest : public SystemController
 
 	std::vector<uint8_t> fVplusVec;
 	std::vector<uint8_t> fCBCRegVector;
+	std::vector<double> fSMUScanVector;
 	
 	RegisterVector1 fTestRegisterVector;
 	string pHWfile;

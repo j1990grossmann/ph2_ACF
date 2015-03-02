@@ -247,34 +247,27 @@ void MuxTest::Initialise()
 					fCbcChannelMap[cCbc] = cChanVec;
 
 					// now create the canvasses
-					TString cCanvasname = Form( "Fe%d_Cbc%d_Calibration", cFeId, cCbcId );
+					TString cCanvasname = Form( "Fe%d_Cbc%d_AnalogMux", cFeId, cCbcId );
 					TCanvas* ctmpCanvas = dynamic_cast<TCanvas*>( gROOT->FindObject( cCanvasname ) );
 					if ( ctmpCanvas ) delete ctmpCanvas;
 					ctmpCanvas =  new TCanvas( cCanvasname, cCanvasname );
-					ctmpCanvas->Divide( 2, 2 );
+					ctmpCanvas->Divide( 3, 3 );
 					fCanvasMap[cCbc] = ctmpCanvas;
 
-
+					std::vector<TGraphErrors*> GraphVector;
+					TGraphErrors* ctmpGraph;
 					// now the TGraphErrors
-					TString cGraphname = Form( "VplusVcthGraph_Fe%d_Cbc%d", cFeId, cCbcId );
-					TGraphErrors* ctmpGraph = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname ) );
-					if ( ctmpGraph ) delete ctmpGraph;
-					ctmpGraph = new TGraphErrors();
-					ctmpGraph->SetName( cGraphname );
-					ctmpGraph->GetXaxis()->SetTitle( "SCurve Midpoint [VCth]" );
-					ctmpGraph->GetXaxis()->SetRangeUser( 0, 255 );
-					ctmpGraph->GetYaxis()->SetTitle( "Vplus" );
-					ctmpGraph->GetYaxis()->SetRangeUser( 0, 255 );
-					fGraphMap[cCbc] = ctmpGraph;
+					for(auto& cNames : fTestRegisterVector)
+					{
+						TString cGraphname = Form( "Fe%d_Cbc%d_%d", cFeId, cCbcId, cNames.first );
+						ctmpGraph = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname ) );
+						if ( ctmpGraph ) delete ctmpGraph;
+						ctmpGraph = new TGraphErrors();
+						ctmpGraph->SetName( cGraphname );
+						GraphVector.push_back(ctmpGraph);
+					}
 
-					// the fits are initialized when I fit!
-
-					// validiation histograms
-					TString cHistname = Form( "Validation_Fe%d_Cbc%d", cFeId, cCbcId );
-					TH1F* cHist = dynamic_cast<TH1F*>( gROOT->FindObject( cHistname ) );
-					if ( cHist ) delete cHist;
-					cHist = new TH1F( cHistname, cHistname, 100, 0, 1 );
-					fHistMap[cCbc] = cHist;
+					fGraphMap[cCbc] = GraphVector;
 				}
 			}
 		}
@@ -295,6 +288,7 @@ void MuxTest::Initialise()
 	std::cout << "	Hole Mode = " << fHoleMode << std::endl;
 	std::cout << "	Nevents = " << fEventsPerPoint << std::endl;
 	std::cout << "	TargetVcth = " << int( fTargetVcth ) << std::endl;
+	
 }
 /*Currently this function sets offset for all 1-254 channels. But now to add testgroups, it has to set for 32
 channels in the group only. So it has to take the group id as well.
@@ -867,11 +861,9 @@ void MuxTest::dumpConfigFiles()
 
 void MuxTest::ScanVplusAMux()
 {
-	// 	Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
 	int i=0;
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
-// 		this->InitializeHw(pHWfile);
 		this->InitializeSettings(pHWfile);
 		this->ConfigureHw();
 		std::cout<<BOLDBLUE<<"Scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<RESET<<endl;
@@ -880,6 +872,7 @@ void MuxTest::ScanVplusAMux()
 		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
 		accept( cWriter1 );
 // 		now loop over all register values
+		int j=0;
 		for ( auto& cRegVal : fCBCRegVector )
 		{
 			// then set the correct Vplus
@@ -889,9 +882,15 @@ void MuxTest::ScanVplusAMux()
 			
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 			this->SMUScan();
+			for(int i=0; i<8; i++)
+			{
+				std::cout<<fSMUScanVector.at(i)<<std::endl;
+			}
+// 			fGraphMap[cCbc].second.at(i)->SetPoint(j, cRegVal, y);
+			j++;
 		}
 		
-		std::cout << BOLDBLUE << "Finished scanwith AMuxOutput..." << std::endl;
+		std::cout<<BOLDBLUE<<"Finnished scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<"\t reconfigure "<<RESET<<endl;
 		i++;
 	}
 }
@@ -929,21 +928,25 @@ void MuxTest::SMUInitialiseAndConfigure()
 void MuxTest::SMUScan()
 {
 	string readstring;
-// 	std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
-// 		for(int j=0; j<10; j++)
+	double volt;
+	{
+		hameg->MeasAll(fHamegChannelMap);
+		for(int i=0;i<4;i++)
 		{
-			hameg->MeasAll(fHamegChannelMap);
-			for(int i=0;i<4;i++)
-			{
-				std::cout<<fHamegChannelMap[i].at(0)<<"\t"<<fHamegChannelMap[i].at(1)<<"\t";
-				
-			}
-			keithley->Read(readstring);
-			double volt = TString(((TString)readstring)(0,15)).Atof();
+			std::cout<<fHamegChannelMap[i].at(0)<<"\t"<<fHamegChannelMap[i].at(1)<<"\t";
 			
-			std::cout<<((TString)readstring)(0,15)<<"\t"<<volt<<std::endl;
-			std::cout<<std::endl;
 		}
+		keithley->Read(readstring);
+		volt = TString(((TString)readstring)(0,15)).Atof();
+		
+		std::cout<<((TString)readstring)(0,15)<<"\t"<<volt<<std::endl;
+		std::cout<<std::endl;
+	}
+	for(int i=0;i<8;i++)
+	{
+		fSMUScanVector.at(i)=fHamegChannelMap[i/2].at(i%2);
+	}
+	fSMUScanVector.at(8)=volt;
 }
 void MuxTest::SMUKill()
 {
