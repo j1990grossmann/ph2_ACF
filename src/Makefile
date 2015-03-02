@@ -22,7 +22,7 @@ ExternalObjects = $(LibraryPaths) -lpthread -lcactus_extern_pugixml -lcactus_uha
 	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) -c -o $@ $<
 
 # binaries=systemtest calibrate interfacetest datatest hybridtest cmtest analogmuxtest 
-binaries=analogmuxtest test
+binaries= test
 all: clean $(binaries)
 
 # systemtest: systemtest.cc
