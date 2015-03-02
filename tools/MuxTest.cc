@@ -264,6 +264,8 @@ void MuxTest::Initialise()
 						if ( ctmpGraph ) delete ctmpGraph;
 						ctmpGraph = new TGraphErrors();
 						ctmpGraph->SetName( cGraphname );
+						ctmpGraph->SetTitle( cGraphname );
+						
 						GraphVector.push_back(ctmpGraph);
 					}
 
@@ -829,7 +831,7 @@ void MuxTest::writeGraphs()
 	for ( const auto& cGraph : fGraphMap )
 		for(const auto& graphsvector : cGraph.second)
 		{
-			graphsvector->Write( graphsvector->GetName(), TObject::kOverwrite );
+			graphsvector->Write( graphsvector->GetTitle(), TObject::kOverwrite );
 		}
 			// 	for ( const auto& cFit : fFitMap )
 			// 		cFit.second->Write( cFit.second->GetName(), TObject::kOverwrite );
