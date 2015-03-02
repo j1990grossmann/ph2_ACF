@@ -259,7 +259,7 @@ void MuxTest::Initialise()
 					// now the TGraphErrors
 					for(auto& cNames : fTestRegisterVector)
 					{
-						TString cGraphname = Form( "Fe%d_Cbc%d_%s", cFeId, cCbcId, (string)cNames.first );
+						TString cGraphname = Form( "Fe%d_Cbc%d_%s", cFeId, cCbcId, cNames.first.c_str() );
 						ctmpGraph = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname ) );
 						if ( ctmpGraph ) delete ctmpGraph;
 						ctmpGraph = new TGraphErrors();
