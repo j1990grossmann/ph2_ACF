@@ -871,8 +871,8 @@ void MuxTest::ScanVplusAMux()
 	int i=0;
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
-		this->InitializeHw(pHWfile);
-		this->InitializeSettings(pHWfile);
+// 		this->InitializeHw(pHWfile);
+// 		this->InitializeSettings(pHWfile);
 		this->ConfigureHw();
 		std::cout<<BOLDBLUE<<"Scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<RESET<<endl;
 
