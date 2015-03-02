@@ -892,6 +892,12 @@ void MuxTest::ScanVplusAMux()
 
 void MuxTest::SMUInitialiseAndConfigure()
 {
+	//First configure keithley then hameg for safety reasons. 
+	keithley = new KEITHLEY2700::Keithley2700();
+	keithley->Initialise();
+	keithley->Configure(); 
+	keithley->SenseVolt();
+	keithley->ConfigureSingleRead();
 
 	hameg = new HAMEG4040::Hameg4040();
 	
@@ -913,11 +919,7 @@ void MuxTest::SMUInitialiseAndConfigure()
 	hameg->Initialise();
 	hameg->Configure(fHamegChannelMap);
 	
-	keithley = new KEITHLEY2700::Keithley2700();
-	keithley->Initialise();
-	keithley->Configure(); 
-	keithley->SenseVolt();
-	keithley->ConfigureSingleRead();
+
 }
 void MuxTest::SMUScan()
 {
@@ -932,9 +934,9 @@ void MuxTest::SMUScan()
 				
 			}
 			keithley->Read(readstring);
-			double volt = TString(((TString)readstring)(0,15)).Atof();
+			double volt = TString(((TString)readstring)(0,16)).Atof();
 			
-			std::cout<<((TString)readstring)(0,15)<<std::endl;
+			std::cout<<((TString)readstring)(0,16)<<std::endl;
 			std::cout<<std::endl;
 		}
 }
