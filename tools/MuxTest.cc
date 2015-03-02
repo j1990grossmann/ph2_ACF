@@ -250,7 +250,7 @@ void MuxTest::drawOnline()
 						cCanvas->second->cd(padno);
 						gPad->SetGridx();
 						gPad->SetGridy();
-						graph->SetMarkterStyle(20);
+						graph->SetMarkerStyle(20);
 						graph->Draw("ap");
 						padno++;
 					}
