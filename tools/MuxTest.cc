@@ -894,7 +894,7 @@ void MuxTest::ScanVplusAMux()
 						this->SMUScan();
 						for(int i=0; i<9; i++)
 						{
-							std::cout<<fSMUScanVector.at(i);
+							std::cout<<fSMUScanVector.at(i)<<"\t";
 						}
 						std::cout<<std::endl;
 						
@@ -951,11 +951,11 @@ void MuxTest::SMUScan()
 	double volt;
 	{
 		hameg->MeasAll(fHamegChannelMap);
-		for(int i=0;i<4;i++)
-		{
-			std::cout<<fHamegChannelMap[i].at(0)<<"\t"<<fHamegChannelMap[i].at(1)<<"\t";
-			
-		}
+// 		for(int i=0;i<4;i++)
+// 		{
+// 			std::cout<<fHamegChannelMap[i].at(0)<<"\t"<<fHamegChannelMap[i].at(1)<<"\t";
+// 			
+// 		}
 		keithley->Read(readstring);
 		volt = TString(((TString)readstring)(0,15)).Atof();
 		
