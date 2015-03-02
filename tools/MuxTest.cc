@@ -829,7 +829,7 @@ void MuxTest::writeGraphs()
 	for ( const auto& cGraph : fGraphMap )
 		for(const auto& graphsvector : cGraph.second)
 			for(const auto& graphs : graphsvector)
-				graphs->Write( graphs->GetName(), TObject::kOverwrite );
+				graphsvector.at(graphs)->Write( graphsvector.at(graphs)->GetName(), TObject::kOverwrite );
 			// 	for ( const auto& cFit : fFitMap )
 			// 		cFit.second->Write( cFit.second->GetName(), TObject::kOverwrite );
 	for ( const auto& cCanvas : fCanvasMap )
