@@ -904,10 +904,10 @@ void MuxTest::ScanVplusAMux()
 						
 						if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
 						{
-							// 				fGraphMap[0].at(i)->SetPoint(j, j, fSMUScanVector.at(8));
+							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(8));
 						}else
-							// 				fGraphMap[0].at(i)->SetPoint(j, j, fSMUScanVector.at(2));
-							fGraphMap[0].at(i)->SetPoint(j, j, j*j);
+							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(2));
+// 							fGraphMap[0].at(i)->SetPoint(j, j, j*j);
 						j++;
 					}
 				}
