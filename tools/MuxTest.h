@@ -55,6 +55,7 @@ class MuxTest : public SystemController
 {
   public:
 	MuxTest( bool pbitwisetune , bool pAllChan, string pHardwarefile ) {
+		
 		fVplusVec.push_back( 0x14 );
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );
@@ -78,6 +79,7 @@ class MuxTest : public SystemController
 		{
 			fCBCRegVector.push_back(i*25+1);
 		}
+		
 		fdoTGrpCalib = !pAllChan;
 		fdoBitWisetuning = pbitwisetune;
 		for ( int gid = -1; gid < 8; gid++ ) {
@@ -151,21 +153,21 @@ class MuxTest : public SystemController
 	HAMEG4040::HamegChannelMap fHamegChannelMap;
 
   protected:
-	void measureSCurves( bool pOffset, int  pTGrpId );
-	void measureSCurvesBinary( bool pOffset, int  pTGrpId );
+// 	void measureSCurves( bool pOffset, int  pTGrpId );
+// 	void measureSCurvesBinary( bool pOffset, int  pTGrpId );
 	//void measureSCurves( bool pOffset );
-	void setOffset( uint8_t pOffset, int  pTGrpId );
+// 	void setOffset( uint8_t pOffset, int  pTGrpId );
 	//void setOffset( uint8_t pOffset );
-	void toggleOffsetBit( uint8_t pBit, int  pTGrpId );
+// 	void toggleOffsetBit( uint8_t pBit, int  pTGrpId );
 	//void toggleOffsetBit( uint8_t pBit );
-	uint32_t fillSCurves( BeBoard* pBoard,  const Event* pEvent, uint8_t pValue, int  pTGrpId, bool pDraw = false );
+// 	uint32_t fillSCurves( BeBoard* pBoard,  const Event* pEvent, uint8_t pValue, int  pTGrpId, bool pDraw = false );
 	//uint32_t fillSCurves( BeBoard* pBoard,  const Event* pEvent, uint8_t pValue, bool pDraw = false );
-	void initializeSCurves( TString pParameter, uint8_t pValue, int  pTGrpId );
+// 	void initializeSCurves( TString pParameter, uint8_t pValue, int  pTGrpId );
 	//void initializeSCurves( TString pParameter, uint8_t pValue );
-	void processSCurves( TString pParameter, uint8_t pValue, bool pDraw, int  pTGrpId );
-	void processSCurvesOffset( TString pParameter, uint8_t pTargetBit, bool pDraw, int pTGrpId );
+// 	void processSCurves( TString pParameter, uint8_t pValue, bool pDraw, int  pTGrpId );
+// 	void processSCurvesOffset( TString pParameter, uint8_t pTargetBit, bool pDraw, int pTGrpId );
 	// void fitVplusVcthGraph();
-	void findVplus( bool pDraw );
+// 	void findVplus( bool pDraw );
 	void writeGraphs();
 	void dumpConfigFiles();
 	
