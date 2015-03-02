@@ -238,24 +238,24 @@ void MuxTest::drawOnline()
 			for ( auto cFe : cBoard->fModuleVector )
 			{
 				for ( auto cbc : cFe->fCbcVector )
-					
-					CanvasMap::iterator cCanvas = fCanvasMap.find(cbc);
-				if ( cCanvas == std::end( fCanvasMap )) std::cout << "Error: could not find the CBC " << int( cbc->getCbcId() ) << std::endl;
-				else
 				{
-					GraphMap::iterator cGraphs = fGraphMap.find(0);
-					int padno = 1;
-					for(auto&graph : cGraphs->second)
+					CanvasMap::iterator cCanvas = fCanvasMap.find(cbc);
+					if ( cCanvas == std::end( fCanvasMap )) std::cout << "Error: could not find the CBC " << int( cbc->getCbcId() ) << std::endl;
+					else
 					{
-						cCanvas->second->cd(padno);
-						gPad->SetGridx();
-						gPad->SetGridy();
-						graph->SetMarkerStyle(20);
-						graph->Draw("ap");
-						padno++;
+						GraphMap::iterator cGraphs = fGraphMap.find(0);
+						int padno = 1;
+						for(auto&graph : cGraphs->second)
+						{
+							cCanvas->second->cd(padno);
+							gPad->SetGridx();
+							gPad->SetGridy();
+							graph->SetMarkerStyle(20);
+							graph->Draw("ap");
+							padno++;
+						}
+						cCanvas->second->Update();
 					}
-					cCanvas->second->Update();
-					// 		std::cout<<"draw "<<std::endl;
 				}
 			}
 		}
