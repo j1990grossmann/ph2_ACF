@@ -872,7 +872,7 @@ void MuxTest::ScanVplusAMux()
 	string regwritestring;
 	for(auto& numberval : fTestRegisterVector )
 	{
-		std::cout<<numberval.first()<<"\t"<<numberval.second()<<endl;
+		std::cout<<numberval.first<<"\t"<<numberval.second<<endl;
 	
 // 		switch(cAmux)
 // 		{
