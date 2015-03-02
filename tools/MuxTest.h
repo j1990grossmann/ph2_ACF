@@ -58,15 +58,15 @@ class MuxTest : public SystemController
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );
 		
-		fTestRegisterVector.push_back( std::make_pair("Vplus", 1 ) );
-		fTestRegisterVector.push_back( std::make_pair("Icomp", 4 ) );
-		fTestRegisterVector.push_back( std::make_pair("Ipre1", 9 ) );
-		fTestRegisterVector.push_back( std::make_pair("Ipre2", 10 ) );
-		fTestRegisterVector.push_back( std::make_pair("Vpc", 11 ) );
-		fTestRegisterVector.push_back( std::make_pair("Ipsf", 12 ) );
-		fTestRegisterVector.push_back( std::make_pair("Ipaos", 13 ) );
-		fTestRegisterVector.push_back( std::make_pair("Ipa", 14 ) );
-		fTestRegisterVector.push_back( std::make_pair("Vpafb", 16 ) );
+		fTestRegisterVector.push_back( std::make_pair("Vplus",(uint8_t)1 ) );
+		fTestRegisterVector.push_back( std::make_pair("Icomp",(uint8_t)4 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipre1",(uint8_t)9 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipre2",(uint8_t)10 ) );
+		fTestRegisterVector.push_back( std::make_pair("Vpc",(uint8_t)11 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipsf",(uint8_t)12 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipaos",(uint8_t)13 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipa",(uint8_t)14 ) );
+		fTestRegisterVector.push_back( std::make_pair("Vpafb",(uint8_t)16 ) );
 		
 		
 		fCBCAmuxRegVector.push_back(1);
