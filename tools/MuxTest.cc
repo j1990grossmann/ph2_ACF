@@ -143,7 +143,7 @@ void MuxTest::ScanVplusAMux()
 							std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
 // 							drawOnline(cCbc);
 						}
-						std::this_thread::sleep_for(std::chrono::milliseconds(10));
+// 						std::this_thread::sleep_for(std::chrono::milliseconds(10));
 						this->SMUScan();
 // 						for(int i=0; i<9; i++)
 // 						{
@@ -199,6 +199,7 @@ void MuxTest::SMUInitialiseAndConfigure()
 	fHamegChannelMap[3].at(1)=0.02;
 
 	hameg->Initialise();
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 	hameg->Configure(fHamegChannelMap);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 }
@@ -250,7 +251,8 @@ void MuxTest::drawOnline()
 							cCanvas->second->cd(padno);
 							gPad->SetGridx();
 							gPad->SetGridy();
-							graph->SetMarkerStyle(20);
+							graph->SetMarkerStyle(1);
+							graph->SetMarkerSize(4);
 							graph->Draw("ap");
 							padno++;
 						}
