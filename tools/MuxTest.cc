@@ -870,10 +870,11 @@ void MuxTest::ScanVplusAMux()
 	// 	Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
 	this->ConfigureHw();
 	string regwritestring;
+	int i=0;
 	for(auto& numberval : fTestRegisterVector )
 	{
-		std::cout<<numberval.first<<"\t"<<numberval.second<<endl;
-	
+		std::cout<<numberval.first<<"\t"<<numberval.second<<"\t"<<i<<endl;
+		i++;
 // 		switch(cAmux)
 // 		{
 // 			case 1: 
