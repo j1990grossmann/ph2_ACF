@@ -827,11 +827,11 @@ void MuxTest::writeGraphs()
 {
 	// just use auto iterators to write everything to disk
 	for ( const auto& cGraph : fGraphMap )
-		for(const auto& graphsvector :cGraph.second)
-			for(const auto& graphs: graphsvector)
+		for(const auto& graphsvector : cGraph.second)
+			for(const auto& graphs : graphsvector)
 				graphs->Write( graphs->GetName(), TObject::kOverwrite );
 			// 	for ( const auto& cFit : fFitMap )
-// 		cFit.second->Write( cFit.second->GetName(), TObject::kOverwrite );
+			// 		cFit.second->Write( cFit.second->GetName(), TObject::kOverwrite );
 	for ( const auto& cCanvas : fCanvasMap )
 		cCanvas.second->Write( cCanvas.second->GetName(), TObject::kOverwrite );
 // 	for ( const auto& cHist : fHistMap )
