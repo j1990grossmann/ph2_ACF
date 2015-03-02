@@ -988,7 +988,7 @@ void MuxTest::drawOnline(Cbc* cbc)
 	else
 	{
 		GraphMap::iterator cGraphs = fGraphMap.find(0);
-		int padno = 0;
+		int padno = 1;
 		for(auto&graph : cGraphs->second)
 		{
 			cCanvas->second->cd(padno);
@@ -996,7 +996,8 @@ void MuxTest::drawOnline(Cbc* cbc)
 
 			padno++;
 		}
-		cCanvas->second->Draw();
+		cCanvas->second->Update();
+		
 		std::cout<<"draw "<<std::endl;
 	}
 }
