@@ -80,9 +80,9 @@ class MuxTest : public SystemController
 		fCBCAmuxRegVector.push_back(14);
 		fCBCAmuxRegVector.push_back(16);
 		
-		for(int i=0; i<25; i++)
+		for(int i=0; i<10; i++)
 		{
-			fCBCRegVector.push_back(i*10);
+			fCBCRegVector.push_back(i*25);
 		}
 		fdoTGrpCalib = !pAllChan;
 		fdoBitWisetuning = pbitwisetune;

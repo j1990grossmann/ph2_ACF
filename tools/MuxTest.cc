@@ -868,11 +868,10 @@ void MuxTest::dumpConfigFiles()
 void MuxTest::ScanVplusAMux()
 {
 	// 	Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
-	this->ConfigureHw();
-	string regwritestring;
 	int i=0;
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
+		this->ConfigureHw();
 		std::cout<<BOLDBLUE<<"Scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<RESET<<endl;
 
 		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
@@ -881,7 +880,7 @@ void MuxTest::ScanVplusAMux()
 		for ( auto& cRegVal : fCBCRegVector )
 		{
 			// then set the correct Vplus
-			CbcRegWriter cWriter( fCbcInterface, regwritestring, cRegVal );
+			CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
 			accept( cWriter );
 			std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
 			
