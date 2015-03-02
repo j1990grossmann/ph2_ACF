@@ -897,17 +897,20 @@ void MuxTest::ScanVplusAMux()
 						}
 						std::this_thread::sleep_for(std::chrono::milliseconds(10));
 						this->SMUScan();
-						for(int i=0; i<9; i++)
-						{
-							std::cout<<fSMUScanVector.at(i)<<"\t";
-						}
-						std::cout<<std::endl;
+// 						for(int i=0; i<9; i++)
+// 						{
+// 							std::cout<<fSMUScanVector.at(i)<<"\t";
+// 						}
+// 						std::cout<<std::endl;
 						
 						if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
 						{
 							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(8));
-						}else{
+							std::cout<<j<<"\t"<<cRegVal<<"\t"<<fSMUScanVector.at(8)<<endl;
+						}else
+						{
 							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(1));
+							std::cout<<j<<"\t"<<cRegVal<<"\t"<<fSMUScanVector.at(1)<<endl;
 						}
 						j++;
 						
