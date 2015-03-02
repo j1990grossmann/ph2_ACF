@@ -828,8 +828,8 @@ void MuxTest::writeGraphs()
 	// just use auto iterators to write everything to disk
 	for ( const auto& cGraph : fGraphMap )
 		for(const auto& graphsvector : cGraph.second)
-			for(const auto& graphs : graphsvector)
-				graphsvector.at(graphs)->Write( graphsvector.at(graphs)->GetName(), TObject::kOverwrite );
+			for(std::vector<TGraphErrors*>::iterator it = graphsvector.begin() ; it != graphsvector.end(); ++it)
+				(*it)->Write( (*it)->GetName(), TObject::kOverwrite );
 			// 	for ( const auto& cFit : fFitMap )
 			// 		cFit.second->Write( cFit.second->GetName(), TObject::kOverwrite );
 	for ( const auto& cCanvas : fCanvasMap )
