@@ -908,7 +908,7 @@ void MuxTest::ScanVplusAMux()
 			// 				fGraphMap[Cbc].second.at(i)->SetPoint(j, j, fSMUScanVector.at(8));
 		}else
 			// 				fGraphMap[Cbc].second.at(i)->SetPoint(j, j, fSMUScanVector.at(2));
-			fGraphMap[0].second.at(i)->SetPoint(j, j, j*j);
+			fGraphMap[0].at(i)->SetPoint(j, j, j*j);
 		
 		std::cout<<BOLDBLUE<<"Finnished scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<"\t reconfigure "<<RESET<<endl;
 		i++;
