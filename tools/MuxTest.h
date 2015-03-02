@@ -59,6 +59,8 @@ class MuxTest : public SystemController
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );
 		
+		pHWfile=pHardwarefile;
+		
 		fTestRegisterVector.push_back( std::make_pair("Vplus",1 ) );
 		fTestRegisterVector.push_back( std::make_pair("Icomp",4 ) );
 		fTestRegisterVector.push_back( std::make_pair("Ipre1",9 ) );
@@ -146,8 +148,8 @@ class MuxTest : public SystemController
 
 	std::vector<uint8_t> fVplusVec;
 	std::vector<uint8_t> fCBCRegVector;
-	std::vector<int> fCBCAmuxRegVector;
 	RegisterVector1 fTestRegisterVector;
+	string pHWfile;
 
 	
 	HAMEG4040::Hameg4040 *hameg;

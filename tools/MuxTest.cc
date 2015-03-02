@@ -871,7 +871,7 @@ void MuxTest::ScanVplusAMux()
 	int i=0;
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
-		std::cout<<pHardwarefile<<std::endl;
+		std::cout<<pHWfile<<std::endl;
 // 		this->InitializeHw(pHardwarefile);
 // 		this->InitializeSettings(pHardwarefile);
 		this->ConfigureHw();
