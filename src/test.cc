@@ -21,7 +21,7 @@ int main( int argc, char* argv[] )
 		std::string depper;
 		depper+=i;
 		TGraphErrors *d = new TGraphErrors();
-		d->SetTitle(depper);
+		d->SetTitle(depper.c_str());
 		d->SetPoint(0,1,1);
 		
 		peb.push_back(d);
