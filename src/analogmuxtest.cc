@@ -103,6 +103,7 @@ int main( int argc, char* argv[] )
 		cAnalogmuxTest.Initialise(); // canvases etc. for fast calibration
 		cAnalogmuxTest.ScanVplusAMux();		
  		cAnalogmuxTest.SMUKill();
+		cAnalogmuxTest.SaveResults();
 		
 	}
 	
