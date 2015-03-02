@@ -893,6 +893,7 @@ void MuxTest::ScanVplusAMux()
 							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
 							accept( cWriter );
 							std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
+							drawOnline(cCbc);
 						}
 						std::this_thread::sleep_for(std::chrono::milliseconds(10));
 						this->SMUScan();
@@ -906,9 +907,10 @@ void MuxTest::ScanVplusAMux()
 						{
 							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(8));
 						}else
-							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(2));
+							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(1));
 // 							fGraphMap[0].at(i)->SetPoint(j, j, j*j);
 						j++;
+						
 					}
 				}
 			}
@@ -962,9 +964,6 @@ void MuxTest::SMUScan()
 // 		}
 		keithley->Read(readstring);
 		volt = TString(((TString)readstring)(0,15)).Atof();
-		
-// 		std::cout<<((TString)readstring)(0,15)<<"\t"<<volt<<std::endl;
-// 		std::cout<<std::endl;
 	}
 	for(int i=0;i<8;i++)
 	{
@@ -977,4 +976,18 @@ void MuxTest::SMUKill()
 	delete hameg;
 	delete keithley;
 	std::cout<<RESET<<"Shutdown Hameg and Multimeter"<<std::endl;
+}
+
+void MuxTest::drawOnline(Cbc& cbc)
+{
+	CanvasMap::iterator cCanvas = fCanvasMap.find(cbc);
+	GraphMap::iterator cGraphs = fGraphMap.find(0);
+	cCanvas->second->Draw();
+	int padno = 0;
+	for(auto&graph : cGraphs->second)
+	{
+		cCanvas->second->cd(padno);
+		graph->Draw("ap");
+		padno++;
+	}
 }
