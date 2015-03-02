@@ -18,7 +18,7 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 all: $(Objs) 
 	$(CC) -std=c++11 -shared -o libSMUTools.so $(Objs) -pthread 
 	mv libSMUTools.so ../lib
-	$(CXX)  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
+# 	$(CXX)  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
 
 
 clean:

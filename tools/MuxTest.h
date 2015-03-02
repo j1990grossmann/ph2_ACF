@@ -57,6 +57,28 @@ class MuxTest : public SystemController
 		fVplusVec.push_back( 0x14 );
 		fVplusVec.push_back( 0x64 );
 		fVplusVec.push_back( 0xA4 );
+		
+		fTestRegisterVector.push_back( std::make_pair("Vplus", 1 ) );
+		fTestRegisterVector.push_back( std::make_pair("Icomp", 4 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipre1", 9 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipre2", 10 ) );
+		fTestRegisterVector.push_back( std::make_pair("Vpc", 11 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipsf", 12 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipaos", 13 ) );
+		fTestRegisterVector.push_back( std::make_pair("Ipa", 14 ) );
+		fTestRegisterVector.push_back( std::make_pair("Vpafb", 16 ) );
+		
+		
+		fCBCAmuxRegVector.push_back(1);
+		fCBCAmuxRegVector.push_back(4);
+		fCBCAmuxRegVector.push_back(9);
+		fCBCAmuxRegVector.push_back(10);
+		fCBCAmuxRegVector.push_back(11);
+		fCBCAmuxRegVector.push_back(12);
+		fCBCAmuxRegVector.push_back(13);
+		fCBCAmuxRegVector.push_back(14);
+		fCBCAmuxRegVector.push_back(16);
+		
 		for(int i=0; i<25; i++)
 		{
 			fCBCRegVector.push_back(i*10);
@@ -123,6 +145,8 @@ class MuxTest : public SystemController
 
 	std::vector<uint8_t> fVplusVec;
 	std::vector<uint8_t> fCBCRegVector;
+	std::vector<int> fCBCAmuxRegVector;
+	RegisterVector fTestRegisterVector;
 
 	
 	HAMEG4040::Hameg4040 *hameg;

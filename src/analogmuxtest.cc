@@ -95,7 +95,6 @@ int main( int argc, char* argv[] )
 		
 		MuxTest cAnalogmuxTest( cOffsetTuneMode, cCalibrateTGrp );
 		cAnalogmuxTest.SMUInitialiseAndConfigure();
-		cAnalogmuxTest.SMUScan();
 		cAnalogmuxTest.InitializeHw( cHWFile );
 		cAnalogmuxTest.InitializeSettings( cHWFile );
 		cAnalogmuxTest.CreateResultDirectory( cDirectory );
@@ -109,6 +108,6 @@ int main( int argc, char* argv[] )
 	
 	
 	if ( !batchMode ) cApp.Run();
-	std::cout<<"finish amux scans"<<std::endl;
+	std::cout<<RESET<<"finish amux scans"<<std::endl;
 	return 0;
 }

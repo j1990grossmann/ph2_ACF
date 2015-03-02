@@ -866,29 +866,42 @@ void MuxTest::dumpConfigFiles()
 
 void MuxTest::ScanVplusAMux()
 {
-// 	Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
-	
-// 	first set the offset of all Channels to 0x0A
-	std::cout << BOLDBLUE << "Scanning Vplus with AMux Output" << RESET << std::endl;
-	CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", 1 );
-	accept( cWriter1 );
-	
-	// now loop over Vplus values
-	for ( auto& cVplus : fCBCRegVector )
+	// 	Method to perform a Scan of Vplus sending the Vplus signal to the Analog Mux
+	this->ConfigureHw();
+	string regwritestring;
+	for(auto& numberval : fTestRegisterVector )
 	{
-		// then set the correct Vplus
-		CbcRegWriter cWriter( fCbcInterface, "Vplus", cVplus );
-		accept( cWriter );
-		std::cout << "Vplus = " << int( cVplus );
-// 		<< std::endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		this->SMUScan();
-		
-		// 			gSystem->Sleep(1000);
+		std::cout<<numberval->first()<<"\t"<<numberval->second<<endl;
+	
+// 		switch(cAmux)
+// 		{
+// 			case 1: 
+// 				regwritestring="Vplus";
+// 				break;
+// 			case 2: 
+// 				regwritestring
+// 				
+// 				
+// 				
+// 		}
+// 		std::cout << BOLDBLUE << "Scanning Vplus with AMux Output Register" <<regwritestring<< RESET << std::endl;
+// 		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", cAmux );
+// 		accept( cWriter1 );
+// 		
+// 		// now loop over Vplus values
+// 		for ( auto& cRegVal : fCBCRegVector )
+// 		{
+// 			// then set the correct Vplus
+// 			CbcRegWriter cWriter( fCbcInterface, regwritestring, cRegVal );
+// 			accept( cWriter );
+// 			std::cout << regwritestring <<"\t" << int( cRegVal )<<"\t";
+// 			
+// 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+// 			this->SMUScan();
+// 		}
+// 		
+// 		std::cout << BOLDBLUE << "Finished scanwith AMuxOutput..." << std::endl;
 	}
-	
-	std::cout << BOLDBLUE << "Finished scanning Vplus with AMuxOutput..." << std::endl;
-	
 }
 
 void MuxTest::SMUInitialiseAndConfigure()
@@ -919,8 +932,7 @@ void MuxTest::SMUInitialiseAndConfigure()
 
 	hameg->Initialise();
 	hameg->Configure(fHamegChannelMap);
-	
-
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 void MuxTest::SMUScan()
 {
@@ -945,5 +957,5 @@ void MuxTest::SMUKill()
 {
 	delete hameg;
 	delete keithley;
-	std::cout<<"Shutdown Hameg and Multimeter"<<std::endl;
+	std::cout<<RESET<<"Shutdown Hameg and Multimeter"<<std::endl;
 }
