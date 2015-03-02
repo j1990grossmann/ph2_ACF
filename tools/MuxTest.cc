@@ -906,9 +906,9 @@ void MuxTest::ScanVplusAMux()
 						if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
 						{
 							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(8));
-						}else
+						}else{
 							fGraphMap[0].at(i)->SetPoint(j, cRegVal, fSMUScanVector.at(1));
-// 							fGraphMap[0].at(i)->SetPoint(j, j, j*j);
+						}
 						j++;
 						
 					}
@@ -988,6 +988,7 @@ void MuxTest::drawOnline(Cbc& cbc)
 	{
 		cCanvas->second->cd(padno);
 		graph->Draw("ap");
+		std::cout<<"padno "<<padno<<std::endl;
 		padno++;
 	}
 }
