@@ -40,7 +40,7 @@ namespace HAMEG4040{
 		
 		// 		BufferedAsyncSerial serial("/dev/Hameg4040",115200);
 		~Hameg4040() {
-			OutPutGen(0);
+// 			OutPutGen(0);
 			SystLocal();
 			serial->close();
 			delete serial;

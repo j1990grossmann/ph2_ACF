@@ -45,11 +45,16 @@ void MuxTest::Initialise()
 					fCanvasMap[cCbc] = ctmpCanvas;
 
 					std::vector<TGraphErrors*> GraphVector;
+					std::vector<TGraphErrors*> GraphVector1;
+					
 					TGraphErrors* ctmpGraph;
+					TGraphErrors* ctmpGraph1;
+										
 					// now the TGraphErrors
 					for(auto& cNames : fTestRegisterVector)
 					{
 						TString cGraphname = Form( "Fe%d_Cbc%d_%s", cFeId, cCbcId, cNames.first.c_str() );
+						
 						ctmpGraph = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname ) );
 						if ( ctmpGraph ) delete ctmpGraph;
 						ctmpGraph = new TGraphErrors();
@@ -57,9 +62,20 @@ void MuxTest::Initialise()
 						ctmpGraph->SetTitle( cGraphname );
 						
 						GraphVector.push_back(ctmpGraph);
+						
+						TString cGraphname1 = Form( "SingleCBC_Fe%d_Cbc%d_%s", cFeId, cCbcId, cNames.first.c_str() );
+						
+						ctmpGraph1 = dynamic_cast<TGraphErrors*>( gROOT->FindObject( cGraphname1 ) );
+						if ( ctmpGraph1 ) delete ctmpGraph1;
+						ctmpGraph1 = new TGraphErrors();
+						ctmpGraph1->SetName( cGraphname1 );
+						ctmpGraph1->SetTitle( cGraphname1 );
+						
+						GraphVector1.push_back(ctmpGraph1);
 					}
 
 					fGraphMap[0] = GraphVector;
+					fGraphMap[1] = GraphVector;
 				}
 			}
 		}
@@ -154,10 +170,12 @@ void MuxTest::ScanVplusAMux()
 						if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
 						{
 							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(8));
+							fGraphMap[1].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(8));
 							std::cout<<j<<"\t"<<int(cRegVal)<<"\t"<<fSMUScanVector.at(8)<<endl;
 						}else
 						{
 							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(1));
+							fGraphMap[1].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(1)/2.);
 							std::cout<<j<<"\t"<<int(cRegVal)<<"\t"<<fSMUScanVector.at(1)<<endl;
 						}
 						j++;
