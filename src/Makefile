@@ -21,33 +21,33 @@ ExternalObjects = $(LibraryPaths) -lpthread -lcactus_extern_pugixml -lcactus_uha
 %.o: %.cc %.h
 	$(CXX) -std=c++11 $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) -c -o $@ $<
 
-# binaries=systemtest calibrate interfacetest datatest hybridtest cmtest analogmuxtest 
-binaries= analogmuxtest
+binaries=systemtest calibrate interfacetest datatest hybridtest cmtest analogmuxtest 
+# binaries= analogmuxtest
 all: clean $(binaries)
 
-# systemtest: systemtest.cc
-# 	$(CXX) -std=c++11 $(CCFlags)   -o $@ $< $(IncludePaths) $(ExternalObjects)
-# 	cp $@ ../bin
-# 
-# calibrate: calibrate.cc
-# 	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
-# 	cp $@ ../bin
-# 
-# interfacetest: interfacetest.cc
-# 	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
-# 	cp $@ ../bin
-# 
-# datatest: datatest.cc
-# 	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
-# 	cp $@ ../bin
-# 
-# hybridtest: hybridtest.cc
-# 	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
-# 	cp $@ ../bin
-# 
-# cmtest: cmtest.cc
-# 	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
-# 	cp $@ ../bin
+systemtest: systemtest.cc
+	$(CXX) -std=c++11 $(CCFlags)   -o $@ $< $(IncludePaths) $(ExternalObjects)
+	cp $@ ../bin
+
+calibrate: calibrate.cc
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
+	cp $@ ../bin
+
+interfacetest: interfacetest.cc
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
+	cp $@ ../bin
+
+datatest: datatest.cc
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
+	cp $@ ../bin
+
+hybridtest: hybridtest.cc
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
+	cp $@ ../bin
+
+cmtest: cmtest.cc
+	$(CXX) -std=c++11 $(CCFlags)  -o $@ $< $(IncludePaths) $(ExternalObjects)
+	cp $@ ../bin
 	
 analogmuxtest: analogmuxtest.cc
 	$(CXX) -std=c++11 $(CCFlags) $(Boost) -o $@ $< $(IncludePaths) $(ExternalObjects) 
