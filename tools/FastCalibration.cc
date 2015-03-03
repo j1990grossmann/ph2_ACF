@@ -563,7 +563,7 @@ void FastCalibration::measureSCurvesBinary( bool pOffset, int  pTGrpId )
 				} // done with this acquisition
 
 				if ( pOffset ) std::cout << "Offset " << int( cValue ) << " Hits: " << cHitCounter << std::endl;
-				std::cout << "DEBUG Vcth " << int( cValue ) << " Hits " << cHitCounter << std::endl;
+// 				std::cout << "DEBUG Vcth " << int( cValue ) << " Hits " << cHitCounter << std::endl;
 
 				// check if the hitcounter is all ones
 				if ( cNonZero == false && cHitCounter != 0 )
