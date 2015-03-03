@@ -75,7 +75,7 @@ void MuxTest::Initialise()
 					}
 
 					fGraphMap[0] = GraphVector;
-					fGraphMap[1] = GraphVector;
+					fGraphMap[1] = GraphVector1;
 				}
 			}
 		}
