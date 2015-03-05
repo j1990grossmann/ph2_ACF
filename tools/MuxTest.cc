@@ -149,7 +149,7 @@ void MuxTest::ScanVplusAMux()
 				{
 					j=0;
 // 					for ( std::vector<int>::iterator cRegVal = fCBCRegVector.end() ; !fCBCRegVector.begin(); --cRegVal )
- 					for ( std::vector<int>::iterator cRegVal = fCBCRegVector.begin() ; !fCBCRegVector.end(); ++cRegVal )
+ 					for ( std::vector<u_int8_t>::iterator cRegVal = fCBCRegVector.begin() ; !fCBCRegVector.end(); ++cRegVal )
 // 					for ( auto& cRegVal : fCBCRegVector )
 					{
 						// 		now loop over all register values
