@@ -75,9 +75,14 @@ public:
         fTestRegisterVector.push_back( std::make_pair("Vpafb",16 ) );
 
 
-        for(int i=0; i<125; i++)
+//         for(int i=0; i<125; i++)
+//         {
+//             fCBCRegVector.push_back(i*2);
+//         }
+
+        for(int i=0; i<10; i++)
         {
-            fCBCRegVector.push_back(i*2);
+            fCBCRegVector.push_back(i*25);
         }
 
         fdoTGrpCalib = !pAllChan;
