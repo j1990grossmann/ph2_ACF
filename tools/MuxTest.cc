@@ -148,17 +148,18 @@ void MuxTest::ScanVplusAMux()
 				for ( auto cFe : cBoard->fModuleVector )
 				{
 					j=0;
-					for ( auto& cRegVal = fCBCRegVector.begin() ; !fCBCRegVector.end(); cRegVal++ )
-// 					for ( auto& cRegVal = fCBCRegVector.end() ; !fCBCRegVector.begin(); cRegVal-- )
+// 					for ( std::vector<int>::iterator cRegVal = fCBCRegVector.end() ; !fCBCRegVector.begin(); --cRegVal )
+ 					for ( std::vector<int>::iterator cRegVal = fCBCRegVector.begin() ; !fCBCRegVector.end(); ++cRegVal )
 // 					for ( auto& cRegVal : fCBCRegVector )
 					{
 						// 		now loop over all register values
 						for ( auto cCbc : cFe->fCbcVector )
 						{
 							// Set a register for scanning
-							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
+// 							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
+							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, *cRegVal );
 							accept( cWriter );
-							std::cout << amuxregisterpair.first <<"\t" << int( cRegVal )<<"\t";
+							std::cout << amuxregisterpair.first <<"\t" << int( *cRegVal )<<"\t";
 // 							drawOnline(cCbc);
 						}
 // 						std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -173,12 +174,12 @@ void MuxTest::ScanVplusAMux()
 						{
 							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(8));
 							fGraphMap[1].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(8));
-							std::cout<<j<<"\t"<<int(cRegVal)<<"\t"<<fSMUScanVector.at(8)<<endl;
+							std::cout<<j<<"\t"<<int(*cRegVal)<<"\t"<<fSMUScanVector.at(8)<<endl;
 						}else
 						{
 							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(1));
 							fGraphMap[1].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(1)/2.);
-							std::cout<<j<<"\t"<<int(cRegVal)<<"\t"<<fSMUScanVector.at(1)<<endl;
+							std::cout<<j<<"\t"<<int(*cRegVal)<<"\t"<<fSMUScanVector.at(1)<<endl;
 						}
 						j++;
 						
