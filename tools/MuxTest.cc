@@ -172,13 +172,13 @@ void MuxTest::ScanVplusAMux()
 						
 						if(amuxregisterpair.second==1 || amuxregisterpair.second==11 || amuxregisterpair.second==16 )
 						{
-							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(8));
-							fGraphMap[1].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(8));
+							fGraphMap[0].at(i)->SetPoint(j, int(*cRegVal), fSMUScanVector.at(8));
+							fGraphMap[1].at(i)->SetPoint(j, int(*cRegVal), fSMUScanVector.at(8));
 							std::cout<<j<<"\t"<<int(*cRegVal)<<"\t"<<fSMUScanVector.at(8)<<endl;
 						}else
 						{
-							fGraphMap[0].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(1));
-							fGraphMap[1].at(i)->SetPoint(j, int(cRegVal), fSMUScanVector.at(1)/2.);
+							fGraphMap[0].at(i)->SetPoint(j, int(*cRegVal), fSMUScanVector.at(1));
+							fGraphMap[1].at(i)->SetPoint(j, int(*cRegVal), fSMUScanVector.at(1)/2.);
 							std::cout<<j<<"\t"<<int(*cRegVal)<<"\t"<<fSMUScanVector.at(1)<<endl;
 						}
 						j++;
