@@ -148,7 +148,9 @@ void MuxTest::ScanVplusAMux()
 				for ( auto cFe : cBoard->fModuleVector )
 				{
 					j=0;
-					for ( auto& cRegVal : fCBCRegVector )
+					for ( auto& cRegVal = fCBCRegVector.begin() ; !fCBCRegVector.end(); cRegVal++ )
+// 					for ( auto& cRegVal = fCBCRegVector.end() ; !fCBCRegVector.begin(); cRegVal-- )
+// 					for ( auto& cRegVal : fCBCRegVector )
 					{
 						// 		now loop over all register values
 						for ( auto cCbc : cFe->fCbcVector )
