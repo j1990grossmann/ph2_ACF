@@ -133,15 +133,18 @@ void MuxTest::ScanVplusAMux()
 	int i=0;
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
-// 		InitializeHw(pHWfile);
+
+		delete fCbcInterface;
+		delete fBeBoardInterface;
+ 		InitializeHw(pHWfile);
 		InitializeSettings(pHWfile);
 		ConfigureHw();
 		
-		for(auto it : fSettingsMap)
-		{
-			std::cout<<it.first<<"\t"<<it.second<<std::endl;
-		}
-		
+// 		for(auto it : fSettingsMap)
+// 		{
+// 			std::cout<<it.first<<"\t"<<it.second<<std::endl;
+// 		}
+// 		
 		std::cout<<BOLDBLUE<<"Scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<RESET<<endl;
 		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
 		accept( cWriter1 );
