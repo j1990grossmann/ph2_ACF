@@ -198,6 +198,8 @@ void MuxTest::ScanVplusAMux()
 		std::cout<<BOLDBLUE<<"Finnished scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<"\t reconfigure "<<RESET<<endl;
 		i++;
 	}
+	delete CbcInterface;
+	
 }
 
 void MuxTest::SMUInitialiseAndConfigure()
