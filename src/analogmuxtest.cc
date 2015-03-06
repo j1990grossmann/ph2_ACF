@@ -96,10 +96,10 @@ int main( int argc, char* argv[] )
 		MuxTest cAnalogmuxTest( cOffsetTuneMode, cCalibrateTGrp, cHWFile );
 		cAnalogmuxTest.SMUInitialiseAndConfigure();
 		cAnalogmuxTest.InitializeHw( cHWFile );
-		cAnalogmuxTest.InitializeSettings( cHWFile );
+// 		cAnalogmuxTest.InitializeSettings( cHWFile );
 		cAnalogmuxTest.CreateResultDirectory( cDirectory );
 		cAnalogmuxTest.InitResultFile( "AmuxResults" );
-		cAnalogmuxTest.ConfigureHw();
+// 		cAnalogmuxTest.ConfigureHw();
 		cAnalogmuxTest.Initialise(); // canvases etc. for fast calibration
 		cAnalogmuxTest.ScanVplusAMux();		
  		cAnalogmuxTest.SMUKill();

@@ -133,7 +133,7 @@ void MuxTest::ScanVplusAMux()
 	int i=0;
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
-		InitializeHw(pHWfile);
+// 		InitializeHw(pHWfile);
 		InitializeSettings(pHWfile);
 		ConfigureHw();
 		
