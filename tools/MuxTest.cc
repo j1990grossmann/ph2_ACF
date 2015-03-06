@@ -197,14 +197,14 @@ void MuxTest::ScanVplusAMux()
 				}
 			}
 		}
-		for ( auto cShelve : fShelveVector )
-		{
-			for ( auto cBoard : cShelve->fBoardVector )
-			{
-				for ( auto cFe : cBoard->fModuleVector )
-					CbcInterface::ReadAllCbc(cFe);
-			}
-		}
+// 		for ( auto cShelve : fShelveVector )
+// 		{
+// 			for ( auto cBoard : cShelve->fBoardVector )
+// 			{
+// 				for ( auto cFe : cBoard->fModuleVector )
+// 					CbcInterface::ReadAllCbc(cFe);
+// 			}
+// 		}
 		
 		drawOnline();
 		std::cout<<BOLDBLUE<<"Finnished scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<"\t reconfigure "<<RESET<<endl;
