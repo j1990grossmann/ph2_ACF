@@ -134,8 +134,8 @@ void MuxTest::ScanVplusAMux()
 	for(auto& amuxregisterpair : fTestRegisterVector )
 	{
 
-		delete fCbcInterface;
-		delete fBeBoardInterface;
+		fCbcInterface = nullptr;
+		fBeBoardInterface = nullptr;
  		InitializeHw(pHWfile);
 		InitializeSettings(pHWfile);
 		ConfigureHw();
