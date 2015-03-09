@@ -151,12 +151,12 @@ void MuxTest::ScanVplusAMux()
 		
 		int j=0;
 		
-		for ( auto cShelve : fShelveVector )
-		{
-			for ( auto cBoard : cShelve->fBoardVector )
-			{
-				for ( auto cFe : cBoard->fModuleVector )
-				{
+// 		for ( auto cShelve : fShelveVector )
+// 		{
+// 			for ( auto cBoard : cShelve->fBoardVector )
+// 			{
+// 				for ( auto cFe : cBoard->fModuleVector )
+// 				{
 					j=0;
 // 					for ( std::vector<int>::iterator cRegVal = fCBCRegVector.end() ; !fCBCRegVector.begin(); --cRegVal )
 //  					for ( std::vector<u_int8_t>::iterator cRegVal = fCBCRegVector.begin() ; cRegVal != fCBCRegVector.end(); ++cRegVal )
@@ -198,9 +198,9 @@ void MuxTest::ScanVplusAMux()
 						j++;
 						
 					}
-				}
-			}
-		}
+// 				}
+// 			}
+// 		}
 		drawOnline();
 		std::cout<<BOLDBLUE<<"Finnished scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<"\t reconfigure "<<RESET<<endl;
 		i++;
