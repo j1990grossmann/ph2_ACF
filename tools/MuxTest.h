@@ -85,15 +85,15 @@ public:
         fNominalValuesVector.push_back( std::make_pair("Vpafb",96 ));
 
 
-//         for(int i=0; i<125; i++)
-//         {
-//             fCBCRegVector.push_back(i*2);
-//         }
-
-        for(int i=0; i<10; i++)
+        for(int i=0; i<125; i++)
         {
-            fCBCRegVector.push_back(i*25);
+            fCBCRegVector.push_back(i*2);
         }
+
+//         for(int i=0; i<10; i++)
+//         {
+//             fCBCRegVector.push_back(i*25);
+//         }
 
         fdoTGrpCalib = !pAllChan;
         fdoBitWisetuning = pbitwisetune;
