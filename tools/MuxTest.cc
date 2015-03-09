@@ -141,11 +141,11 @@ void MuxTest::ScanVplusAMux()
 		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
 		accept( cWriter1 );	
 		
-		for(auto cRegister: fNominalValuesVector)
-		{
-			CbcRegReader cReader(fCbcInterface, cRegister.first);
-			accept(cReader);
-		}
+// 		for(auto cRegister: fNominalValuesVector)
+// 		{
+// 			CbcRegReader cReader(fCbcInterface, cRegister.first);
+// 			accept(cReader);
+// 		}
 		
 		int j=0;
 		
@@ -156,23 +156,19 @@ void MuxTest::ScanVplusAMux()
 				for ( auto cFe : cBoard->fModuleVector )
 				{
 					j=0;
-// 					for ( std::vector<int>::iterator cRegVal = fCBCRegVector.end() ; !fCBCRegVector.begin(); --cRegVal )
-//  					for ( std::vector<u_int8_t>::iterator cRegVal = fCBCRegVector.begin() ; cRegVal != fCBCRegVector.end(); ++cRegVal )
- 					for ( std::vector<u_int8_t>::iterator cRegVal = fCBCRegVector.end() ; cRegVal != fCBCRegVector.begin(); --cRegVal )
-// 					for ( auto& cRegVal : fCBCRegVector )
+ 					for ( std::vector<u_int8_t>::iterator cRegVal = fCBCRegVector.begin() ; cRegVal != fCBCRegVector.end(); ++cRegVal )
+//  					for ( std::vector<u_int8_t>::iterator cRegVal = fCBCRegVector.end() ; cRegVal != fCBCRegVector.begin(); --cRegVal )
 					{
 						// 		now loop over all register values
 // 						for ( auto cCbc : cFe->fCbcVector )
 						{
 							// Set a register for scanning
 // 							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
-							
 							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, *cRegVal );
 							accept( cWriter );
 							std::cout << amuxregisterpair.first <<"\t" << int( *cRegVal )<<"\n";
 							CbcRegReader cReader(fCbcInterface, amuxregisterpair.first);
 							accept(cReader);
-// 							drawOnline(cCbc);
 						}
 // 						std::this_thread::sleep_for(std::chrono::milliseconds(10));
 						this->SMUScan();
