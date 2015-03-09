@@ -171,6 +171,8 @@ void MuxTest::ScanVplusAMux()
 							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, *cRegVal );
 							accept( cWriter );
 							std::cout << amuxregisterpair.first <<"\t" << int( *cRegVal )<<"\t";
+							CbcRegReader cReader(fCbcInterface, amuxregisterpair.first);
+							accept(cReader);
 // 							drawOnline(cCbc);
 						}
 // 						std::this_thread::sleep_for(std::chrono::milliseconds(10));
