@@ -136,8 +136,18 @@ void MuxTest::ScanVplusAMux()
 		InitializeSettings(pHWfile);
 		ConfigureHw();
 		std::cout<<BOLDBLUE<<"Scanning "<<amuxregisterpair.first<<" with Amux Register setting "<<amuxregisterpair.second<<"\t"<<i<<RESET<<endl;
+		
+		CbcMultiRegWriter cWriter2(fCbcInterface, fNominalValuesVector);
+		accept(cWriter2);
+		
 		CbcRegWriter cWriter1( fCbcInterface, "MiscTestPulseCtrl&AnalogMux", amuxregisterpair.second );
-		accept( cWriter1 );
+		accept( cWriter1 );	
+		
+		for(auto cRegister: fNominalValuesVector)
+		{
+			CbcRegReader cReader(fCbcInterface, cRegister.first);
+			accept(cReader);
+		}
 		
 		int j=0;
 		

@@ -64,15 +64,25 @@ public:
 
         pHWfile=pHardwarefile;
 
-        fTestRegisterVector.push_back( std::make_pair("Vplus",1 ) );
-        fTestRegisterVector.push_back( std::make_pair("Icomp",4 ) );
-        fTestRegisterVector.push_back( std::make_pair("Ipre1",9 ) );
-        fTestRegisterVector.push_back( std::make_pair("Ipre2",10 ) );
-        fTestRegisterVector.push_back( std::make_pair("Vpc",11 ) );
-        fTestRegisterVector.push_back( std::make_pair("Ipsf",12 ) );
-        fTestRegisterVector.push_back( std::make_pair("Ipaos",13 ) );
-        fTestRegisterVector.push_back( std::make_pair("Ipa",14 ) );
-        fTestRegisterVector.push_back( std::make_pair("Vpafb",16 ) );
+        fTestRegisterVector.push_back( std::make_pair("Vplus",1  ));
+        fTestRegisterVector.push_back( std::make_pair("Icomp",4  ));
+        fTestRegisterVector.push_back( std::make_pair("Ipre1",9  ));
+        fTestRegisterVector.push_back( std::make_pair("Ipre2",10 ));
+        fTestRegisterVector.push_back( std::make_pair("Vpc"  ,11 ));
+        fTestRegisterVector.push_back( std::make_pair("Ipsf" ,12 ));
+        fTestRegisterVector.push_back( std::make_pair("Ipaos",13 ));
+        fTestRegisterVector.push_back( std::make_pair("Ipa"  ,14 ));
+        fTestRegisterVector.push_back( std::make_pair("Vpafb",16 ));
+
+        fNominalValuesVector.push_back( std::make_pair("Vplus",128));
+        fNominalValuesVector.push_back( std::make_pair("Icomp",35 ));
+        fNominalValuesVector.push_back( std::make_pair("Ipre1",70 ));
+        fNominalValuesVector.push_back( std::make_pair("Ipre2",46 ));
+        fNominalValuesVector.push_back( std::make_pair("Vpc"  ,63 ));
+        fNominalValuesVector.push_back( std::make_pair("Ipsf" ,122));
+        fNominalValuesVector.push_back( std::make_pair("Ipaos",75 ));
+        fNominalValuesVector.push_back( std::make_pair("Ipa"  ,106));
+        fNominalValuesVector.push_back( std::make_pair("Vpafb",96 ));
 
 
 //         for(int i=0; i<125; i++)
@@ -151,6 +161,7 @@ private:
     std::vector<double> fSMUScanVector;
 
     RegisterVector1 fTestRegisterVector;
+	RegisterVector fNominalValuesVector;
     string pHWfile;
 
 
