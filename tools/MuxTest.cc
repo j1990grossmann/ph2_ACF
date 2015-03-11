@@ -160,7 +160,7 @@ void MuxTest::ScanVplusAMux()
 //  					for ( std::vector<u_int8_t>::iterator cRegVal = fCBCRegVector.end() ; cRegVal != fCBCRegVector.begin(); --cRegVal )
 					{
 						// 		now loop over all register values
-						for ( auto cCbc : cFe->fCbcVector )
+// 						for ( auto cCbc : cFe->fCbcVector )
 						{
 							// Set a register for scanning
 // 							CbcRegWriter cWriter( fCbcInterface, amuxregisterpair.first, cRegVal );
