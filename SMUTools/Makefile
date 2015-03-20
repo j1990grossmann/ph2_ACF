@@ -1,4 +1,4 @@
-Objs            = AsyncSerial.o BufferedAsyncSerial.o Hameg4040.o Keithley2700.o 
+Objs            = AsyncSerial.o BufferedAsyncSerial.o Hameg4040.o Keithley2700.o Keithley2410.o
 CC              = gcc
 CXX             = g++
 CCFlags         = -g -O1 -w -Wall -pedantic -std=c++11 -fPIC -Wcpp 
