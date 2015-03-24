@@ -162,7 +162,7 @@ void Keithley2410::SourCurrLev(string lev)
 void Keithley2410::SourVoltLev(string lev)
 {
 	write_str = ":SOUR:VOLT:LEV ";
-	write_str=+lev;
+	write_str+=lev;
 	this->WriteSynchronized(write_str);
 }
 
