@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace KEITHLEY2410;
-// using namespace HAMEG4040;
+
 using namespace boost;
 void signalHandler( int signum )
 {
