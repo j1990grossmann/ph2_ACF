@@ -31,12 +31,16 @@ int main(int argc, char* argv[])
 	KEITHLEY2410::Keithley2410 *k = new KEITHLEY2410::Keithley2410();
 	
 	string readstr;
+	k->Initialise();
 	k->Configure();
 	k->Outp(1);
 	k->Read(readstr);
 	cout<<readstr<<endl;
 	
 	k->SourVoltLev("10");
+	k->Read(readstr);
+	cout<<readstr<<endl;
+	k->SourVoltLev("20");
 	k->Read(readstr);
 	cout<<readstr<<endl;
 	
