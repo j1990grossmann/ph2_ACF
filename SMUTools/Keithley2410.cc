@@ -29,12 +29,17 @@ void Keithley2410::Configure()
 	this->Reset();
 // 	this->SystAzerStat(1);
 // 	this->SystLSyn(1);
-	this->SenseVolt();
-	this->RangAuto(1);
+	this->SourFuncVolt();
+	this->SourVoltModeFixed();
+	this->SourVoltRang("1000");
+	this->SourVoltLev("0");
+	this->SenseCurrProt("5E-6");
+	this->SenseFuncCurr();
+	this->SenseCurrRang("10E-6");
 	//for single read
-	this->InitCont(0);
-	this->TrigCoun(1);
-	this->SampCoun(1);
+// 	this->InitCont(0);
+// 	this->TrigCoun(1);
+// 	this->SampCoun(1);
 	std::cout<<"Initialized and Reset"<<std::endl;
 }
 
