@@ -20,7 +20,7 @@ void signalHandler( int signum )
 
 }
 
-int test2410(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
 	signal(SIGINT, signalHandler);  
 	
