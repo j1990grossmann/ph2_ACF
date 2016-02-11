@@ -414,7 +414,7 @@ void HybridTester::TestRegisters()
 		}
 
 		void dumpResult( std::string fDirectoryName ) {
-			ofstream report( fDirectoryName + "/registers_test.txt" ); // Creates a file in the current directory
+			std::ofstream report( fDirectoryName + "/registers_test.txt" ); // Creates a file in the current directory
 			report << "Testing Cbc Registers one-by-one with complimentary bit-patterns (0xAA, 0x55)" << std::endl;
 			for ( const auto& cCbc : fBadRegisters ) {
 				report << "Malfunctioning Registers on Cbc " << cCbc.first << " : " << std::endl;
