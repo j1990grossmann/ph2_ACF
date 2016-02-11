@@ -661,7 +661,7 @@ void HybridTester::TestChannels()
 		if ( fHistTopMerged->GetBinContent( cHistogramBinId ) * 100 / fTotalEvents < cChannelDiagnosisThreshold ) cBadChannelsBottom.push_back( cHistogramBinId - 1 );
 	}
 
-	ofstream report( fDirectoryName + "/channels_test.txt" ); // Create a file in the current directory
+	std::ofstream report( fDirectoryName + "/channels_test.txt" ); // Create a file in the current directory
 	report << "Testing run with decision threshold: " + patch::to_string( cChannelDiagnosisThreshold ) + "%" << std::endl;
 	report << "Channels numbering convention from 0 to " + patch::to_string( cTopHistSize - 2 ) + " for both sides " << std::endl;
 	report << "Number of malfunctioning channels:  " + patch::to_string( cBadChannelsTop.size() + cBadChannelsBottom.size() ) << std::endl;
