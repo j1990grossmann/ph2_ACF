@@ -586,7 +586,7 @@ void HybridTester::AntennaScan()
 void HybridTester::SaveTestingResults(std::string pHybridId)
 {
 	
-	ifstream infile;
+	std::ifstream infile;
 	std::string line_buffer;
 	std::string content_buffer;
 	std::string date_string = currentDateTime();
