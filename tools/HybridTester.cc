@@ -1,5 +1,6 @@
 #include "HybridTester.h"
 #include <ctime>
+#include <iostream>
 
 // fill the Histograms, count the hits and increment Vcth
 
