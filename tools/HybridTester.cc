@@ -591,7 +591,7 @@ void HybridTester::SaveTestingResults(std::string pHybridId)
 	std::string content_buffer;
 	std::string date_string = currentDateTime();
 	std::string filename = "Results/HybridTestingDatabase/Hybrid_ID" + pHybridId + "_on" + date_string + ".txt";
-	ofstream myfile;
+	std::ofstream myfile;
 	myfile.open( filename.c_str() );
 	myfile << "Hybrid ID: " << pHybridId << std::endl;
 	myfile << "Created on: " << date_string << std::endl << std::endl;
