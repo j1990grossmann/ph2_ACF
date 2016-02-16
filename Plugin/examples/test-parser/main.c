@@ -37,7 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "scpi/scpi.h"
+#include "../../libscpi/inc/scpi/scpi.h"
 #include "../common/scpi-def.h"
 
 size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
