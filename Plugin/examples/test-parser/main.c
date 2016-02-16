@@ -37,7 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../libscpi/inc/scpi/scpi.h"
+#include "scpi/scpi.h"
 #include "../common/scpi-def.h"
 
 size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
     int result;
 
     SCPI_Init(&scpi_context);
-SCPI_Input(&scpi_context, cmd, strlen(cmd);
+// SCPI_Input(&scpi_context, cmd, strlen(cmd);
 #define TEST_SCPI_INPUT(cmd)    result = SCPI_Input(&scpi_context, cmd, strlen(cmd))
 
     TEST_SCPI_INPUT("*CLS\r\n");
