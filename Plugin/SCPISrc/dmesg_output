@@ -1,0 +1,7 @@
+[1707454.066739] usb 3-1: new full-speed USB device number 31 using xhci_hcd
+[1707454.102354] usb 3-1: New USB device found, idVendor=06cd, idProduct=0121
+[1707454.102366] usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[1707454.102372] usb 3-1: Product: Keyspan USA-19H 
+[1707454.102377] usb 3-1: Manufacturer: Keyspan, a division of InnoSys Inc.
+[1707454.103462] keyspan 3-1:1.0: Keyspan 1 port adapter converter detected
+[1707454.103808] usb 3-1: Keyspan 1 port adapter converter now attached to ttyUSB0
