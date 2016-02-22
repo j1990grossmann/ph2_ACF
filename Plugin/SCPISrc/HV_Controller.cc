@@ -11,11 +11,11 @@
 // #include "TApplication.h"
 // #include "TROOT.h"
 
-#include "../Utils/argvparser.h"
-#include "../Utils/ConsoleColor.h"
-#include "../SMUTools/Keithley2410.h"
-#include "../SMUTools/RunCounter.h"
-#include "../SMUTools/HV_control.h"
+#include "../../Utils/argvparser.h"
+#include "../../Utils/ConsoleColor.h"
+#include "../SCPITools/Keithley2410.h"
+#include "../SCPITools/RunCounter.h"
+#include "../SCPITools/HV_control.h"
 
 using namespace std;
 using namespace boost;

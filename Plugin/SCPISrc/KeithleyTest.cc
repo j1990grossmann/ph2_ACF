@@ -2,8 +2,8 @@
 #include <fstream>
 #include <csignal>
 
-#include "../SMUTools/Keithley2410.h"
-#include "../SMUTools/RunCounter.h"
+#include "../SCPITools/Keithley2410.h"
+#include "../SCPITools/RunCounter.h"
 
 #include <vector>
 

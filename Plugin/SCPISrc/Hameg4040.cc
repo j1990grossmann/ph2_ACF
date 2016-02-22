@@ -7,9 +7,9 @@
 // #include "TApplication.h"
 // #include "TROOT.h"
 
-#include "../SMUTools/Hameg4040.h"
-#include "../Utils/argvparser.h"
-#include "../Utils/ConsoleColor.h"
+#include "../SCPITools/Hameg4040.h"
+#include "../../Utils/argvparser.h"
+#include "../../Utils/ConsoleColor.h"
 
 
 
