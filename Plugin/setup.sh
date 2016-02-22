@@ -17,6 +17,11 @@ source $ROOTSYS/bin/thisroot.sh
 export BASE_DIR=$(pwd)
 
 # export PATH=$QTDIR/bin:$BASE_DIR/bin:$PATH
-export PATH=$BASE_DIR/bin:$PATH
+export PATH=$BASE_DIR/examples/test-interactive:$BASE_DIR/bin:$PATH
+export PATH=$BASE_DIR/examples/test-LwIP-netconn:$PATH
+export PATH=$BASE_DIR/examples/test-parser:$PATH
+export PATH=$BASE_DIR/examples/test-tcp:$PATH
+export PATH=$BASE_DIR/examples/test-tcp-srq:$PATH
+
 # export LD_LIBRARY_PATH=$BASE_DIR/RootWeb/lib:/opt/cactus/lib:$QTROOTSYSDIR/lib:$QTDIR/lib:$BASE_DIR/lib:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=$BASE_DIR/libscpi:$BASE_DIR/lib:${LD_LIBRARY_PATH}
