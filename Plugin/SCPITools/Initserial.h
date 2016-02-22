@@ -15,7 +15,7 @@
 #include <thread>
 #include <string.h>
 
-#include "../Utils/ConsoleColor.h"
+#include "../../Utils/ConsoleColor.h"
 #include "BufferedAsyncSerial.h"
 
 using namespace std;

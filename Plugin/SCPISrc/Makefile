@@ -5,7 +5,7 @@ CCFlagsRoot	= `root-config --cflags --evelibs --glibs`
 #DevFlags                    = -D__CBCDAQ_DEV__
 DevFlags                   =
 
-IncludeDirs     =  ../ ../SMUTools
+IncludeDirs     =  ../../ ../SCPITools
 
 IncludePaths            = $(IncludeDirs:%=-I%)
 

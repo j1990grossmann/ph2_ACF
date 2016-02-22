@@ -1,6 +1,8 @@
 *.o
+*.a
 ._*
 *~
+*-swp
 Data
 latex
 html
