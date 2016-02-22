@@ -1,0 +1,7 @@
+One shoud insert a udev rule, such that each device always uses the same seria port and such that the user has the rights to read an write to this port. 
+like this:
+in /etc/udev/rules.d
+
+# HAMEG 4040 MOXA
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="ed72", MODE="666", GROUP="johannes_grossmann", SYMLINK+="Hameg4040"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="06cd", ATTRS{idProduct}=="0121", MODE="666", GROUP="johannes_grossmann", SYMLINK+="Keithley"
