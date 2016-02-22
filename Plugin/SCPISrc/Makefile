@@ -9,7 +9,7 @@ IncludeDirs     =  ../../ ../SCPITools
 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
-LibraryDirs = /usr/local/lib ../lib 
+LibraryDirs = /usr/local/lib ../libscpi ../SCPIlib
 LibraryPaths = $(LibraryDirs:%=-L%)
 
 ExternalObjects= $(LibraryPaths)  -lSMUTools -lPh2_no_uhal_Utils -lpthread -lncurses -lboost_thread -lboost_system -lboost_filesystem
