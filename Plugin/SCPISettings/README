@@ -3,5 +3,5 @@ like this:
 in /etc/udev/rules.d
 
 # HAMEG 4040 MOXA
-SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="ed72", MODE="666", GROUP="johannes_grossmann", SYMLINK+="Hameg4040"
-SUBSYSTEM=="tty", ATTRS{idVendor}=="06cd", ATTRS{idProduct}=="0121", MODE="666", GROUP="johannes_grossmann", SYMLINK+="Keithley"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="ed72", MODE="666", GROUP="group", SYMLINK+="Hameg4040"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="06cd", ATTRS{idProduct}=="0121", MODE="666", GROUP="group", SYMLINK+="Keithley"
