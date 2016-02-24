@@ -2,17 +2,34 @@
 
 DIRECTORY=Plugin
 
-#CACTUS
-export CACTUSBIN=/opt/cactus/bin
-export CACTUSLIB=/opt/cactus/lib
-export CACTUSINCLUDE=/opt/cactus/include
+CACTUSBIN=/opt/cactus/bin
+CACTUSLIB=/opt/cactus/lib
+CACTUSINCLUDE=/opt/cactus/include
 
 # BOOST
-export BOOST_LIB=/opt/cactus/lib
-export BOOST_INCLUDE=/opt/cactus/include
+BOOST_LIB=/opt/cactus/lib
+BOOST_INCLUDE=/opt/cactus/include
 
+#CACTUS
+if [[ -d "$CACTUSBIN" ]] && [[ -d "$CACTUSLIB" ]] && [[ -d "$CACTUSINCLUDE" ]] && [[ -d "$BOOST_LIB" ]] && [[ -d "$BOOST_INCLUDE" ]]; then
+    printf "Cactus found export environment variables for Cactus and BOOST\n"
+    export $CACTUSBIN
+    export $CACTUSLIB
+    export $CACTUSINCLUDE
+    export $BOOST_LIB
+    export $BOOST_INCLUDE 
+else
+    printf "Cactus not found try to compile Tools only\n"
+fi
 #ROOT
-source /usr/local/bin/thisroot.sh
+if [ -n "$ROOTSYS" ]; then
+    echo "\$ROOTSYS = $ROOTSYS"
+    echo "source thisroot.sh"
+    source $ROOTSYS/bin/thisroot.sh
+else
+    echo -e "\e[31mROOTSYS environment variable not set.\e[39m"
+    echo -e "\e[31mPlease export ROOTSYS pointing to a valid root installation.\e[39m"
+fi
 
 #Ph2_ACF
 export BASE_DIR=$(pwd)

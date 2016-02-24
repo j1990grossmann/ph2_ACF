@@ -1,5 +1,5 @@
 ANTENNADIR=CMSPh2_AntennaDriver
-
+PLUGINDIR=Plugin
 SUBDIRS = Utils HWDescription HWInterface System tools RootWeb Tracker src miniDAQ
 
 ifneq ("$(wildcard $(ANTENNADIR))","")
@@ -11,7 +11,14 @@ else
 	ANTENNAINSTALLED = no
 	ANTENNAINSTRUCTIONS = To use the USB Antenna, please download the Driver from 'https://github.com/gauzinge/CMSPh2_AntennaDriver.git' and make sure that libusb-devel is installed!
 endif
-
+ifneq ("$(wildcard $(Plugin))","")
+	
+	PLUGININSTALLED = yes
+	SUBDIRS := PLUGINDIR $(SUBDIRS)
+else
+	
+	PLUGININSTALLED = no
+endif
 .PHONY: print subdirs $(SUBDIRS) clean
 
 subdirs: print $(SUBDIRS)
@@ -29,6 +36,7 @@ print:
 	@echo '*****************************'
 	@echo 'Antenna Driver installed:' $(ANTENNAINSTALLED)
 	@echo $(ANTENNAINSTRUCTIONS)
+	@echo 'Plugin found:' $(PLUGININSTALLED)
 	@echo '*****************************'
 
 src: HWDescription HWInterface Utils System tools

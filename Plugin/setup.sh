@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo -e "\e[39mExporting environment variables from dependent libraries for Plugins \e[39m" 
 if [[ -z "$CACTUSBIN" ]] || [[ -z "$CACTUSLIB" ]] || [[ -z "$CACTUSINCLUDE" ]] || [[ -z "$BOOST_LIB" ]] || [[ -z "$BOOST_INCLUDE" ]]; then
 echo -e "\e[31m At least one of the environment PH2_ACF software environment variables is missing\e[39m"
@@ -8,11 +7,9 @@ fi
 #BASE_DIR_PLUGIN
 export BASE_DIR_PLUGIN=$(pwd)
 # BOOST
-if [ -n "$BOOST_LIB" ]; then
-    echo "BOOST_LIB = $BOOST_LIB"
-else
+if [[ -z "$BOOST_LIB" ]] || [[ -z "$BOOST_INCLUDE" ]]; then
     echo -e "\e[32mStandalone compilation BOOST_LIB and BOOST_INCLUDE user defined.\e[39m"
-    echo -e "\e[32mTry to find a automatic a valid boost installation using \"whereis boost\"\e[39m"
+    echo -e "\e[32mTry to find a automatic a valid boost installation using \"whereis boost\" ... \e[39m"
 #     Check if boost lib is found if yes extract path
     TMPSTRING=$(whereis boost)
     if [[ $TMPSTRING =~ ^(boost: )(/[^/ ]*)+/?(boost)$ ]]; then
@@ -23,12 +20,12 @@ else
          export BOOST_LIB
     fi
 fi
-if [[ -n "$BOOST_LIB" ]] || [[ -n "$BOOST_INCLUDE" ]]; then
-    echo "BOOST_INCLUDE at $BOOST_INCLUDE"
-    echo "BOOST_LIB at $BOOST_LIB"
-else
-     echo "BOOST not found"
+if [[ -z "$BOOST_LIB" ]] || [[ -z "$BOOST_INCLUDE" ]]; then
+     echo -e "\e[31mBOOST not found. Please Install BOOST and set BOOST_INCLUDE and BOOST_LIB\e[39m"
      exit 1
+else
+    echo "BOOST_INCLUDE = $BOOST_INCLUDE"
+    echo "BOOST_LIB = $BOOST_LIB"
 fi
 
 # # QT if installed
@@ -42,7 +39,7 @@ if [ -n "$ROOTSYS" ]; then
     echo "source thisroot.sh"
     source $ROOTSYS/bin/thisroot.sh
 else
-    echo -e "\e[31m\$ROOTSYS environment variable not set.\e[39m"
+    echo -e "\e[31mROOTSYS environment variable not set.\e[39m"
     echo -e "\e[31mPlease export ROOTSYS pointing to a valid root installation.\e[39m"
 fi
 
