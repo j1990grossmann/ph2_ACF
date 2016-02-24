@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 		exit( 1 );
 	}
 	// now query the parsing results
-	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "SMUSettings/Hameg.xml";
+	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "SCPISettings/Hameg.xml";
 	std::string cDirectory = ( cmd.foundOption( "output" ) ) ? cmd.optionValue( "output" ) : "NoiseScanData/Hameg";
  	std::string on_off_str = ( cmd.foundOption( "on_off" ) ) ? cmd.optionValue( "on_off" ) : "on";
 	
