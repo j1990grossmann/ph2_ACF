@@ -28,19 +28,19 @@ noroot: clean $(binariesNoRoot)
 
 hameg: Hameg4040.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	mv $@ ../binSMUTools
+	mv $@ ../bin
 
 keithleytest: KeithleyTest.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	mv $@ ../binSMUTools
+	mv $@ ../bin
 
 noisescan: NoiseScan.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	mv $@ ../binSMUTools
+	mv $@ ../bin
 
 hv_control: HV_Controller.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	mv $@ ../binSMUTools
+	mv $@ ../bin
 
 .PHONY: clean
 
