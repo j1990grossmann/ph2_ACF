@@ -17,8 +17,8 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 %.o: %.cc %.h
 	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) $(LinkParam) -c -o $@ $<
 all: $(Objs) 
-	$(CC) -std=c++11 -shared -o libSMUTools.so $(Objs) -pthread
-	mv libSMUTools.so ../SCPIlib/libSMUTools.so
+	$(CC) -std=c++11 -shared -o libSCPITools.so $(Objs) -pthread
+	mv libSCPITools.so ../SCPIlib/libSCPITools.so
 # 	$(CXX)  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
 # 	$(CXX)  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o keithleytest test2410.cc -lSMUTools $(LinkParam)
 SetLibraryPath:
@@ -27,5 +27,5 @@ SetLibraryPath:
 clean:
 	rm -f *.o
 	rm -f *.so
-	rm -f ../SCPIlib/libSMUTools.so
+	rm -f ../SCPIlib/libSCPITools.so
 

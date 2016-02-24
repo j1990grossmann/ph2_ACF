@@ -12,7 +12,7 @@ IncludePaths            = $(IncludeDirs:%=-I%)
 LibraryDirs = /usr/local/lib ../libscpi ../SCPIlib
 LibraryPaths = $(LibraryDirs:%=-L%)
 
-ExternalObjects= $(LibraryPaths)  -lSMUTools -lPh2_no_uhal_Utils -lpthread -lncurses -lboost_thread -lboost_system -lboost_filesystem
+ExternalObjects= $(LibraryPaths)  -lSCPITools -lSCPIUtils -lpthread -lncurses -lboost_thread -lboost_system -lboost_filesystem
 ExtObjectsRoot= 
 # ExtObjectsRoot= -lPh2_Tools 
 
