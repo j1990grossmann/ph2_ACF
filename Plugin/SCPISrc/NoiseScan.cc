@@ -7,8 +7,8 @@
 // #include "TApplication.h"
 // #include "TROOT.h"
 
-#include "../../Utils/argvparser.h"
-#include "../../Utils/ConsoleColor.h"
+#include "../SCPIUtils/argvparser.h"
+#include "../SCPIUtils/ConsoleColor.h"
 #include "../SCPITools/Hameg4040.h"
 #include "../SCPITools/Keithley2410.h"
 #include "../SCPITools/RunCounter.h"

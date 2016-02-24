@@ -11,8 +11,8 @@
 // #include "TApplication.h"
 // #include "TROOT.h"
 
-#include "../../Utils/argvparser.h"
-#include "../../Utils/ConsoleColor.h"
+#include "../SCPIUtils/argvparser.h"
+#include "../SCPIUtils/ConsoleColor.h"
 #include "../SCPITools/Keithley2410.h"
 #include "../SCPITools/RunCounter.h"
 #include "../SCPITools/HV_control.h"

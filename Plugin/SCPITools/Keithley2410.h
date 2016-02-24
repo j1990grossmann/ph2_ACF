@@ -18,8 +18,8 @@
 
 #include "BufferedAsyncSerial.h"
 #include "Initserial.h"
-#include "../../Utils/pugixml.hpp"
-#include "../../Utils/ConsoleColor.h"
+#include "../SCPIUtils/pugixml.hpp"
+#include "../SCPIUtils/ConsoleColor.h"
 
 
 using namespace std;

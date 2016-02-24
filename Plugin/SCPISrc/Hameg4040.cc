@@ -8,8 +8,8 @@
 // #include "TROOT.h"
 
 #include "../SCPITools/Hameg4040.h"
-#include "../../Utils/argvparser.h"
-#include "../../Utils/ConsoleColor.h"
+#include "../SCPIUtils/argvparser.h"
+#include "../SCPIUtils/ConsoleColor.h"
 
 
 
