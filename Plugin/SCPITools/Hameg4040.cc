@@ -7,6 +7,15 @@ using namespace HAMEG4040;
 void Hameg4040::Configure()
 {
 	this->Reset();
+	read_str="asd";int counter=0;
+	while(!read_str.empty())
+	{		
+		if(counter == 10000){break;}
+		Timeout();
+		read_str=serial.readStringUntil(endline);
+		std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
+		counter++;
+	}
 	write_str = "*IDN?";
 	this->ReadSynchronized(write_str,read_str);
 	this->SystBeeperImmediate();
