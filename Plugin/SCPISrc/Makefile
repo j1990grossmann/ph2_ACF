@@ -30,7 +30,7 @@ noroot: clean $(binariesNoRoot)
 hameg: Hameg4040.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
 	-mkdir -p $(BinDir)
-	-mv $@ .$(BinDir)/
+	-mv $@ $(BinDir)/
 
 keithleytest: KeithleyTest.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
