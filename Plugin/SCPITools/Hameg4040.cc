@@ -190,7 +190,6 @@ void Hameg4040::EmptyBuffer()
 	while(!read_str.empty())
 	{		
 		if(counter == 10000){break;}
-		Timeout();
 		read_str=serial.readStringUntil(endline);
 		std:cout<<"counter"<<counter<<"\t"<<read_str<<std::endl;
 		counter++;
