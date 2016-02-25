@@ -19,7 +19,7 @@ binaries=noisescan hameg hv_control
 
 .PHONY: clean
 
-all: makedir rootflags clean $(binaries) 
+all: rootflags clean $(binaries) makedir
 
 makedir:
 @-if [ ! -d "../SCPIbin" ]; then mkdir "../SCPIbin"; fi
