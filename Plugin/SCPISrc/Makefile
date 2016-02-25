@@ -22,7 +22,7 @@ binaries=noisescan hameg hv_control
 all: rootflags clean $(binaries) makedir
 
 makedir:
-@-if [ ! -d "../SCPIbin" ]; then mkdir "../SCPIbin"; fi
+	@-if [ ! -d "../SCPIbin" ]; then mkdir "../SCPIbin"; fi
 
 rootflags:
 	$(eval CCFlags += $(CCFlagsRoot))
