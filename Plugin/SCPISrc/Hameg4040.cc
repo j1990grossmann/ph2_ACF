@@ -10,6 +10,7 @@
 #include "../SCPITools/Hameg4040.h"
 #include "../SCPIUtils/argvparser.h"
 #include "../SCPIUtils/ConsoleColor.h"
+#include "../SCPIUtils/Timer.h"
 
 
 
@@ -80,9 +81,12 @@ int main(int argc, char* argv[])
 //  	else TQObject::Connect( "TCanvas", "Closed()", "TApplication", &cApp, "Terminate()" );
 		printf("Read File %s\n",cHWFile.c_str());
 //  	if ( !batchMode ) cApp.Run();
-	
+	Timer timer;
  	HAMEG4040::Hameg4040 h(cHWFile.c_str());
+	timer.start();
 	h.Configure();
+	timer.stop();
+	timer.show();
 	if(on_off)
 	{
 		h.OutPutGen(1);
