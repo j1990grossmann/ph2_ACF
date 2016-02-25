@@ -4,7 +4,7 @@
   <Setting rs232="baudrate">115200</Setting>
   <Setting rs232="parity">none</Setting>
   <Setting rs232="character_size">8</Setting>
-  <Setting rs232="flow_control">none</Setting>
+  <Setting rs232="flow_control">hardware</Setting>
   <Setting rs232="stop_bits">one</Setting>
   <Voltages>
     <Voltage Id="0"> 1.2	</Voltage>
