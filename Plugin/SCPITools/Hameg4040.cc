@@ -7,9 +7,9 @@ using namespace HAMEG4040;
 
 void Hameg4040::Configure()
 {
-	this->Reset();
 	this->EmptyBuffer();
 	this->IDNCheck();
+	this->Reset();
 	this->SystBeeperImmediate();
 	this->SystRemote();
 	// 	SystMix();
