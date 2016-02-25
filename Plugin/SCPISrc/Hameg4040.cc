@@ -25,8 +25,6 @@ volatile sig_atomic_t stop(0);
 void signalHandler( int signum )
 {
   cout << "Interrupt signal (" << signum << ") received.\n";
-  
-  // cleanup and close up stuff here  
   // terminate program  
 
   stop=1;
@@ -91,24 +89,17 @@ int main(int argc, char* argv[])
 	{
 		h.OutPutGen(1);
 		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
-// 		auto start = std::chrono::system_clock::now();
 		while(!stop)
 		{
 // 			sleep(2);
-// 			auto time_val = std::chrono::system_clock::now();
 			double volt;
-			timer.reset();timer.start();
-// 			h.MeasVolt(volt);
-
+// 			timer.reset();timer.start();
 			h.MeasAll(cHamegChannelMap);
-			timer.stop();
-			timer.show("1 Aquisition time");
 			for(int i=0;i<4;i++)
 			{
 				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
 			}
 			std::cout<<std::endl;
-
 			std::cout<<volt<<std::endl;
 		}
 	}

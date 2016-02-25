@@ -155,11 +155,11 @@ bool Hameg4040::IDNCheck()
 { 
 	write_str = "*IDN?";
 	this->ReadSynchronized(write_str,read_str);
-	printf("*IDN?\t%s\n",read_str.c_str());
+	std::cout<<YELLOW<<"*IDN?\t"<<read_str<<std::endl;
 	std::regex e ("(HAMEG,HMP4040,)(.*)");
 	if (std::regex_match (read_str,e))
 	{
-		std::cout << "Identified Hameg HMP4040\n";
+		std::cout << GREEN<<"Identified Hameg HMP4040\n";
 		return true;
 	}
 	else
