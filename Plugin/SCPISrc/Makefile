@@ -14,15 +14,12 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 ExternalObjects= $(LibraryPaths)  -lSCPITools -lSCPIUtils -lpthread -lncurses -lboost_thread -lboost_system -lboost_filesystem
 ExtObjectsRoot= 
 # ExtObjectsRoot= -lPh2_Tools 
-
+BinDir=../SCPIbin
 binaries=noisescan hameg hv_control
 
 .PHONY: clean
 
 all: rootflags clean $(binaries) makedir
-
-makedir:
-	@-if [ ! -d "../SCPIbin" ]; then mkdir "../SCPIbin"; fi
 
 rootflags:
 	$(eval CCFlags += $(CCFlagsRoot))
@@ -32,22 +29,26 @@ noroot: clean $(binariesNoRoot)
 
 hameg: Hameg4040.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	-mv $@ ../SCPIbin/
+	-mkdir -p $(BinDir)
+	-mv $@ .$(BinDir)/
 
 keithleytest: KeithleyTest.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	-mv $@ ../SCPIbin/
+	-mkdir -p $(BinDir)
+	-mv $@ $(BinDir)/
 
 noisescan: NoiseScan.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	-mv $@ ../SCPIbin/
+	-mkdir -p $(BinDir)
+	-mv $@ $(BinDir)/
 
 hv_control: HV_Controller.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	-mv $@ ../SCPIbin/
+	-mkdir -p $(BinDir)
+	-mv $@ $(BinDir)/
 
 
 
 clean:
 	@-rm -f *.o
-	@-rm -f $(binaries:%=../SCPIbin/%)
+	@-rm -f $(binaries:%=$(BinDir)/%)
