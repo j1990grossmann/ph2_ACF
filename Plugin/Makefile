@@ -1,5 +1,7 @@
 SUBSUBDIRS = SCPIUtils SCPITools SCPISrc
 .PHONY: print subdirs $(SUBSUBDIRS) clean all test
+export SCPIlib = ../SCPIlib
+
 
 subdirs: print $(SUBSUBDIRS)
 $(SUBSUBDIRS):
@@ -14,10 +16,7 @@ clean:
 	$(MAKE) clean -C SCPIUtils
 	$(MAKE) clean -C SCPITools
 	$(MAKE) clean -C SCPISrc
-	(rm -f SCPIlib/* SCPIbin/*)
+# 	@(-rm -f SCPIlib/* SCPIbin/*)
 
 test:
 	$(MAKE) test -C libscpi
-	
-src: HWDescription HWInterface Utils System tools
-System: HWDescription HWInterface Utils

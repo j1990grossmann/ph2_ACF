@@ -18,14 +18,15 @@ LibraryPaths = $(LibraryDirs:%=-L%)
 	$(CXX) -std=c++11  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(IncludePaths) $(LibraryPaths) $(LinkParam) -c -o $@ $<
 all: $(Objs) 
 	$(CC) -std=c++11 -shared -o libSCPITools.so $(Objs) -pthread
-	mv libSCPITools.so ../SCPIlib/
+	@-if [ ! -d "$(SCPIlib)" ]; then mkdir "$(SCPIlib)"; fi
+	@-mv libSCPITools.so "$(SCPIlib)"
 # 	$(CXX)  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o async main.cc -lSMUTools $(LinkParam)
 # 	$(CXX)  $(DevFlags) $(CCFlags) $(UserCCFlags) $(CCDefines) $(LibraryPaths) -o keithleytest test2410.cc -lSMUTools $(LinkParam)
 SetLibraryPath:
 	@echo  "BOOST_INCLUDE at $(BOOST_INCLUDE)"
 	@echo  "BOOST_LIB at $(BOOST_LIB)"
 clean:
-	rm -f *.o
-	rm -f *.so
-	rm -f ../SCPIlib/libSCPITools.so
+	@-rm -f *.o
+	@-rm -f *.so
+	@-rm -f $(SCPIlib)/libSCPITools.so
 
