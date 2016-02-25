@@ -255,7 +255,7 @@ void Hameg4040::WriteNotSynchronized(string& command)
 
 void Hameg4040::Timeout()
 {
-	std::this_thread::sleep_for(std::chrono::microseconds(1));
+	std::this_thread::sleep_for(std::chrono::microseconds(100));
 }
 
 void Hameg4040::ParseSettingsXML(const string& pFilename, ostream& os)
