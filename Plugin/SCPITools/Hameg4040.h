@@ -98,6 +98,8 @@ namespace HAMEG4040{
 		void ReadSynchronized(string &command, string &readstring);
 		void Timeout();
 		void ParseSettingsXML( const std::string& pFilename, std::ostream& os = std::cout);
+		void EmptyBuffer();
+		bool IDNCheck();
 	};
 };
 

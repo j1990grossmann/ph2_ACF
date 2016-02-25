@@ -1,24 +1,15 @@
 #include "Hameg4040.h"
 
 #include <iostream>
+#include <regex>
 
 using namespace HAMEG4040;
 
 void Hameg4040::Configure()
 {
 	this->Reset();
-	read_str="asd";int counter=0;
-	while(!read_str.empty())
-	{		
-		if(counter == 10000){break;}
-		Timeout();
-		read_str=serial.readStringUntil(endline);
-		std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
-		counter++;
-	}
-	write_str = "*IDN?";
-	this->ReadSynchronized(write_str,read_str);
-	std::cout<<read_str<<std::endl;
+	this->EmptyBuffer();
+	this->IDNCheck();
 	this->SystBeeperImmediate();
 	this->SystRemote();
 	// 	SystMix();
@@ -172,12 +163,39 @@ void Hameg4040::MeasAll(HamegChannelMap& fGetHamegChannelMap)
 	}
 	fGetHamegChannelMap=fHamegChannelMapCurr;
 }
-
+bool Hameg4040::IDNCheck()
+{ 
+	write_str = "*IDN?";
+	this->ReadSynchronized(write_str,read_str);
+	printf("*IDN?\t%s\n",read_str.c_str());
+	std::regex e ("(HAMEG,HMP4040,)(.*)");
+	if (std::regex_match (read_str,e))
+	{
+		std::cout << "Identified Hameg HMP4040\n";
+		return true;
+	}
+	else
+	{
+		std::cout<<"Instrument not identified aborting"<<std::endl;
+		exit(1);	
+	}
+}
 void Hameg4040::GetHamegChannelMap(HamegChannelMap& fGetHamegChannelMap)
 {
 	fGetHamegChannelMap=fHamegChannelMapCurr;
 }
-
+void Hameg4040::EmptyBuffer()
+{
+	read_str="a";int counter=0;
+	while(!read_str.empty())
+	{		
+		if(counter == 10000){break;}
+		Timeout();
+		read_str=serial.readStringUntil(endline);
+		std:cout<<"counter"<<counter<<"\t"<<read_str<<std::endl;
+		counter++;
+	}
+}
 
 
 void Hameg4040::ReadSynchronized(string& command, string& read_str)
