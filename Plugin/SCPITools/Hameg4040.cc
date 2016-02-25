@@ -213,7 +213,7 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 	}
 	auto end = std::chrono::system_clock::now();
 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-	std:cout<<read_str<<"\ttest\t"<<elapsed.count()<<std::endl;
+	std:cout<<read_str<<"\ttest\t"<<counter<<"elapsed"<<elapsed.count()<<std::endl;
 }
 
 void Hameg4040::WriteSynchronized(string& command)
@@ -230,7 +230,7 @@ void Hameg4040::WriteSynchronized(string& command)
 		this->Timeout();
 		read_str=serial.readStringUntil(endline);
 		if(!read_str.empty()){
-			// 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
+// 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 		}
 		counter++;
 	}
