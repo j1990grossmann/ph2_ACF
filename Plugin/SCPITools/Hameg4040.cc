@@ -10,6 +10,7 @@ void Hameg4040::Configure()
 	this->EmptyBuffer();
 	this->IDNCheck();
 	this->Reset();
+	std::this_thread::sleep_for(std::chrono::milliseconds(250));
 	this->SystBeeperImmediate();
 	this->SystRemote();
 	// 	SystMix();

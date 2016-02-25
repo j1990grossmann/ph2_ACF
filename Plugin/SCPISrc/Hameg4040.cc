@@ -92,7 +92,6 @@ int main(int argc, char* argv[])
 		while(!stop)
 		{
 // 			sleep(2);
-			double volt;
 // 			timer.reset();timer.start();
 			h.MeasAll(cHamegChannelMap);
 			for(int i=0;i<4;i++)
@@ -100,7 +99,6 @@ int main(int argc, char* argv[])
 				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
 			}
 			std::cout<<std::endl;
-			std::cout<<volt<<std::endl;
 		}
 	}
 	else

@@ -12,7 +12,7 @@ void Keithley2700::Initialise()
 	unsigned int baudrate = 19200;
 	boost::asio::serial_port_base::parity            parity(boost::asio::serial_port_base::parity::none);
 	boost::asio::serial_port_base::character_size    character_size(8);
-	boost::asio::serial_port_base::flow_control      flow_control(boost::asio::serial_port_base::flow_control::none);
+	boost::asio::serial_port_base::flow_control      flow_control(boost::asio::serial_port_base::flow_control::hardware);
 	boost::asio::serial_port_base::stop_bits         stop_bits(boost::asio::serial_port_base::stop_bits::one);
 	endline = "\n";
 	try{

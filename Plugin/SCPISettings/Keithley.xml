@@ -4,6 +4,6 @@
   <Setting rs232="baudrate">57600</Setting>
   <Setting rs232="parity">none</Setting>
   <Setting rs232="character_size">8</Setting>
-  <Setting rs232="flow_control">none</Setting>
+  <Setting rs232="flow_control">hardware</Setting>
   <Setting rs232="stop_bits">one</Setting>
 </Settings>
