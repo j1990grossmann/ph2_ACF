@@ -50,6 +50,7 @@ export PATH=$BASE_DIR_PLUGIN/examples/test-LwIP-netconn:$PATH
 export PATH=$BASE_DIR_PLUGIN/examples/test-parser:$PATH
 export PATH=$BASE_DIR_PLUGIN/examples/test-tcp:$PATH
 export PATH=$BASE_DIR_PLUGIN/examples/test-tcp-srq:$PATH
+export PATH=$BASE_DIR_PLUGIN/SCPIbin:$PATH
 
 # export LD_LIBRARY_PATH=$BASE_DIR/RootWeb/lib:/opt/cactus/lib:$QTROOTSYSDIR/lib:$QTDIR/lib:$BASE_DIR/lib:${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH=$BASE_DIR_PLUGIN/SCPIlib:$BASE_DIR_PLUGIN/libscpi:$BASE_DIR_PLUGIN/lib:${LD_LIBRARY_PATH}

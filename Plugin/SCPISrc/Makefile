@@ -29,19 +29,19 @@ noroot: clean $(binariesNoRoot)
 
 hameg: Hameg4040.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	@-mv $@ ../SCPIbin
+	-mv $@ ../SCPIbin/
 
 keithleytest: KeithleyTest.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	@-mv $@ ../SCPIbin
+	-mv $@ ../SCPIbin/
 
 noisescan: NoiseScan.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	@-mv $@ ../SCPIbin
+	-mv $@ ../SCPIbin/
 
 hv_control: HV_Controller.cc
 	$(CXX) -std=c++11 $(CCFlags) -o $@ $< $(IncludePaths) $(ExternalObjects)
-	@-mv $@ ../SCPIbin
+	-mv $@ ../SCPIbin/
 
 
 
