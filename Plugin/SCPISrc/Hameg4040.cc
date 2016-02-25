@@ -98,15 +98,17 @@ int main(int argc, char* argv[])
 // 			auto time_val = std::chrono::system_clock::now();
 			double volt;
 			timer.reset();timer.start();
-			h.MeasVolt(volt);
+// 			h.MeasVolt(volt);
+
+			h.MeasAll(cHamegChannelMap);
 			timer.stop();
 			timer.show("1 Aquisition time");
-// 			h.MeasAll(cHamegChannelMap);
-// 			for(int i=0;i<4;i++)
-// 			{
-// 				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
-// 			}
-// 			std::cout<<std::endl;
+			for(int i=0;i<4;i++)
+			{
+				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
+			}
+			std::cout<<std::endl;
+
 			std::cout<<volt<<std::endl;
 		}
 	}
