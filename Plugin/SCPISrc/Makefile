@@ -51,4 +51,5 @@ hv_control: HV_Controller.cc
 
 clean:
 	@-rm -f *.o
+	@-rm -f $(binaries)
 	@-rm -f $(binaries:%=$(BinDir)/%)
