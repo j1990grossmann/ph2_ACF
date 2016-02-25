@@ -213,7 +213,7 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 	}
 	auto end = std::chrono::system_clock::now();
 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-	std:cout<<read_str<<"\ttest\t"<<counter<<"elapsed"<<elapsed.count()<<std::endl;
+	std:cout<<read_str<<"\ttest\t"<<counter<<"\telapsed\t"<<elapsed.count()<<std::endl;
 }
 
 void Hameg4040::WriteSynchronized(string& command)
@@ -255,7 +255,7 @@ void Hameg4040::WriteNotSynchronized(string& command)
 
 void Hameg4040::Timeout()
 {
-	std::this_thread::sleep_for(std::chrono::microseconds(100));
+	std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
 
 void Hameg4040::ParseSettingsXML(const string& pFilename, ostream& os)
