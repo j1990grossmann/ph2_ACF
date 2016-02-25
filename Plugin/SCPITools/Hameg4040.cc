@@ -206,7 +206,7 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 	while(read_str.empty())
 	{		
 // 		if(counter == 10000){break;}
-// 		Timeout();
+		Timeout();
 		read_str=serial.readStringUntil(endline);
 		// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
 		counter++;
@@ -255,7 +255,7 @@ void Hameg4040::WriteNotSynchronized(string& command)
 
 void Hameg4040::Timeout()
 {
-	std::this_thread::sleep_for(std::chrono::microseconds(10));
+	std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
 
 void Hameg4040::ParseSettingsXML(const string& pFilename, ostream& os)
