@@ -13,7 +13,7 @@ void Hameg4040::Configure()
 	this->SystBeeperImmediate();
 	this->SystRemote();
 	// 	SystMix();
-	std::cout<<"Initialized and Reset and Locked"<<read_str<<std::endl;
+	std::cout<<"Initialized and Reset and Locked"<<std::endl;
 	std::cout<<"Channel Voltage Current"<<std::endl;
 
 	for(int i=0;i<4;i++)
@@ -191,7 +191,7 @@ void Hameg4040::EmptyBuffer()
 	{		
 		if(counter == 10000){break;}
 		read_str=serial.readStringUntil(endline);
-		std:cout<<"counter"<<counter<<"\t"<<read_str<<std::endl;
+// 		std:cout<<"counter"<<counter<<"\t"<<read_str<<std::endl;
 		counter++;
 	}
 }
@@ -227,7 +227,7 @@ void Hameg4040::WriteSynchronized(string& command)
 	while(read_str.empty())
 	{		
 		//  		if(counter == 10000){break;}
-		this->Timeout();
+// 		this->Timeout();
 		read_str=serial.readStringUntil(endline);
 		if(!read_str.empty()){
 			// 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
