@@ -22,18 +22,6 @@ void Hameg4040::Configure()
 	  this->WriteChannelNo(i, fHamegChannelMap[i].at(0), fHamegChannelMap[i].at(1));
 	  this->OutPutSel(i,1);
 	}
-	// 	cout<<"Configured ? Ready to go? y/n"<<endl;
-	// 	read_str="";
-	// 	while(cin>>read_str)
-	// 	{
-	// 		if(read_str=="y")
-	// 			break;
-	// 		else if(read_str=="n")
-	// 			exit(1);
-	// 		else
-	// 			cout<<"this is not y/n"<<endl;
-	// 	}
-// 	this->OutPutGen(1);
 }
 
 void Hameg4040::Reset()

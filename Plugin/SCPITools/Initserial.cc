@@ -1,10 +1,10 @@
 #include "Initserial.h"
 void INITSERIAL::Serial::Initialise(BufferedAsyncSerial& serial, INITSERIAL::SerialSettingsMap& fSerialSettingMap)
 {
-	for(auto it: fSerialSettingMap)
-	{
-		cout<<it.first<<"\t"<<it.second<<endl;
-	}
+// 	for(auto it: fSerialSettingMap)
+// 	{
+// 		cout<<it.first<<"\t"<<it.second<<endl;
+// 	}
 	map <string,boost::asio::serial_port_base::parity::type > paritymap;
 	map <string,boost::asio::serial_port_base::flow_control::type > flow_controlmap;
 	map <string,boost::asio::serial_port_base::stop_bits::type > stop_bitsmap;
