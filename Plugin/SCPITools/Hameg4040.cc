@@ -205,7 +205,7 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 	read_str="";
 	while(read_str.empty())
 	{		
-		if(counter == 10000){break;}
+// 		if(counter == 10000){break;}
 // 		Timeout();
 		read_str=serial.readStringUntil(endline);
 		// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
