@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 // 			auto time_val = std::chrono::system_clock::now();
 			double volt;
 			timer.reset();timer.start();
-			h.MeasVolt(&volt);
+			h.MeasVolt(volt);
 			timer.stop();
 			timer.show("1 Aquisition time");
 // 			h.MeasAll(cHamegChannelMap);
