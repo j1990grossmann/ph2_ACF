@@ -18,6 +18,7 @@ void Hameg4040::Configure()
 	}
 	write_str = "*IDN?";
 	this->ReadSynchronized(write_str,read_str);
+	std::cout<<read_str<<std::endl;
 	this->SystBeeperImmediate();
 	this->SystRemote();
 	// 	SystMix();
