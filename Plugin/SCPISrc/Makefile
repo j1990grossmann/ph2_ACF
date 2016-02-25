@@ -19,7 +19,7 @@ binaries=noisescan hameg hv_control
 
 .PHONY: clean
 
-all: rootflags clean $(binaries) makedir
+all: rootflags clean $(binaries)
 
 rootflags:
 	$(eval CCFlags += $(CCFlagsRoot))
