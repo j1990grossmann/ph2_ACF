@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 	timer.start();
 	h.Configure();
 	timer.stop();
-	timer.show();
+	timer.show("Configured");
 	if(on_off)
 	{
 		h.OutPutGen(1);
