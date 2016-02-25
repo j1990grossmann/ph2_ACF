@@ -91,17 +91,23 @@ int main(int argc, char* argv[])
 	{
 		h.OutPutGen(1);
 		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
-		auto start = std::chrono::system_clock::now();
+// 		auto start = std::chrono::system_clock::now();
 		while(!stop)
 		{
-			sleep(2);
-			auto time_val = std::chrono::system_clock::now();
-			h.MeasAll(cHamegChannelMap);
-			for(int i=0;i<4;i++)
-			{
-				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
-			}
-			std::cout<<std::endl;
+// 			sleep(2);
+// 			auto time_val = std::chrono::system_clock::now();
+			double volt;
+			timer.reset();timer.start();
+			h.MeasVolt(&volt);
+			timer.stop();
+			timer.show("1 Aquisition time");
+// 			h.MeasAll(cHamegChannelMap);
+// 			for(int i=0;i<4;i++)
+// 			{
+// 				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
+// 			}
+// 			std::cout<<std::endl;
+			std::cout<<volt<<std::endl;
 		}
 	}
 	else
