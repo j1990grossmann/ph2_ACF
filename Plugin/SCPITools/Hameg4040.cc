@@ -178,12 +178,12 @@ void Hameg4040::MeasAllC()
 {
 	write_str="INST:NSEL 1\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 2\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 3\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 4\nMEAS:VOLT?\nMEAS:CURR?";
 	this->ReadSynchronizedLines(write_str,read_str,8);
-// 	std::cout<<read_str<<std::endl;
+	std::cout<<read_str<<std::endl;
 //  	sscanf(read_str.c_str(),"%f; %f; %f; %f; %f; %f; %f; %f; ", fHamegChannelMapCurr[0].at(0), fHamegChannelMapCurr[1].at(0) , fHamegChannelMapCurr[2].at(0), fHamegChannelMapCurr[3].at(0), fHamegChannelMapCurr[0].at(1), fHamegChannelMapCurr[1].at(1), fHamegChannelMapCurr[2].at(1), fHamegChannelMapCurr[3].at(1));
-	for(auto j: fHamegChannelMapCurr)
-		for(auto i:j)
-			cout<<i<<"\t";
-	cout<<endl;
+// 	for(auto j: fHamegChannelMapCurr)
+// 		for(auto i:j)
+// 			cout<<i<<"\t";
+// 	cout<<endl;
 // 	std::cout<<read_str<<std::endl;
 }
 
