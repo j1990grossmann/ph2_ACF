@@ -90,8 +90,8 @@ int main(int argc, char* argv[])
 		h.OutPutGen(1);
 		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
 		timer.start();
-		for(int i=0;i<100;i++)
-			h.MeasAllA();
+// 		for(int i=0;i<100;i++)
+// 			h.MeasAllA();
 		timer.stop();
 		timer.show("Version A");
 		timer.start();
