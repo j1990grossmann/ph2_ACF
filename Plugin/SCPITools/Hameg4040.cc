@@ -160,10 +160,10 @@ void Hameg4040::MeasAllA()
 		this->MeasVolt(fHamegChannelMapCurr[i].at(0));
 		this->MeasCurr(fHamegChannelMapCurr[i].at(1));
 	}
-	for(auto j: fHamegChannelMapCurr)
-		for(auto i:j)
-			cout<<i<<"\t";
-	cout<<endl;
+// 	for(auto j: fHamegChannelMapCurr)
+// 		for(auto i:j)
+// 			cout<<i<<"\t";
+// 	cout<<endl;
 }
 void Hameg4040::MeasAllB()
 {
@@ -250,7 +250,7 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
 			counter++;
 		}
-		std::cout<<read_str<<endl;
+// 		std::cout<<read_str<<endl;
 	}
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
