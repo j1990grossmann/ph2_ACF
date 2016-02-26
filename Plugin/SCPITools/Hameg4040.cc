@@ -257,8 +257,8 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			if(!read_str.empty())
 			{
 				cout<<"add"<<read_str<<endl;
-				readstring+=read_str;
-				readstring+="; ";		
+				readstring.append(read_str);
+				readstring.append( "; ");
 			}
 		}
 // 		std::cout<<read_str<<endl;
