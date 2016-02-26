@@ -261,7 +261,7 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 				readstring.append( "; ");
 			}
 		}
-// 		std::cout<<read_str<<endl;
+		std::cout<<readstring<<endl;
 	}
 	
 // 	auto end = std::chrono::system_clock::now();
