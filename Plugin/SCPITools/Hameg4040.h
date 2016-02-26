@@ -101,7 +101,7 @@ namespace HAMEG4040{
 		void WriteSynchronized(string &command);
 		void WriteNotSynchronized(string &command);
 		void ReadSynchronized(string &command, string &readstring);
-		void ReadSynchronizedLines(string &command, string &readstring, int lines);		
+		void ReadSynchronizedLines(string &command, std::vector<std::string> &readstringvec, int lines);		
 		void Timeout();
 		void ParseSettingsXML( const std::string& pFilename, std::ostream& os = std::cout);
 		void EmptyBuffer();

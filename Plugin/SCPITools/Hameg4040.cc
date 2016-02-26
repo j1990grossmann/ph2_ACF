@@ -171,19 +171,18 @@ void Hameg4040::MeasAllB()
 {
 	write_str="INST:NSEL 1\nMEAS:VOLT?\nINST:NSEL 2\nMEAS:VOLT?\nINST:NSEL 3\nMEAS:VOLT?\nINST:NSEL 4\nMEAS:VOLT?\n";
 	write_str+="INST:NSEL 1\nMEAS:CURR?\nINST:NSEL 2\nMEAS:CURR?\nINST:NSEL 3\nMEAS:CURR?\nINST:NSEL 4\nMEAS:CURR?";
-	this->ReadSynchronizedLines(write_str,read_str,8);
+// 	this->ReadSynchronizedLines(write_str,read_str,8);
 // 	std::cout<<endl;
 }
 void Hameg4040::MeasAllC()
 {
+	std::vector<std::string> resultstringvec;
 	write_str="INST:NSEL 1\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 2\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 3\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 4\nMEAS:VOLT?\nMEAS:CURR?";
-	this->ReadSynchronizedLines(write_str,read_str,8);
+	this->ReadSynchronizedLines(write_str,resultstringvec,8);
 // 	std::cout<<read_str<<std::endl;
 //   	std::sscanf(read_str.c_str(),"%f; %f; %f; %f; %f; %f; %f; %f; ", &fHamegChannelMapCurr[0].at(0), &fHamegChannelMapCurr[1].at(0) , &fHamegChannelMapCurr[2].at(0), &fHamegChannelMapCurr[3].at(0), &fHamegChannelMapCurr[0].at(1), &fHamegChannelMapCurr[1].at(1), &fHamegChannelMapCurr[2].at(1), &fHamegChannelMapCurr[3].at(1));
-	char test[800];
-	char test1[800];
-  	sscanf(read_str.c_str(),"%s; %s",test, test1 );
-	cout<<test<<test1<<endl;
+	for(auto i: resultstringvec)
+		cout<<i<<endl;
 	for(auto j: fHamegChannelMapCurr)
 		for(auto i:j)
 			cout<<i<<"\t";
@@ -245,8 +244,9 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 // 	std:cout<<read_str<<"\ttest\t"<<counter<<"\telapsed\t"<<elapsed.count()<<std::endl;
 }
 
-void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int lines)
+void Hameg4040::ReadSynchronizedLines(string &command, std::vector<std::string> &readstringvec, int lines)
 {
+	readstringvec.clear();
 // 	std::cout<<command<<std::endl;
 	string tmp="";
 	this->serial.writeString(command+endline);
@@ -264,13 +264,11 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			counter++;
 			if(!read_str.empty())
 			{
-				tmp.append(read_str);
-				tmp.append("; ");
+				readstringvec.push_back(read_str);
 			}
 		}
 	}
 // 	std::cout<<tmp<<endl;
-	readstring=tmp;	
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 // 	std:cout<<read_str<<"\ttest\t"<<counter<<"\telapsed\t"<<elapsed.count()<<std::endl;
