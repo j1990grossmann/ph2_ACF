@@ -91,19 +91,16 @@ int main(int argc, char* argv[])
 		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
 		timer.stop();
 		timer.reset();
-		timer.start();
 		for(int i=0;i<100;i++)
 			h.MeasAllA();
 		timer.stop();
 		timer.show("Version A");
 		timer.reset();
-		timer.start();		
 		for(int i=0;i<100;i++)
 			h.MeasAllB();
 		timer.stop();
 		timer.show("Version B");
 		timer.reset();
-		timer.start();		
 		for(int i=0;i<100;i++)
 			h.MeasAllC();
 		timer.stop();
