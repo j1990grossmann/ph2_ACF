@@ -170,14 +170,13 @@ void Hameg4040::MeasAllB()
 	write_str="INST:NSEL 1\nMEAS:VOLT?\nINST:NSEL 2\nMEAS:VOLT?\nINST:NSEL 3\nMEAS:VOLT?\nINST:NSEL 4\nMEAS:VOLT?\n";
 	write_str+="INST:NSEL 1\nMEAS:CURR?\nINST:NSEL 2\nMEAS:CURR?\nINST:NSEL 3\nMEAS:CURR?\nINST:NSEL 4\nMEAS:CURR?";
 	this->ReadSynchronizedLines(write_str,read_str,8);
-	std::cout<<endl;
+// 	std::cout<<endl;
 }
 void Hameg4040::MeasAllC()
 {
-	write_str="INST:NSEL 1;MEAS:VOLT?;MEAS:CURR?;INST:NSEL 2;MEAS:VOLT?;MEAS:CURR?;INST:NSEL 3;MEAS:VOLT?;MEAS:CURR?;INST:NSEL 4;MEAS:VOLT?;MEAS:CURR?";
-	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
-	this->ReadSynchronized(write_str,read_str);
-	std::cout<<read_str<<std::endl;
+	write_str="INST:NSEL 1\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 2\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 3\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 4\nMEAS:VOLT?\nMEAS:CURR?";
+	this->ReadSynchronizedLines(write_str,read_str,8);
+// 	std::cout<<read_str<<std::endl;
 }
 
 bool Hameg4040::IDNCheck()
