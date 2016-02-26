@@ -180,8 +180,8 @@ void Hameg4040::MeasAllC()
 	this->ReadSynchronizedLines(write_str,read_str,8);
 // 	std::cout<<read_str<<std::endl;
 //   	std::sscanf(read_str.c_str(),"%f; %f; %f; %f; %f; %f; %f; %f; ", &fHamegChannelMapCurr[0].at(0), &fHamegChannelMapCurr[1].at(0) , &fHamegChannelMapCurr[2].at(0), &fHamegChannelMapCurr[3].at(0), &fHamegChannelMapCurr[0].at(1), &fHamegChannelMapCurr[1].at(1), &fHamegChannelMapCurr[2].at(1), &fHamegChannelMapCurr[3].at(1));
-	std::string test;
-  	std::sscanf(read_str.c_str(),"%s",test.c_str() );
+	char test[800];
+  	std::sscanf(read_str.c_str(),"%s",test );
 	cout<<test<<endl;
 	for(auto j: fHamegChannelMapCurr)
 		for(auto i:j)
