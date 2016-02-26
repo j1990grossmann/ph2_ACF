@@ -168,9 +168,11 @@ void Hameg4040::MeasAllA()
 void Hameg4040::MeasAllB()
 {
 	std::string endline="\n";
-	write_str="INST:NSEL 1;MEAS:VOLT?;INST:NSEL 2;MEAS:VOLT?;INST:NSEL 3;MEAS:VOLT?;INST:NSEL 4;MEAS:VOLT?;";
-	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
-	this->ReadSynchronized(write_str,read_str);
+// 	write_str="INST:NSEL 1;MEAS:VOLT?;INST:NSEL 2;MEAS:VOLT?;INST:NSEL 3;MEAS:VOLT?;INST:NSEL 4;MEAS:VOLT?;";
+// 	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
+	write_str="INST:NSEL 1;MEAS:VOLT?; MEAS:CURR?";
+// 	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
+	this->ReadSynchronizedLines(write_str,read_str,2);
 // 	for(int i=0; i<7; i++)
 // 	{
 // 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
