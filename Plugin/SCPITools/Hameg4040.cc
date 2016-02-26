@@ -181,8 +181,9 @@ void Hameg4040::MeasAllC()
 // 	std::cout<<read_str<<std::endl;
 //   	std::sscanf(read_str.c_str(),"%f; %f; %f; %f; %f; %f; %f; %f; ", &fHamegChannelMapCurr[0].at(0), &fHamegChannelMapCurr[1].at(0) , &fHamegChannelMapCurr[2].at(0), &fHamegChannelMapCurr[3].at(0), &fHamegChannelMapCurr[0].at(1), &fHamegChannelMapCurr[1].at(1), &fHamegChannelMapCurr[2].at(1), &fHamegChannelMapCurr[3].at(1));
 	char test[800];
-  	std::sscanf(read_str.c_str(),"%s",test );
-	cout<<test<<endl;
+	char test1[800];
+  	sscanf(read_str.c_str(),"%s; %s",test, test1 );
+	cout<<test<<test1<<endl;
 	for(auto j: fHamegChannelMapCurr)
 		for(auto i:j)
 			cout<<i<<"\t";
