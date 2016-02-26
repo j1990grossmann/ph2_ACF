@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 // 		timer.stop();
 // 		timer.show("Version B");
 		timer.start();
-// 		for(int i=0;i<10;i++)
+		for(int i=0;i<100;i++)
 		h.MeasAllC();
 		timer.stop();
 		timer.show("Version C");
