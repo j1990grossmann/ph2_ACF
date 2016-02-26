@@ -89,17 +89,28 @@ int main(int argc, char* argv[])
 	{
 		h.OutPutGen(1);
 		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
-		while(!stop)
-		{
+		timer.reset();
+		for(int i=0;i<100;i++)
+			h.MeasAllA();
+		timer.show("Version A");
+		for(int i=0;i<100;i++)
+			h.MeasAllB();
+		timer.show("Version B");
+		for(int i=0;i<100;i++)
+			h.MeasAllC();
+		timer.show("Version C");
+		
+// 		while(!stop)
+// 		{
 // 			sleep(2);
 // 			timer.reset();timer.start();
-			h.MeasAll(cHamegChannelMap);
-			for(int i=0;i<4;i++)
-			{
-				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
-			}
-			std::cout<<std::endl;
-		}
+// 			h.MeasAll(cHamegChannelMap);
+// 			for(int i=0;i<4;i++)
+// 			{
+// 				std::cout<<cHamegChannelMap[i].at(0)<<"\t"<<cHamegChannelMap[i].at(1)<<"\t";
+// 			}
+// 			std::cout<<std::endl;
+// 		}
 	}
 	else
 		h.OutPutGen(0);

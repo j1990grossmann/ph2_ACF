@@ -152,6 +152,36 @@ void Hameg4040::MeasAll(HamegChannelMap& fGetHamegChannelMap)
 	}
 	fGetHamegChannelMap=fHamegChannelMapCurr;
 }
+void Hameg4040::MeasAllA()
+{
+	for(int i=0; i<4; i++)
+	{
+		this->InstSelect(i);
+		this->MeasVolt(fHamegChannelMapCurr[i].at(0));
+		this->MeasCurr(fHamegChannelMapCurr[i].at(1));
+	}
+	for(auto i:fHamegChannelMap[0])
+		cout<<i<<"\t";
+	for(auto i:fHamegChannelMap[1])
+		cout<<i<<"\t";
+	cout<<endl;
+	
+}
+void Hameg4040::MeasAllB()
+{
+	write_str="INST:NSEL 1;MEAS:VOLT?;INST:NSEL 2;MEAS:VOLT?;INST:NSEL 3;MEAS:VOLT?;INST:NSEL 4;MEAS:VOLT?;";
+	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
+	this->ReadSynchronized(write_str,read_str);
+	std::cout<<read_str<<std::endl;
+}
+void Hameg4040::MeasAllC()
+{
+	write_str="INST:NSEL 1;MEAS:VOLT?;MEAS:CURR?;INST:NSEL 2;MEAS:VOLT?;MEAS:CURR?;INST:NSEL 3;MEAS:VOLT?;MEAS:CURR?;INST:NSEL 4;MEAS:VOLT?;MEAS:CURR?";
+	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
+	this->ReadSynchronized(write_str,read_str);
+	std::cout<<read_str<<std::endl;
+}
+
 bool Hameg4040::IDNCheck()
 { 
 	write_str = "*IDN?";
