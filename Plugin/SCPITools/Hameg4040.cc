@@ -160,10 +160,10 @@ void Hameg4040::MeasAllA()
 		this->MeasVolt(fHamegChannelMapCurr[i].at(0));
 		this->MeasCurr(fHamegChannelMapCurr[i].at(1));
 	}
-	for(auto j: fHamegChannelMapCurr)
-		for(auto i:j)
-			cout<<i<<"\t";
-	cout<<endl;
+// 	for(auto j: fHamegChannelMapCurr)
+// 		for(auto i:j)
+// 			cout<<i<<"\t";
+// 	cout<<endl;
 }
 void Hameg4040::MeasAllB()
 {
