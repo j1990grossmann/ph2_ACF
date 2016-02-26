@@ -182,9 +182,9 @@ void Hameg4040::MeasAllC()
 	for(int i = 0; i<resultstringvec.size(); i++)
 	{
 		if(i%2==0)
-			fHamegChannelMapCurr[i].at(0)=strtod(resultstringvec.at(i));
+			fHamegChannelMapCurr[i].at(0)=stod(resultstringvec.at(i));
 		if(i%2==1)
-			fHamegChannelMapCurr[i].at(1)=strtod(resultstringvec.at(i));			
+			fHamegChannelMapCurr[i].at(1)=stod(resultstringvec.at(i));			
 	}
 	
 	for(auto j: fHamegChannelMapCurr)
