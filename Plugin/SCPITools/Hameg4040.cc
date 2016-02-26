@@ -240,7 +240,7 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int lines)
 {
 // 	std::cout<<command<<std::endl;
-	readstring="";
+	string test="";
 	this->serial.writeString(command+endline);
 // 	auto start = std::chrono::system_clock::now();
 	for(int i=0; i<lines; i++)
@@ -257,13 +257,13 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			if(!read_str.empty())
 			{
 				cout<<"add"<<read_str<<endl;
-				readstring.append(read_str);
-				readstring.append("; ");
+				test.append(read_str);
+				test.append("; ");
 			}
 		}
-		std::cout<<readstring<<endl;
+		std::cout<<"this loop"<<test<<endl;
 	}
-	std::cout<<readstring<<endl;
+	std::cout<<test<<endl;
 	
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
