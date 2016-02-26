@@ -241,6 +241,30 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 // 	std:cout<<read_str<<"\ttest\t"<<counter<<"\telapsed\t"<<elapsed.count()<<std::endl;
 }
 
+void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int lines)
+{
+	std::cout<<command<<std::endl;
+	this->serial.writeString(command+endline);
+// 	auto start = std::chrono::system_clock::now();
+	for(int i=0; i<lines; i++)
+	{
+		int counter = 0;
+		read_str="";
+		while(read_str.empty())
+		{		
+			if(counter == 10000){cout<<"communication error"<<endl;break;}
+			Timeout();
+			read_str=serial.readStringUntil(endline);
+			// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
+			counter++;
+		}
+		std::cout<<read_str<<endl;
+	}
+// 	auto end = std::chrono::system_clock::now();
+// 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+// 	std:cout<<read_str<<"\ttest\t"<<counter<<"\telapsed\t"<<elapsed.count()<<std::endl;
+}
+
 void Hameg4040::WriteSynchronized(string& command)
 {
 	int counter = 0;
