@@ -252,10 +252,11 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			if(counter == 10000){cout<<"communication error";break;}
 			Timeout();
 			read_str=serial.readStringUntil(endline);
-			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
+// 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 			counter++;
 			if(!read_str.empty())
 			{
+				cout<<"add"<<endl;
 				readstring+=read_str;
 				readstring+="; ";		
 			}
