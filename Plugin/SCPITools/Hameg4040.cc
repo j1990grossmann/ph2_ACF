@@ -146,36 +146,6 @@ void Hameg4040::MeasVolt(double &volt)
 
 void Hameg4040::MeasAll(HamegChannelMap& fGetHamegChannelMap)
 {
-	for(int i=0; i<4; i++)
-	{
-		this->InstSelect(i);
-		this->MeasVolt(fHamegChannelMapCurr[i].at(0));
-		this->MeasCurr(fHamegChannelMapCurr[i].at(1));
-	}
-	fGetHamegChannelMap=fHamegChannelMapCurr;
-}
-void Hameg4040::MeasAllA()
-{
-	for(int i=0; i<4; i++)
-	{
-		this->InstSelect(i);
-		this->MeasVolt(fHamegChannelMapCurr[i].at(0));
-		this->MeasCurr(fHamegChannelMapCurr[i].at(1));
-	}
-	for(auto j: fHamegChannelMapCurr)
-		for(auto i:j)
-			cout<<i<<"\t";
-	cout<<endl;
-}
-void Hameg4040::MeasAllB()
-{
-	write_str="INST:NSEL 1\nMEAS:VOLT?\nINST:NSEL 2\nMEAS:VOLT?\nINST:NSEL 3\nMEAS:VOLT?\nINST:NSEL 4\nMEAS:VOLT?\n";
-	write_str+="INST:NSEL 1\nMEAS:CURR?\nINST:NSEL 2\nMEAS:CURR?\nINST:NSEL 3\nMEAS:CURR?\nINST:NSEL 4\nMEAS:CURR?";
-// 	this->ReadSynchronizedLines(write_str,read_str,8);
-// 	std::cout<<endl;
-}
-void Hameg4040::MeasAllC()
-{
 	std::vector<std::string> resultstringvec;
 	write_str="INST:NSEL 1\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 2\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 3\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 4\nMEAS:VOLT?\nMEAS:CURR?";
 	this->ReadSynchronizedLines(write_str,resultstringvec,8);
@@ -186,12 +156,7 @@ void Hameg4040::MeasAllC()
 		if(i%2==1)
 			fHamegChannelMapCurr[i/2].at(1)=stod(resultstringvec.at(i));			
 	}
-	
-	for(auto j: fHamegChannelMapCurr)
-		for(auto i:j)
-			cout<<i<<"\t";
-	cout<<endl;
-// 	std::cout<<read_str<<std::endl;
+	fGetHamegChannelMap=fHamegChannelMapCurr;
 }
 
 bool Hameg4040::IDNCheck()
@@ -264,7 +229,6 @@ void Hameg4040::ReadSynchronizedLines(string &command, std::vector<std::string> 
 			if(counter == 10000){cout<<"communication error";break;}
 			Timeout();
 			read_str=serial.readStringUntil(endline);
-// 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 			counter++;
 			if(!read_str.empty())
 			{
@@ -272,7 +236,6 @@ void Hameg4040::ReadSynchronizedLines(string &command, std::vector<std::string> 
 			}
 		}
 	}
-// 	std::cout<<tmp<<endl;
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 // 	std:cout<<read_str<<"\ttest\t"<<counter<<"\telapsed\t"<<elapsed.count()<<std::endl;

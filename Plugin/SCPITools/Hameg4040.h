@@ -80,11 +80,7 @@ namespace HAMEG4040{
 		//Measure Methods
 		void MeasCurr(double &amp);
 		void MeasVolt(double &volt);
-		void MeasAll(HamegChannelMap &fGetHamegChannelMap);
-		void MeasAllA();
-		void MeasAllB();
-		void MeasAllC();
-		
+		void MeasAll(HamegChannelMap &fGetHamegChannelMap);		
 		void GetHamegChannelMap(HamegChannelMap &fGetHamegChannelMap);
 		
 		
