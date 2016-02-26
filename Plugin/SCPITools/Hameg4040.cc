@@ -160,12 +160,10 @@ void Hameg4040::MeasAllA()
 		this->MeasVolt(fHamegChannelMapCurr[i].at(0));
 		this->MeasCurr(fHamegChannelMapCurr[i].at(1));
 	}
-	for(auto i:fHamegChannelMapCurr[0])
-		cout<<i<<"\t";
-	for(auto i:fHamegChannelMapCurr[1])
-		cout<<i<<"\t";
+	for(auto j: fHamegChannelMap)
+		for(auto i:j)
+			cout<<i<<"\t";
 	cout<<endl;
-	
 }
 void Hameg4040::MeasAllB()
 {
@@ -226,6 +224,7 @@ void Hameg4040::EmptyBuffer()
 void Hameg4040::ReadSynchronized(string& command, string& read_str)
 {
 	int counter = 0;
+	std::cout<<command<<std::endl;
 	this->serial.writeString(command+endline);
 // 	auto start = std::chrono::system_clock::now();
 	read_str="";
