@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
 // SCPI_Input(&scpi_context, cmd, strlen(cmd);
 #define TEST_SCPI_INPUT(cmd)    result = SCPI_Input(&scpi_context, cmd, strlen(cmd))
 
-	result = SCPI_Input(&scpi_context, "*CLS\r\n", strlen("*CLS\r\n"));
+	result = SCPI_Input(&scpi_context, "*RST\r\n", strlen("*RST\r\n"));
     TEST_SCPI_INPUT("*CLS\r\n");
     TEST_SCPI_INPUT("*RST\r\n");
     TEST_SCPI_INPUT("MEAS:volt:DC? 12,50;*OPC\r\n");
