@@ -254,9 +254,12 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			read_str=serial.readStringUntil(endline);
 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 			counter++;
+			if(!read_str.empty())
+			{
+				readstring+=read_str;
+				readstring+="; ";		
+			}
 		}
-		readstring+=read_str;
-		readstring+="; ";		
 // 		std::cout<<read_str<<endl;
 	}
 	
