@@ -94,13 +94,13 @@ int main(int argc, char* argv[])
 		h.MeasAllA();
 		timer.stop();
 		timer.show("Version A");
+// 		timer.start();
+// 		for(int i=0;i<100;i++)
+// 			h.MeasAllB();
+// 		timer.stop();
+// 		timer.show("Version B");
 		timer.start();
-		for(int i=0;i<100;i++)
-			h.MeasAllB();
-		timer.stop();
-		timer.show("Version B");
-		timer.start();
-		for(int i=0;i<100;i++)
+// 		for(int i=0;i<100;i++)
 		h.MeasAllC();
 		timer.stop();
 		timer.show("Version C");

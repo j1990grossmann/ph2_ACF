@@ -2,8 +2,10 @@
 
 #include <iostream>
 #include <regex>
+#include <stdio.h>
 
 using namespace HAMEG4040;
+using namespace std;
 
 void Hameg4040::Configure()
 {
@@ -176,6 +178,8 @@ void Hameg4040::MeasAllC()
 {
 	write_str="INST:NSEL 1\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 2\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 3\nMEAS:VOLT?\nMEAS:CURR?\nINST:NSEL 4\nMEAS:VOLT?\nMEAS:CURR?";
 	this->ReadSynchronizedLines(write_str,read_str,8);
+	std::cout<<read_str<<std::endl;
+// 	sscanf(read_str.c_str(),"%f; %f; %f; %f; %f; %f; %f; %f; ", fHamegChannelMapCurr[0].at(0), fHamegChannelMapCurr[1].at(0) , fHamegChannelMapCurr[2].at(0), fHamegChannelMapCurr[3].at(0), fHamegChannelMapCurr[0].at(1), fHamegChannelMapCurr[1].at(1), fHamegChannelMapCurr[2].at(1), fHamegChannelMapCurr[3].at(1));
 // 	std::cout<<read_str<<std::endl;
 }
 
@@ -222,7 +226,7 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 	read_str="";
 	while(read_str.empty())
 	{		
-// 		if(counter == 10000){break;}
+		if(counter == 10000){cout<<"communication error";break;}
 		Timeout();
 		read_str=serial.readStringUntil(endline);
 		// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
@@ -250,8 +254,11 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
 			counter++;
 		}
+		readstring+=read_str;
+		readstring+="; ";		
 // 		std::cout<<read_str<<endl;
 	}
+	
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 // 	std:cout<<read_str<<"\ttest\t"<<counter<<"\telapsed\t"<<elapsed.count()<<std::endl;
