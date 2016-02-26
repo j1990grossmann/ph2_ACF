@@ -89,7 +89,7 @@ namespace HAMEG4040{
 		
 	private:
 		
-		BufferedAsyncSerial::BufferedAsyncSerial serial;
+		BufferedAsyncSerial serial;
 		HamegChannelMap  fHamegChannelMap;
 		HamegChannelMap  fHamegChannelMapCurr;
 		INITSERIAL::SerialSettingsMap fHamegSettingsMap;
