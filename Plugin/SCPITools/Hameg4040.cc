@@ -256,7 +256,7 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 			counter++;
 			if(!read_str.empty())
 			{
-				cout<<"add"<<endl;
+				cout<<"add"<<read_str<<endl;
 				readstring+=read_str;
 				readstring+="; ";		
 			}
