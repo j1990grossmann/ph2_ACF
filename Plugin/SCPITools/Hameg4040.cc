@@ -170,8 +170,8 @@ void Hameg4040::MeasAllB()
 	std::string endline="\n";
 // 	write_str="INST:NSEL 1;MEAS:VOLT?;INST:NSEL 2;MEAS:VOLT?;INST:NSEL 3;MEAS:VOLT?;INST:NSEL 4;MEAS:VOLT?;";
 // 	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
-// 	write_str="INST:NSEL 1; *IDN? MEAS:VOLT?; MEAS:CURR?";
-	write_str="*IDN?";
+	write_str="INST:NSEL 1\n *IDN? MEAS:VOLT?\n MEAS:CURR?";
+// 	write_str="*IDN?";
 // 	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
 	this->ReadSynchronizedLines(write_str,read_str,3);
 // 	for(int i=0; i<7; i++)
@@ -255,7 +255,7 @@ void Hameg4040::ReadSynchronizedLines(string& command, string& readstring, int l
 		read_str="";
 		while(read_str.empty())
 		{		
-			if(counter == 10000){cout<<"communication error"<<endl;break;}
+			if(counter == 10000){cout<<"communication error";break;}
 			Timeout();
 			read_str=serial.readStringUntil(endline);
 			// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
