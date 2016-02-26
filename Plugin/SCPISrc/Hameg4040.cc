@@ -89,17 +89,20 @@ int main(int argc, char* argv[])
 	{
 		h.OutPutGen(1);
 		std::cout<<"V1\tI1\tV2\tI2\tV3\tI3\tV4\tI4"<<std::endl;
+		timer.start();
 		timer.reset();
 		for(int i=0;i<100;i++)
 			h.MeasAllA();
 		timer.show("Version A");
+		timer.reset();
 		for(int i=0;i<100;i++)
 			h.MeasAllB();
 		timer.show("Version B");
+		timer.reset();
 		for(int i=0;i<100;i++)
 			h.MeasAllC();
 		timer.show("Version C");
-		
+		timer.stop();		
 // 		while(!stop)
 // 		{
 // 			sleep(2);

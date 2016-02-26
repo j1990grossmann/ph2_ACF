@@ -160,19 +160,35 @@ void Hameg4040::MeasAllA()
 		this->MeasVolt(fHamegChannelMapCurr[i].at(0));
 		this->MeasCurr(fHamegChannelMapCurr[i].at(1));
 	}
-	for(auto i:fHamegChannelMap[0])
+	for(auto i:fHamegChannelMapCurr[0])
 		cout<<i<<"\t";
-	for(auto i:fHamegChannelMap[1])
+	for(auto i:fHamegChannelMapCurr[1])
 		cout<<i<<"\t";
 	cout<<endl;
 	
 }
 void Hameg4040::MeasAllB()
 {
+	std::string endline="\n";
 	write_str="INST:NSEL 1;MEAS:VOLT?;INST:NSEL 2;MEAS:VOLT?;INST:NSEL 3;MEAS:VOLT?;INST:NSEL 4;MEAS:VOLT?;";
 	write_str+="INST:NSEL 1;MEAS:CURR?;INST:NSEL 2;MEAS:CURR?;INST:NSEL 3;MEAS:CURR?;INST:NSEL 4;MEAS:CURR?";
 	this->ReadSynchronized(write_str,read_str);
 	std::cout<<read_str<<std::endl;
+	read_str=serial.readStringUntil(endline);
+	std::cout<<read_str<<std::endl;
+	read_str=serial.readStringUntil(endline);
+	std::cout<<read_str<<std::endl;
+	read_str=serial.readStringUntil(endline);
+	std::cout<<read_str<<std::endl;
+	read_str=serial.readStringUntil(endline);
+	std::cout<<read_str<<std::endl;
+	read_str=serial.readStringUntil(endline);
+	std::cout<<read_str<<std::endl;
+	read_str=serial.readStringUntil(endline);
+	std::cout<<read_str<<std::endl;
+	read_str=serial.readStringUntil(endline);
+
+	
 }
 void Hameg4040::MeasAllC()
 {
