@@ -13,11 +13,11 @@ BOOST_INCLUDE=/opt/cactus/include
 #CACTUS
 if [[ -d "$CACTUSBIN" ]] && [[ -d "$CACTUSLIB" ]] && [[ -d "$CACTUSINCLUDE" ]] && [[ -d "$BOOST_LIB" ]] && [[ -d "$BOOST_INCLUDE" ]]; then
     printf "Cactus found export environment variables for Cactus and BOOST\n"
-    export $CACTUSBIN
-    export $CACTUSLIB
-    export $CACTUSINCLUDE
-    export $BOOST_LIB
-    export $BOOST_INCLUDE 
+    export CACTUSBIN
+    export CACTUSLIB
+    export CACTUSINCLUDE
+    export BOOST_LIB
+    export BOOST_INCLUDE 
 else
     printf "Cactus not found try to compile Tools only\n"
 fi
