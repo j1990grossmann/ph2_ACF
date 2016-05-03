@@ -5,7 +5,7 @@ echo -e "\e[31m At least one of the environment PH2_ACF software environment var
 echo -e "\e[31m Try standalone compilation of Plugins and automatic definition of environment vars\e[39m"
 fi
 #BASE_DIR_PLUGIN
-export BASE_DIR_PLUGIN=$(pwd)
+export BASE_DIR_PLUGIN="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # BOOST
 if [[ -z "$BOOST_LIB" ]] || [[ -z "$BOOST_INCLUDE" ]]; then
     echo -e "\e[32mStandalone compilation BOOST_LIB and BOOST_INCLUDE user defined.\e[39m"
