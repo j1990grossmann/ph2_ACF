@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 	// options
 	cmd.setHelpOption( "h", "help", "Print this help page" );
 	
-	cmd.defineOption( "file", "Config File . Default value: Plugins/SCPISettings/NoiseScan.xml", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
+	cmd.defineOption( "file", "Config File . Default value: Plugin/SCPISettings/NoiseScan.xml", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
 	cmd.defineOptionAlternative( "file", "f" );
 	
 	cmd.defineOption( "output", "Output Directory . Default value: NoiseScanData", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 	}
 	
 	// now query the parsing results
-	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "Plugins/SCPISettings/NoiseScan.xml";
+	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "Plugin/SCPISettings/NoiseScan.xml";
 	std::string cDirectory = ( cmd.foundOption( "output" ) ) ? cmd.optionValue( "output" ) : "NoiseScanData/";
 	std::string cCBC0Config= ( cmd.foundOption( "cbc0_configfile" ) ) ? cmd.optionValue( "cbc0_configfile" ) : "settings/Cbc_default_hole.txt";
 	std::string cCBC1Config= ( cmd.foundOption( "cbc1_configfile" ) ) ? cmd.optionValue( "cbc1_configfile" ) : "settings/Cbc_default_hole.txt";
