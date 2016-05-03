@@ -9,7 +9,7 @@ IncludeDirs     =   ../../ ../SCPITools ../SCPIDevInstrument ../libscpi/inc/scpi
 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
-LibraryDirs = ../libscpi ../SCPIlib
+LibraryDirs = $(BOOST_LIB) ../libscpi ../SCPIlib
 LibraryPaths = $(LibraryDirs:%=-L%)
 ExternalObjects= $(LibraryPaths)  -lSCPITools -lSCPIUtils -lpthread -lncurses -lboost_thread -lboost_system -lboost_filesystem
 ExtObjectsRoot= 
