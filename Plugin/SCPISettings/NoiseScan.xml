@@ -1,15 +1,15 @@
 #<?xml version='1.0' encoding = 'UTF-8' ?>
 <Settings>
-  <Setting rs232_file="Hameg4040">SMUSettings/Hameg.xml</Setting>
-  <Setting rs232_file="Keithley">SMUSettings/Keithley.xml</Setting>
-  <Setting rs232_file="Keithley1">SMUSettings/Keithley1.xml</Setting>
+  <Setting rs232_file="Hameg4040">Plugin/SCPISettings/Hameg.xml</Setting>
+  <Setting rs232_file="Keithley">Plugin/SCPISettings/Keithley.xml</Setting>
+  <Setting rs232_file="Keithley1">Plugin/SCPISettings/Keithley1.xml</Setting>
   <Voltages>
     <Voltage Id="min">0</Voltage>
-    <Voltage Id="max">-200</Voltage>
-    <Voltage Id="step">5</Voltage>
+    <Voltage Id="max">-120</Voltage>
+    <Voltage Id="step">2</Voltage>
   </Voltages>
   <CurrentsMax>
-    <CurrentMax Id="compliance">50E-6</CurrentMax>
+    <CurrentMax Id="compliance">1E-6</CurrentMax>
   </CurrentsMax>
   <Vcth>
     <Setting Vcth="min">121</Setting>
