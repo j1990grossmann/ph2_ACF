@@ -54,9 +54,9 @@ namespace SCAN{
 		Vcth_step(5),
 		I_compliance(1E-9),
 		No_events(1000),
-		SerialFileHameg("SMUSettings/Hameg.xml"),
-		SerialFileKeithley("SMUSettings/Keithley.xml"),
-		SerialFileKeithley1("SMUSettings/Keithley1.xml")
+		SerialFileHameg    ("Plugins/SCPISettings/Hameg.xml"),
+		SerialFileKeithley ("Plugins/SCPISettings/Keithley.xml"),
+		SerialFileKeithley1("Plugins/SCPISettings/Keithley1.xml")
 		{}
 	};
 	class Scan
@@ -100,9 +100,4 @@ namespace SCAN{
 		void preramp(bool up, KEITHLEY2410::Keithley2410&  k,KEITHLEY2410::Keithley2410&  k1);
 	};
 };
-
-#endif 
-
-
-
-
+#endif
