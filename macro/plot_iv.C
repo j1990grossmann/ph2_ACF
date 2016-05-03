@@ -78,7 +78,7 @@ void plot(string datfile)
 	TFile* file = new TFile("IV.root","RECREATE");
 	
 	TCanvas *canvas1  = new TCanvas("cv1","cv1",1);
-	TLegend *leg = new TLegend(.6,.13,.975,.55);
+	TLegend *leg = new TLegend(.2,.65,.7,.95);
 	std::vector< std::string > FileAndDataString;
 	std::vector< TString > Files;
 	std::vector< TString > Name;
@@ -107,7 +107,10 @@ void plot(string datfile)
 		}
 		myfile.close();
 	}
-	else std::cout << "could not open\n";
+	else{
+	  std::cout << "could not open\n";
+	  exit(1);
+	}
 
 	i=0;
 	for(auto atline : FileAndDataString)
@@ -154,7 +157,7 @@ void plot(string datfile)
 					// 					if()
 // 					TGraphs.at(j)->TGraphErrors::SetPoint((k-3),(-1.)*x,1./(y*y));
 //   					if(y>=-5e-6)
-					TGraphs.at(j)->TGraphErrors::SetPoint((k-3),(1.)*x,(1.)*y);
+					TGraphs.at(j)->TGraphErrors::SetPoint((k-3),(-1.)*x,(-1.)*y);
 					TGraphs.at(j)->SetTitle(Name.at(j));
 				}
 				k++;
@@ -189,8 +192,8 @@ void plot(string datfile)
 	mg->GetYaxis()->SetLabelSize(0.05);
 	mg->GetYaxis()->SetLabelOffset(0.01);
 	mg->GetYaxis()->SetTitleOffset(1);
-	// mg->GetYaxis()->SetRangeUser(1e-8,1e-5);
-	// mg->GetXaxis()->SetRangeUser(1e-8,1e-5);
+	mg->GetYaxis()->SetRangeUser(-1e-6,1e-5);
+	mg->GetXaxis()->SetRangeUser(-10,300);
 	// gPad->SetLogy();
 	
 // 	leg->AddEntry(TGraphs.at(0), "Wafer 11" ,"pl");
@@ -200,6 +203,8 @@ void plot(string datfile)
 	leg->Draw();
 	canvas1->SaveAs("IV.eps");
 	canvas1->SaveAs("IV.pdf");
+	canvas1->SaveAs("IV.C");
+	canvas1->SaveAs("IV.root");
 
 }
 
