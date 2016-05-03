@@ -18,3 +18,5 @@ Calibrations
 .run_number.txt
 .*
 !/.gitignore
+*.kdev4
+*.kdev4.bak
