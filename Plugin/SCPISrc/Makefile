@@ -27,7 +27,8 @@ LDFLAGS += ../libscpi/dist/libscpi.a -Wl,--as-needed
 
 .PHONY: clean all parser
 
-all: rootflags clean $(binaries) PROG
+all: rootflags clean $(binaries)
+# all: rootflags clean $(binaries) PROG
 
 rootflags:
 	$(eval CCFlags += $(CCFlagsRoot))
