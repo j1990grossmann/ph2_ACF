@@ -5,17 +5,18 @@ CCFlagsRoot	= `root-config --cflags --evelibs --glibs`
 #DevFlags                    = -D__CBCDAQ_DEV__
 DevFlags                   =
 
-IncludeDirs     =  ../../ ../SCPITools ../SCPIDevInstrument ../libscpi/inc/scpi
+IncludeDirs     =   ../../ ../SCPITools ../SCPIDevInstrument ../libscpi/inc/scpi $(BOOST_INCLUDE)
 
 IncludePaths            = $(IncludeDirs:%=-I%)
 
-LibraryDirs = /usr/local/lib ../libscpi ../SCPIlib
+LibraryDirs = ../libscpi ../SCPIlib
 LibraryPaths = $(LibraryDirs:%=-L%)
 ExternalObjects= $(LibraryPaths)  -lSCPITools -lSCPIUtils -lpthread -lncurses -lboost_thread -lboost_system -lboost_filesystem
 ExtObjectsRoot= 
 # ExtObjectsRoot= -lPh2_Tools 
 BinDir=../SCPIbin
-binaries=noisescan hameg hv_control parser
+binaries=noisescan hameg hv_control
+# binaries=noisescan hameg hv_control parser
 
 
 PROG = test-parser
@@ -59,7 +60,7 @@ hv_control: HV_Controller.cc
 # 	$(CXX) -std=c++11 $(CCFlags) -Wextra -Wmissing-prototypes -Wimplicit -I../../libscpi/inc/ -o $@ $< $(IncludePaths) $(ExternalObjects) -Wl,--as-needed
 # 	-mkdir -p $(BinDir)
 # 	-mv $@ $(BinDir)/
-parser: $(PROG)
+# parser: $(PROG)
 
 OBJS = $(SRCS:.c=.o)
 
