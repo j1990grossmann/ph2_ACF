@@ -282,6 +282,7 @@ void SCAN::Scan::FileGenerator()
 	RUNCOUNTER::Runcounter runcounter;string rundstring(runcounter.GetFileName());
 	fOutFilename.append(rundstring.c_str());
 	string dirname=	fOutFilename;
+	vector<string> OutfilenamesTmp;
 	for( auto files : fScanconfig.SerialConfigVec)
 		Outfilenames.push_back(fOutFilename+"/"+rundstring+"_iv_"+to_string(files.first)+".txt");
 	string IV_name =fOutFilename+"/"+rundstring+"_iv.txt";
@@ -293,17 +294,25 @@ void SCAN::Scan::FileGenerator()
 	 	printf("%s\n",dirname.c_str());
 // 	 	printf("%s\n",Data_name.c_str());
 // 	 	printf("%s\n",IV_name.c_str());
+		time_t ltime;struct tm *newtime;
+		time(&ltime);  newtime = localtime(&ltime);	
+
 	for(auto files:Outfilenames)
 	{
 		cout<<files<<endl;
-// 		if ( !boost::filesystem::exists( files ) )
-// 		{
-// 			ivFile.open( IV_name, std::fstream::out);
-// 			if ( !ivFile.is_open() )
-// 			{
-// 				std::cout << "File not opened!" << std::endl;
-// 				return;
-// 			}
+		if ( !boost::filesystem::exists( files ) )
+		{
+			std::fstream tmp;
+			tmp.open( files, std::fstream::out);
+			if ( !tmp.is_open() )
+			{
+				std::cout << "File not opened!" << std::endl;
+				return;
+			}
+			tmp<<"Run started at:"<<endl<<asctime(newtime);
+			tmp<<"Voltage [V]\tCurrent [A]\tStepsize[V]:\t"<<setprecision(3)<<scientific<<fScanconfig.V_step<<"\tCompliance[A]:\t"<<fScanconfig.I_compliance<<"\tRamprate [V/s]:\t"<<fScanconfig.dV_dt<<endl;
+			tmp.close();
+		}
 	}
 		
 	if ( !boost::filesystem::exists( IV_name ) )
@@ -321,8 +330,6 @@ void SCAN::Scan::FileGenerator()
 			return;
 		}
 	}
-	time_t ltime;struct tm *newtime;
-	time(&ltime);  newtime = localtime(&ltime);	
 	ivFile<<"Run started at:"<<endl<<asctime(newtime);
 	ivFile<<"Voltage [V]   Current [A]    Stepsize[V]:\t"<<setprecision(3)<<scientific<<fScanconfig.V_step<<"\tCompliance[A]: "<<fScanconfig.I_compliance<<endl;
 	

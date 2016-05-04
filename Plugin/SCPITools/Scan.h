@@ -90,6 +90,7 @@ namespace SCAN{
 		std::string fOutFilename, cbc1configfilename, cbc2configfilename, Data_name;
 		std::fstream ivFile, ivFile1, lvFile;
 		std::vector<std::string> Outfilenames;
+		
 		pugi::xml_document cFile;
 		std::fstream cbc1config;
 		vector<string> datavec;
