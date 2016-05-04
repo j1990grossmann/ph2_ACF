@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding = 'UTF-8' ?>
 <Settings>
-  <Setting rs232="devname">/dev/Keithley1</Setting>
+  <Setting rs232="devname">/dev/Keyspan</Setting>
   <Setting rs232="baudrate">57600</Setting>
   <Setting rs232="parity">none</Setting>
   <Setting rs232="character_size">8</Setting>

@@ -133,21 +133,26 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	}
 	this->FileGenerator();
 	
-// 	std::vector <KEITHLEY2410::Keithley2410> keithleyvec;
+ 	std::vector <KEITHLEY2410::Keithley2410> keithleyvec;
 	for(auto i:fScanconfig.SerialConfigVec)
 	{
-// 		keithleyvec.push_back(i.second);
+ 		keithleyvec.push_back(i.second);
 		cout<<i.second<<endl;
 	}
 	
- 	KEITHLEY2410::Keithley2410  k(fScanconfig.SerialFileKeithley);
+//  	KEITHLEY2410::Keithley2410  k(fScanconfig.SerialFileKeithley);
 	// KEITHLEY2410::Keithley2410  k1(fScanconfig.SerialFileKeithley1);
 	string readstr;
 	string readstr1("0,0");
-
-	k.Configure();
-	k.SenseCurrProt(to_string(fScanconfig.I_compliance));
-	k.Outp(1);
+	for(auto i: keithleyvec)
+	{
+		i.Configure();
+		i.SenseCurrProt(to_string(fScanconfig.I_compliance));
+		i.Outp(1);
+	}
+// 	k.Configure();
+// 	k.SenseCurrProt(to_string(fScanconfig.I_compliance));
+// 	k.Outp(1);
 
  	// k1.Configure();
  	// k1.SenseCurrProt(to_string(fScanconfig.I_compliance));
@@ -164,7 +169,11 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	for(int i=0; i<V_steps; i++)
 	{
 		double V=fScanconfig.V_min+fScanconfig.V_step*i*V_dir;
-		k.SourVoltLev(to_string(V));
+		for(auto i: keithleyvec)
+		{
+			i.SourVoltLev(to_string(V));
+		}
+
  		// k1.SourVoltLev(to_string(V));
 		if(cIV)
 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
@@ -178,9 +187,14 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		for(int j=0; j<Vcth_steps;j++)
 		{
 			int Vcth=fScanconfig.Vcth_min+fScanconfig.Vcth_step*j*Vcth_dir;
-			k.Read(readstr);
+			for(auto i: keithleyvec)
+			{
+				i.Read(readstr);
+				Tokenizer(datavec, readstr,boost::char_separator<char>(","));
+
+			}
+//  			k.Read(readstr);
  			// k1.Read(readstr1);
-			Tokenizer(datavec, readstr,boost::char_separator<char>(","));
 			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
 			if(!cIV){
 				this->ReadSetConfigFile(Vcth, cbc1configfilename);
@@ -260,11 +274,17 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	for(int i=0; i<V_steps; i++)
 	{
 		double V=fScanconfig.V_max+fScanconfig.V_step*i*V_dir;
-		k.SourVoltLev(to_string(V));
- 		// k1.SourVoltLev(to_string(V));
+		for(auto j: keithleyvec)
+		{
+			j.SourVoltLev(to_string(V));
 
-		std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
-		k.Read(readstr);
+			// 		k.SourVoltLev(to_string(V));
+			// k1.SourVoltLev(to_string(V));
+			
+			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
+			j.Read(readstr);
+		}
+// 			k.Read(readstr);
  		// k1.Read(readstr1);
 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
 		printf("Voltage %.2e V_read %s I_read %s\n",V, datavec.at(0).c_str(), datavec.at(1).c_str());
@@ -273,17 +293,29 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	// preramp(false,k, k1);
 // 	preramp(false,k, k);
 
-	
-	k.SourVoltLev("0");
+for(auto j: keithleyvec)	
+{
+	j.SourVoltLev("0");
+}
+	std::this_thread::sleep_for(std::chrono::seconds(5));
+
+	for(auto j: keithleyvec)	
+{
+	j.Read(readstr);
+	j.Outp(0);
+}
+
+
+// 	k.SourVoltLev("0");
  	// k1.SourVoltLev("0");
 
-	std::this_thread::sleep_for(std::chrono::seconds(5));
-	k.Read(readstr);
-	k.Outp(0);
+// 	k.Read(readstr);
+// 	k.Outp(0);
 	
  	// k1.Read(readstr);
  	// k1.Outp(0);
 	
+}
 }
 void SCAN::Scan::FileGenerator()
 {
