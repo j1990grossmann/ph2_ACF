@@ -52,6 +52,10 @@ void SCAN::Scan::ParseSettingsXML(const std::string& pFilename, std::ostream& os
 				cout << RED << "Voltage_step" << RESET << " --" << BOLDCYAN << nSetting.attribute( "step" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
 				fScanconfig.V_step=atof(nSetting.first_child().value());
 			}
+			if((string)nSetting.attribute("Id").as_string()=="dV_dt_V_per_s"){
+				cout << RED << "dV_dt_V_per_s" << RESET << " --" << BOLDCYAN << nSetting.attribute( "dV_dt_V_per_s" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
+				fScanconfig.dV_dt=atof(nSetting.first_child().value());
+			}
 // 			cout << RED << "Voltage_min" << RESET << " --" << BOLDCYAN << nSetting.attribute("Id").as_string() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
 		}
 		for ( pugi::xml_node nSetting = nSettings.child( "CurrentsMax" ).child("CurrentMax"); nSetting; nSetting = nSetting.next_sibling() )
@@ -277,6 +281,8 @@ void SCAN::Scan::FileGenerator()
 	RUNCOUNTER::Runcounter runcounter;string rundstring(runcounter.GetFileName());
 	fOutFilename.append(rundstring.c_str());
 	string dirname=	fOutFilename;
+	for( auto files : fScanconfig.SerialConfigVec)
+		Outfilenames.push_back(fOutFilename+"/"+rundstring+"_iv_"+to_string(files.first)+".txt");
 	string IV_name =fOutFilename+"/"+rundstring+"_iv.txt";
 	string IV_name1 =fOutFilename+"/"+rundstring+"_iv1.txt";
 	Data_name=fOutFilename+"/"+rundstring+".xml";
@@ -286,6 +292,19 @@ void SCAN::Scan::FileGenerator()
 	 	printf("%s\n",dirname.c_str());
 // 	 	printf("%s\n",Data_name.c_str());
 // 	 	printf("%s\n",IV_name.c_str());
+	for(auto files:Outfilenames)
+	{
+		cout<<files<<endl;
+// 		if ( !boost::filesystem::exists( files ) )
+// 		{
+// 			ivFile.open( IV_name, std::fstream::out);
+// 			if ( !ivFile.is_open() )
+// 			{
+// 				std::cout << "File not opened!" << std::endl;
+// 				return;
+// 			}
+	}
+		
 	if ( !boost::filesystem::exists( IV_name ) )
 	{
 		ivFile.open( IV_name, std::fstream::out);

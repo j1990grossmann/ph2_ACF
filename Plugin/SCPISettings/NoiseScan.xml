@@ -8,6 +8,7 @@
     <Voltage Id="min">0</Voltage>
     <Voltage Id="max">-120</Voltage>
     <Voltage Id="step">2</Voltage>
+    <Voltage Id="dV_dt_V_per_s">5</Voltage>
   </Voltages>
   <CurrentsMax>
     <CurrentMax Id="compliance">1E-6</CurrentMax>

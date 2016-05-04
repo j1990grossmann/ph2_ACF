@@ -55,6 +55,7 @@ namespace SCAN{
 		Vcth_min(100),
 		Vcth_max(130),
 		Vcth_step(5),
+		dV_dt(5),
 		I_compliance(1E-9),
 		No_events(1000),
 		SerialFileHameg    ("Plugins/SCPISettings/Hameg.xml"),
