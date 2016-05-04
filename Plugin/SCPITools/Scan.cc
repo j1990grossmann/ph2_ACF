@@ -85,6 +85,7 @@ void SCAN::Scan::ParseSettingsXML(const std::string& pFilename, std::ostream& os
 	}
 	for(auto file:fScanconfig.SerialConfigVec)
 		cout<<file.first<<"\t"<<file.second<<endl;
+	this->FileGenerator();
 }
 string SCAN::Scan::exec(const char* cmd)
 {
