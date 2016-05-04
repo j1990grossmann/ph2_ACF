@@ -316,7 +316,7 @@ for(auto j: keithleyvec)
  	// k1.Outp(0);
 	
 }
-}
+
 void SCAN::Scan::FileGenerator()
 {
 	RUNCOUNTER::Runcounter runcounter;string rundstring(runcounter.GetFileName());
