@@ -16,10 +16,10 @@ void SCAN::Scan::ParseSettingsXML(const std::string& pFilename, std::ostream& os
 	}
 	for ( pugi::xml_node nSettings = doc.child( "Settings" ); nSettings; nSettings = nSettings.next_sibling() )
 	{
+		int i=0;
 		pugi::xml_attribute attr;
 		for ( pugi::xml_node nSetting = nSettings.child( "Setting" ); nSetting; nSetting = nSetting.next_sibling() )
 		{
-			int i=0;
 			if(attr=nSetting.attribute( "rs232_file" )){
 // 				if((string)nSetting.attribute( "rs232_file" ).value()=="Hameg4040")
 // 				{
