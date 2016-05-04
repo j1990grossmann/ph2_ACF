@@ -80,7 +80,7 @@ void SCAN::Scan::ParseSettingsXML(const std::string& pFilename, std::ostream& os
 // 		printf("%s %s\n", fScanconfig.SerialFileKeithley.c_str(), fScanconfig.SerialFileHameg.c_str());
 	}
 	for(auto file:fScanconfig.SerialConfigVec)
-		cout<<file.first()<<"\t"<<file.last()<<endl;
+		cout<<file.first<<"\t"<<file.last<<endl;
 }
 string SCAN::Scan::exec(const char* cmd)
 {
