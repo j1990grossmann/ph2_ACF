@@ -8,10 +8,9 @@
 #include <bitset>
 
 #include "Riostream.h"
+#include "TAttLine.h"
 #include "TAttMarker.h"
 #include "TAxis.h"
-#include "TAxis.h"
-#include "TCanvas.h"
 #include "TCanvas.h"
 #include "TClass.h"
 #include "TColor.h"
@@ -22,11 +21,12 @@
 #include "TFile.h"
 #include "TGraphErrors.h"
 #include "TGraph.h"
+#include "TH1.h"
 #include "TH2.h"
-#include "TKey.h"
 #include "TKey.h"
 #include "TLatex.h"
 #include "TLegend.h"
+#include "TList.h"
 #include "TMath.h"
 #include "TMultiGraph.h"
 #include "TObject.h"
@@ -37,14 +37,7 @@
 #include "TSpectrum.h"
 #include "TString.h"
 #include "TStyle.h"
-#include "TStyle.h"
 #include "TSystem.h"
-#include "TROOT.h"
-#include "TLatex.h"
-#include "TList.h"
-#include "TAttMarker.h"
-#include "TAttLine.h"
-#include "TH1.h"
 
 #define SIZE 10
 bool isFloat( string myString ) {
