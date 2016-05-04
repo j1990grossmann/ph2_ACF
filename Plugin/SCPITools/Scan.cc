@@ -83,9 +83,6 @@ void SCAN::Scan::ParseSettingsXML(const std::string& pFilename, std::ostream& os
 // 		printf("%e %e %e %e %d %d %d %d\n", fScanconfig.V_max, fScanconfig.V_min, fScanconfig.V_step, fScanconfig.I_compliance, fScanconfig.Vcth_max, fScanconfig.Vcth_min, fScanconfig.Vcth_step, fScanconfig.No_events);
 // 		printf("%s %s\n", fScanconfig.SerialFileKeithley.c_str(), fScanconfig.SerialFileHameg.c_str());
 	}
-	for(auto file:fScanconfig.SerialConfigVec)
-		cout<<file.first<<"\t"<<file.second<<endl;
-	this->FileGenerator();
 }
 string SCAN::Scan::exec(const char* cmd)
 {
@@ -120,7 +117,7 @@ string SCAN::Scan::exec(const char* cmd)
 void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 {
 	char linestring[10000];
-	int V_steps,Vcth_steps,	V_dir, Vcth_dir; 
+	int V_steps,Vcth_steps,	V_dir, Vcth_dir;
 	if(fScanconfig.V_step<0.001 && -0.001<fScanconfig.V_step)
 		V_steps=1;
 	else
@@ -129,8 +126,19 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	Vcth_steps=round(fabs(fScanconfig.Vcth_max-fScanconfig.Vcth_min)/fabs(fScanconfig.Vcth_step)+1);
 	V_dir = ((fScanconfig.V_max-fScanconfig.V_min)>0)?1:-1;
 	Vcth_dir = ((fScanconfig.Vcth_max-fScanconfig.Vcth_min)>0)?1:-1;
-
+	
+	if(fScanconfig.dV_dt<0.001 && -0.001<fScanconfig.dV_dt)
+	{
+		fScanconfig.Dt=fabs(fScanconfig.dV_dt/fScanconfig.V_step);
+	}
 	this->FileGenerator();
+	
+// 	std::vector <KEITHLEY2410::Keithley2410> keithleyvec;
+	for(auto i:fScanconfig.SerialConfigVec)
+	{
+// 		keithleyvec.push_back(i.second);
+		cout<<i.second<<endl;
+	}
 	
  	KEITHLEY2410::Keithley2410  k(fScanconfig.SerialFileKeithley);
 	// KEITHLEY2410::Keithley2410  k1(fScanconfig.SerialFileKeithley1);
@@ -152,14 +160,14 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 
 // Now preramp up 
 	// preramp(true,k, k1);
-	preramp(true,k, k);
+// 	preramp(true,k, k);
 	for(int i=0; i<V_steps; i++)
 	{
 		double V=fScanconfig.V_min+fScanconfig.V_step*i*V_dir;
 		k.SourVoltLev(to_string(V));
  		// k1.SourVoltLev(to_string(V));
 		if(cIV)
-			std::this_thread::sleep_for(std::chrono::seconds(2));
+			std::this_thread::sleep_for(std::chrono::milliseconds(fScanconfig.Dt*1000));
 		else
 			std::this_thread::sleep_for(std::chrono::seconds(5));
 		pugi::xml_node descr = node.append_child();
@@ -255,7 +263,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		k.SourVoltLev(to_string(V));
  		// k1.SourVoltLev(to_string(V));
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		std::this_thread::sleep_for(std::chrono::milliseconds(fScanconfig.Dt*1000));
 		k.Read(readstr);
  		// k1.Read(readstr1);
 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
@@ -263,7 +271,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	}
 	
 	// preramp(false,k, k1);
-	preramp(false,k, k);
+// 	preramp(false,k, k);
 
 	
 	k.SourVoltLev("0");

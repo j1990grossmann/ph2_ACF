@@ -42,6 +42,7 @@ namespace SCAN{
 		double V_max;
 		double V_step;
 		double dV_dt;
+		double Dt;
 		double I_compliance;
 		string SerialFileHameg;
 		string SerialFileKeithley;
@@ -56,6 +57,7 @@ namespace SCAN{
 		Vcth_max(130),
 		Vcth_step(5),
 		dV_dt(5),
+		Dt(1),
 		I_compliance(1E-9),
 		No_events(1000),
 		SerialFileHameg    ("Plugins/SCPISettings/Hameg.xml"),
@@ -71,7 +73,7 @@ namespace SCAN{
 		cbc2configfilename("settings/Cbc_default_hole.txt"),
 		Data_name("")
 		{
-			fOutFilename=pOutFilename;
+			fOutFilename=  pOutFilename;
 			ParseSettingsXML(pFilename);
 		}
 		~Scan() {
