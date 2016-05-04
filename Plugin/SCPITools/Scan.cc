@@ -167,7 +167,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		k.SourVoltLev(to_string(V));
  		// k1.SourVoltLev(to_string(V));
 		if(cIV)
-			std::this_thread::sleep_for(std::chrono::milliseconds(fScanconfig.Dt*1000));
+			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
 		else
 			std::this_thread::sleep_for(std::chrono::seconds(5));
 		pugi::xml_node descr = node.append_child();
@@ -263,7 +263,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		k.SourVoltLev(to_string(V));
  		// k1.SourVoltLev(to_string(V));
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(fScanconfig.Dt*1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
 		k.Read(readstr);
  		// k1.Read(readstr1);
 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
