@@ -19,19 +19,22 @@ void SCAN::Scan::ParseSettingsXML(const std::string& pFilename, std::ostream& os
 		pugi::xml_attribute attr;
 		for ( pugi::xml_node nSetting = nSettings.child( "Setting" ); nSetting; nSetting = nSetting.next_sibling() )
 		{
+			int i=0;
 			if(attr=nSetting.attribute( "rs232_file" )){
-				if((string)nSetting.attribute( "rs232_file" ).value()=="Hameg4040")
-				{
-					fScanconfig.SerialFileHameg=nSetting.first_child().value();
-				}
+// 				if((string)nSetting.attribute( "rs232_file" ).value()=="Hameg4040")
+// 				{
+// 					fScanconfig.SerialFileHameg=nSetting.first_child().value();
+// 				}
 				if((string)nSetting.attribute( "rs232_file" ).value()=="Keithley")
 				{
 					fScanconfig.SerialFileKeithley=nSetting.first_child().value();
+					fScanconfig.SerialConfigVec.emplace_back(i,nSetting.first_child().value());
+					i++;
 				}
-				if((string)nSetting.attribute( "rs232_file" ).value()=="Keithley1")
-				{
-					fScanconfig.SerialFileKeithley1=nSetting.first_child().value();
-				}
+// 				if((string)nSetting.attribute( "rs232_file" ).value()=="Keithley1")
+// 				{
+// 					fScanconfig.SerialFileKeithley1=nSetting.first_child().value();
+// 				}
 				cout << RED << "Setting" << RESET << " --" << BOLDCYAN << nSetting.attribute( "rs232_file" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
 			}
 		}
@@ -76,6 +79,8 @@ void SCAN::Scan::ParseSettingsXML(const std::string& pFilename, std::ostream& os
 // 		printf("%e %e %e %e %d %d %d %d\n", fScanconfig.V_max, fScanconfig.V_min, fScanconfig.V_step, fScanconfig.I_compliance, fScanconfig.Vcth_max, fScanconfig.Vcth_min, fScanconfig.Vcth_step, fScanconfig.No_events);
 // 		printf("%s %s\n", fScanconfig.SerialFileKeithley.c_str(), fScanconfig.SerialFileHameg.c_str());
 	}
+	for(auto file:fScanconfig.SerialConfigVec)
+		cout<<file.first()<<"\t"<<file.last()<<endl;
 }
 string SCAN::Scan::exec(const char* cmd)
 {
@@ -123,7 +128,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	this->FileGenerator();
 	
  	KEITHLEY2410::Keithley2410  k(fScanconfig.SerialFileKeithley);
-  	// KEITHLEY2410::Keithley2410  k1(fScanconfig.SerialFileKeithley1);
+	// KEITHLEY2410::Keithley2410  k1(fScanconfig.SerialFileKeithley1);
 	string readstr;
 	string readstr1("0,0");
 

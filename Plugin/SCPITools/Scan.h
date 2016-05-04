@@ -1,5 +1,5 @@
 /*
- * File:   MuxTest.h
+ * File:   Simple_IV_Curves.h
  * Author: Johannes Grossmann
  * Distributed under the Boost Software License, Version 1.0.
  * Created on February 19th, 2015, 10:46 AM
@@ -8,17 +8,18 @@
 #ifndef SCAN_H
 #define	SCAN_H
 
-#include <cstdlib>
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <fstream>
-#include <string>
 #include <chrono>
-#include <string.h>
-#include <math.h>
-#include <vector>
+#include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <math.h>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <string.h>
+#include <vector>
 
 #include <boost/filesystem.hpp>
 #include <boost/tokenizer.hpp>
@@ -40,10 +41,12 @@ namespace SCAN{
 		double V_min;
 		double V_max;
 		double V_step;
+		double dV_dt;
 		double I_compliance;
 		string SerialFileHameg;
 		string SerialFileKeithley;
 		string SerialFileKeithley1;
+		std::vector <pair<int,string>> SerialConfigVec;
 		
 		Scanconfig():
 		V_min(0),
@@ -84,7 +87,8 @@ namespace SCAN{
 		// methods
 	private:
 		std::string fOutFilename, cbc1configfilename, cbc2configfilename, Data_name;
-		std::fstream ivFile, ivFile1;
+		std::fstream ivFile, ivFile1, lvFile;
+		std:vector<std::string> Outfilenames;
 		pugi::xml_document cFile;
 		std::fstream cbc1config;
 		vector<string> datavec;
