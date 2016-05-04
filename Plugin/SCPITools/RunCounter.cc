@@ -5,9 +5,9 @@ string RUNCOUNTER::Runcounter::GetFileName()
 	std::string line;
 	std::fstream cFile;
 	int cRunNumber;
-	if ( boost::filesystem::exists( "NoiseScan/.run_number.txt" ) )
+	if ( boost::filesystem::exists( "NoiseScanData/.run_number.txt" ) )
 	{
-		cFile.open( "NoiseScan/.run_number.txt", std::fstream::out | std::fstream::in );
+		cFile.open( "NoiseScanData/.run_number.txt", std::fstream::out | std::fstream::in );
 		if ( cFile.is_open() )
 		{
 			cFile >> cRunNumber ;
@@ -24,7 +24,7 @@ string RUNCOUNTER::Runcounter::GetFileName()
 	else
 	{
 		cRunNumber = 1;
-		cFile.open( "NoiseScan/.run_number.txt", std::fstream::out );
+		cFile.open( "NoiseScanData/.run_number.txt", std::fstream::out );
 		cFile << cRunNumber;
 		cFile.close();
 	}
@@ -34,8 +34,8 @@ string RUNCOUNTER::Runcounter::GetFileName()
 }
 void RUNCOUNTER::Runcounter::ResetCount()
 {
-	if ( boost::filesystem::exists( "NoiseScan/.run_number.txt" ) )
+	if ( boost::filesystem::exists( "NoiseScanData/.run_number.txt" ) )
 	{
-		boost::filesystem::remove("NoiseScan/.run_number.txt");
+		boost::filesystem::remove("NoiseScanData/.run_number.txt");
 	}
 }
