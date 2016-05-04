@@ -107,8 +107,8 @@ int main(int argc, char* argv[])
 //  	HAMEG4040::Hameg4040 h(cHWFile.c_str());
 	// 	h.Configure();
 	SCAN::Scan scan(cHWFile, cDirectory);
-	scan.SetConfigfile(cCBC0Config,cCBC1Config);
- 	scan.StartScan(cIVCurve,cAngle, cPosX, cPosZ);
+// 	scan.SetConfigfile(cCBC0Config,cCBC1Config);
+//  	scan.StartScan(cIVCurve,cAngle, cPosX, cPosZ);
 
 	return 0;
 }
