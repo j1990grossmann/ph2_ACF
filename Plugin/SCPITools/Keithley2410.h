@@ -43,8 +43,8 @@ namespace KEITHLEY2410{
 		}
 		
 		~Keithley2410() {
-			serial1->close();
-			std::cout<<"closed serial interface"<<std::endl;
+// 			serial1->close();
+// 			std::cout<<"closed serial interface"<<std::endl;
 		}
 		
 		// methods
