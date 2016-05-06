@@ -15,7 +15,7 @@ ExternalObjects= $(LibraryPaths)  -lSCPITools -lSCPIUtils -lpthread -lncurses -l
 ExtObjectsRoot= 
 # ExtObjectsRoot= -lPh2_Tools 
 BinDir=../SCPIbin
-binaries=noisescan hameg hv_control
+binaries=noisescan hv_control
 # binaries=noisescan hameg hv_control parser
 
 
