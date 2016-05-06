@@ -138,15 +138,15 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	this->FileGenerator();
 	
  	std::vector <KEITHLEY2410::Keithley2410> keithleyvec;
-	std::vector <string> readstring_vec;
 	for(auto i:fScanconfig.SerialConfigVec)
 	{
  		keithleyvec.push_back(KEITHLEY2410::Keithley2410(i.second));
-		readstring_vec.push_back("");
+		vector<string> data;
+		datavec.push_back(data);
 	}
 	
 	string readstr;
-	string readstr1("0,0");
+	vector<string> data_v;
 	for(auto i: keithleyvec)
 	{
 		i.Configure();
@@ -171,7 +171,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		if(cIV)
 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
 		else
-			std::this_thread::sleep_for(std::chrono::seconds(5));
+			std::this_thread::sleep_for(std::chrono::seconds((int)(fScanconfig.Dt*1000)));
 		pugi::xml_node descr = node.append_child();
 		descr.set_name("Measurement");
 		descr.append_attribute("V_set") = V;
@@ -180,12 +180,18 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		for(int j=0; j<Vcth_steps;j++)
 		{
 			int Vcth=fScanconfig.Vcth_min+fScanconfig.Vcth_step*j*Vcth_dir;
+			int k=0;
 			for(auto i: keithleyvec)
 			{
-// 				i.Read(readstr);
-// 				Tokenizer(datavec, readstr,boost::char_separator<char>(","));
-
+ 				i.Read(readstr);
+ 				Tokenizer(data_v, readstr,boost::char_separator<char>(","));
+				datavec[k].push_back(data_v);
+				k++;
+				for(auto l: data_v)
+					cout<<l;
+				cout<<end;
 			}
+			
 //  			k.Read(readstr);
  			// k1.Read(readstr1);
 // 			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
@@ -435,14 +441,17 @@ void SCAN::Scan::preramp(bool up, vector<KEITHLEY2410::Keithley2410> & keithleyv
   if(abs(fScanconfig.V_min)<0.00001)
 	  no_of_steps=1;
   int dT_int=round(dT)*1000000;
+  cout<<GREEN<<"Preramp begin at "<<YELLOW<<setprecision(2)<<V_start<<" V"<<RESET<<endl;
+  double V;
   for(int i=0; i<no_of_steps; i++)
   {
 	  std::this_thread::sleep_for(std::chrono::microseconds(dT_int));
-	  double V=V_stepsize*(i+1)*rampdir+V_start;
+	  V=V_stepsize*(i+1)*rampdir+V_start;
 	  for(auto j : keithleyvec)
 		  j.SourVoltLev(to_string(V));
 	  // k1.SourVoltLev(to_string(V));
   }
-// 	this->FileGenerator();
+  cout<<GREEN<<"Preramp end at "<<YELLOW<<setprecision(2)<<V<<" V"<<RESET<<endl;
+  // 	this->FileGenerator();
 
 }
