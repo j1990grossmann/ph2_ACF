@@ -136,7 +136,8 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
  	std::vector <KEITHLEY2410::Keithley2410> keithleyvec;
 	for(auto i:fScanconfig.SerialConfigVec)
 	{
- 		keithleyvec.push_back(i.second);
+		
+ 		keithleyvec.push_back(KEITHLEY2410::Keithley2410(i.second));
 		cout<<i.second<<endl;
 	}
 	
