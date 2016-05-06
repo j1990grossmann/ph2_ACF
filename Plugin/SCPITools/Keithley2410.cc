@@ -344,7 +344,7 @@ void Keithley2410::SystLSyn(int onoff)
 void Keithley2410::ReadSynchronized(string& command, string& read_str)
 {
 	int counter = 0;
-	this->serial1.writeString(command+endline);
+	this->serial1->writeString(command+endline);
 // 	auto start = std::chrono::system_clock::now();
 	read_str="";
 	while(read_str.empty())
