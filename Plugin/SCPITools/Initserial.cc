@@ -32,13 +32,13 @@ void INITSERIAL::Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, INIT
 		exit(1);
 	}
 }
-void INITSERIAL::Serial::EmptyBuffer(shared_ptr< BufferedAsyncSerial > serial)
-{
-	string read_str="a";
-	while(!read_str.empty())
-	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(4));
-		read_str=serial->readStringUntil();	
-	}
-	
-}
+// void INITSERIAL::Serial::EmptyBuffer(shared_ptr< BufferedAsyncSerial > serial)
+// {
+// 	string read_str="a";
+// 	while(!read_str.empty())
+// 	{
+// 		std::this_thread::sleep_for(std::chrono::milliseconds(4));
+// 		read_str=serial->readStringUntil();	
+// 	}
+// 	
+// }

@@ -37,7 +37,7 @@ namespace INITSERIAL{
 		// methods
 // 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
 		void Initialise(shared_ptr<BufferedAsyncSerial> serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
-		void EmptyBuffer(shared_ptr<BufferedAsyncSerial> serial);  // wants to be called after SystemController::ReadHW, ReadSettings
+// 		void EmptyBuffer(shared_ptr<BufferedAsyncSerial> serial);  // wants to be called after SystemController::ReadHW, ReadSettings
 		std::string endline;
 	};
 }
