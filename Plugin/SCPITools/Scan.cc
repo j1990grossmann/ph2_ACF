@@ -133,7 +133,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		cout<<"Wait Time between two set points in s"<<fScanconfig.Dt<<endl;
 	}else{
 		cout<<"A zero value for ramprate was specified"<<endl;
-		return 1;
+		exit(1);
 	}
 	this->FileGenerator();
 	
