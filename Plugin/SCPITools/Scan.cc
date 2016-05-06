@@ -250,7 +250,9 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 					for(auto m : datavec[keithleys])
 					{
 						tmp<<m<<"\t";
+						cout<<m<<"\t";
 					}
+					cout<<endl;
 					tmp<<endl;
 					tmp.close();
 				}
