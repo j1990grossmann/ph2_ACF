@@ -247,6 +247,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 						std::cout << "File not opened!" << std::endl;
 						return;
 					}
+					cout<<"looping keithleyss"<<endl;
 					for(auto m : datavec[keithleys])
 					{
 						tmp<<m<<"\t";
