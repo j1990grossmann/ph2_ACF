@@ -14,6 +14,7 @@
 #include <chrono>
 #include <thread>
 #include <string.h>
+#include <memory>
 
 #include "../SCPIUtils/ConsoleColor.h"
 #include "AsyncSerial.h"
@@ -33,7 +34,8 @@ namespace INITSERIAL{
 		~Serial(){
 		}
 		// methods
-		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
+// 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
+		void Initialise(shared_ptr<AsyncSerial> serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
 		std::string endline;
 	};
 }

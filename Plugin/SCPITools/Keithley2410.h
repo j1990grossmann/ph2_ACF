@@ -15,6 +15,7 @@
 #include <thread>
 #include <string.h>
 #include <vector>
+#include <memory>
 
 // #include "BufferedAsyncSerial.h"
 #include "AsyncSerial.h"
@@ -37,13 +38,16 @@ namespace KEITHLEY2410{
 			endline = "\n";
 			ParseSettingsXML(fFilename, std::cout);
 // 			BufferedAsyncSerial serial;
-			// 			Initialise(serial);			
-			INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
+			// 			Initialise(serial);		
+			serial1=new AsyncSerial();
+// 			INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
+			INITSERIAL::Serial().Initialise(serial1, fSerialSettingsmap);
 		}
 		
 		// 		BufferedAsyncSerial serial("/dev/MuxTest",115200);
 		~Keithley2410() {
-			serial.close();
+// 			serial.close();
+			serial1->close();
 			std::cout<<"closed serial interface"<<std::endl;
 		}
 		
@@ -107,6 +111,7 @@ namespace KEITHLEY2410{
 	private:
 		
 		AsyncSerial serial;
+		shared_ptr<AsyncSerial>serial1;
 		KeithleyChannelMap fHamegChannelMap;
 		KeithleyChannelMap fHamegChannelMapCurr;
 		INITSERIAL::SerialSettingsMap fSerialSettingsmap;
@@ -115,7 +120,7 @@ namespace KEITHLEY2410{
 		std::string fFilename;
 		
 	protected:
-		Keithley2410( const Keithley2410 &obj);	
+// 		Keithley2410( const Keithley2410 &obj);	
 		void WriteSynchronized(string &command);
 		void WriteNotSynchronized(string &command);
 		void ReadSynchronized(string &command, string &readstring);
