@@ -240,10 +240,10 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			for(auto files:Outfilenames)
 			{
 				cout<<"looping keithleyss 1"<<endl;
-				if ( !boost::filesystem::exists( files ) )
+				if ( boost::filesystem::exists( files ) )
 				{
 					std::fstream tmp;
-					tmp.open( files, std::fstream::out);
+					tmp.open( files, std::fstream::app);
 					if ( !tmp.is_open() )
 					{
 						std::cout << "File not opened!" << std::endl;
