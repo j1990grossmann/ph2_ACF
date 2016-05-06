@@ -5,8 +5,8 @@
   <Setting rs232_file="Keithley1">Plugin/SCPISettings/Keithley1.xml</Setting>
   <Voltages>
     <Voltage Id="min">0</Voltage>
-    <Voltage Id="max">-120</Voltage>
-    <Voltage Id="step">2</Voltage>
+    <Voltage Id="max">-10</Voltage>
+    <Voltage Id="step">5</Voltage>
     <Voltage Id="dV_dt_V_per_s">5</Voltage>
   </Voltages>
   <CurrentsMax>

@@ -347,7 +347,7 @@ void Keithley2410::WriteSynchronized(string& command)
 	this->serial->writeString(command+endline);
 	this->serial->writeString("*OPC?"+endline);
 	std::cout<<"written "<<command<<std::endl;
-//  	auto start = std::chrono::system_clock::now();
+  	auto start = std::chrono::system_clock::now();
 	read_str ="";
 	while(read_str.empty())
 	{		
@@ -359,7 +359,7 @@ void Keithley2410::WriteSynchronized(string& command)
  		this->Timeout();
  		read_str=serial->readStringUntil(endline);
 		if(!read_str.empty()){
-// 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
+			std:cout<<read_str<<"\tMicroseconds until OPC received\t"<<counter<<std::endl;
 		}
 		if(counter%10000==0 && counter!=0)
 		{
