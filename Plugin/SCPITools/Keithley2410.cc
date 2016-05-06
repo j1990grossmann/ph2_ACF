@@ -46,18 +46,10 @@ void Keithley2410::ConfigureMultipleRead(int no_samples)
 
 void Keithley2410::Reset()
 {
-	while(!read_str.empty())
-	{
-		Timeout();
-		read_str=serial->readStringUntil(endline);
-	}
+	INITSERIAL::Serial::EmptyBuffer(serial);
 	write_str = "*RST";
 	this->WriteNotSynchronized(write_str);
-	while(!read_str.empty())
-	{
-		Timeout();
-		read_str=serial->readStringUntil(endline);
-	}
+	INITSERIAL::Serial::EmptyBuffer(serial);	
 }
 
 void Keithley2410::SenseCurr()
