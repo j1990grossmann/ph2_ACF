@@ -455,6 +455,4 @@ void SCAN::Scan::preramp(bool up, vector<KEITHLEY2410::Keithley2410> & keithleyv
 	  // k1.SourVoltLev(to_string(V));
   }
   cout<<GREEN<<"Preramp end at "<<YELLOW<<setprecision(2)<<V<<" V"<<RESET<<endl;
-  // 	this->FileGenerator();
-
 }
