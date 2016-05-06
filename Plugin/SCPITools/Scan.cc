@@ -235,7 +235,27 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			
 //  			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(), datavec.at(1).at(0).c_str(),datavec.at(1).at(1).c_str(),raw_file_name.c_str());
  			printf("Voltage %.2e Vcth %d V_read %s I_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(),raw_file_name.c_str());
-// 			ivFile<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
+			int keithleys=0;
+			for(auto files:Outfilenames)
+			{
+				if ( !boost::filesystem::exists( files ) )
+				{
+					std::fstream tmp;
+					tmp.open( files, std::fstream::out);
+					if ( !tmp.is_open() )
+					{
+						std::cout << "File not opened!" << std::endl;
+						return;
+					}
+					for(auto m : datavec[keithleys])
+					{
+						tmp<<m<<"\t";
+					}
+					tmp<<endl;
+					tmp.close();
+				}
+				keithleys++;
+			}
 			pugi::xml_node param = descr.append_child();
 			param.set_name("Vcth");
 			param.append_attribute("Filename");
@@ -341,27 +361,6 @@ void SCAN::Scan::FileGenerator()
 			tmp.close();
 		}
 	}
-		
-	if ( !boost::filesystem::exists( IV_name ) )
-	{
-		ivFile.open( IV_name, std::fstream::out);
-		if ( !ivFile.is_open() )
-		{
-			std::cout << "File not opened!" << std::endl;
-			return;
-		}
-		ivFile1.open( IV_name1, std::fstream::out);
-		if ( !ivFile1.is_open() )
-		{
-			std::cout << "File not opened!" << std::endl;
-			return;
-		}
-	}
-	ivFile<<"Run started at:"<<endl<<asctime(newtime);
-	ivFile<<"Voltage [V]   Current [A]    Stepsize[V]:\t"<<setprecision(3)<<scientific<<fScanconfig.V_step<<"\tCompliance[A]: "<<fScanconfig.I_compliance<<endl;
-	
-	ivFile1<<"Run started at:"<<endl<<asctime(newtime);
-	ivFile1<<"Voltage [V]   Current [A]    Stepsize[V]:\t"<<setprecision(3)<<scientific<<fScanconfig.V_step<<"\tCompliance[A]: "<<fScanconfig.I_compliance<<endl;
 }
 void SCAN::Scan::Tokenizer(vector< string >& datavec, string& datastring, boost::char_separator<char> sep)
 {
