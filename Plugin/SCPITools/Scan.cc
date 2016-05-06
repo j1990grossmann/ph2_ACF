@@ -228,8 +228,8 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			strftime (buffer,80,"%FT%TZ",start_time_tm);
 			strftime (buffer1,80,"%FT%TZ",end_time_tm);
 			
-			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str(),raw_file_name.c_str());
-			ivFile<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
+// 			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str(),raw_file_name.c_str());
+// 			ivFile<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
 			pugi::xml_node param = descr.append_child();
 			param.set_name("Vcth");
 			param.append_attribute("Filename");
@@ -237,13 +237,13 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			param.append_attribute("Vcth");
 			param.attribute("Vcth").xml_attribute::set_value(Vcth);
  			param.append_attribute("V");
-			param.attribute("V").set_value(datavec.at(0).c_str());
+// 			param.attribute("V").set_value(datavec.at(0).c_str());
  			param.append_attribute("I");
-			param.attribute("I").set_value(datavec.at(1).c_str());
+// 			param.attribute("I").set_value(datavec.at(1).c_str());
  			param.append_attribute("V1");
-			param.attribute("V1").set_value(datavec1.at(0).c_str());
+// 			param.attribute("V1").set_value(datavec1.at(0).c_str());
  			param.append_attribute("I1");
-			param.attribute("I1").set_value(datavec1.at(1).c_str());
+// 			param.attribute("I1").set_value(datavec1.at(1).c_str());
  			param.append_attribute("Nevents");
 			param.attribute("Nevents").set_value(fScanconfig.No_events);
  			param.append_attribute("Start");
@@ -279,7 +279,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 // 			k.Read(readstr);
  		// k1.Read(readstr1);
 // 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
-		printf("Voltage %.2e V_read %s I_read %s\n",V, datavec.at(0).c_str(), datavec.at(1).c_str());
+// 		printf("Voltage %.2e V_read %s I_read %s\n",V, datavec.at(0).c_str(), datavec.at(1).c_str());
 	}
 	
 	preramp(false,keithleyvec);
