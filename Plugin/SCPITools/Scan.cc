@@ -234,21 +234,21 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			strftime (buffer1,80,"%FT%TZ",end_time_tm);
 			
 //  			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(), datavec.at(1).at(0).c_str(),datavec.at(1).at(1).c_str(),raw_file_name.c_str());
- 			printf("Voltage %.2e Vcth %d V_read %s I_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(),raw_file_name.c_str());
+//  			printf("Voltage %.2e Vcth %d V_read %s I_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(),raw_file_name.c_str());
 			int keithleys=0;
 			cout<<"looping keithleyss"<<endl;
 			for(auto files:Outfilenames)
 			{
-				cout<<"looping keithleyss 1"<<files<<endl;
 				if ( boost::filesystem::exists( files ) )
 				{
 					std::fstream tmp;
-					tmp.open( "NoiseScanData/run_045/run_045_iv_0.txt", std::fstream::app);
+					tmp.open( files, std::fstream::app);
 					if ( !tmp.is_open() )
 					{
 						std::cout << "File not opened!" << std::endl;
 						return;
 					}
+					cout<<"looping keithleyss 1"<<files<<endl;
 					for(auto m : datavec[keithleys])
 					{
 						tmp<<m<<"\t";
