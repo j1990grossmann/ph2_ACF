@@ -234,9 +234,8 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			strftime (buffer1,80,"%FT%TZ",end_time_tm);
 			
 //  			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(), datavec.at(1).at(0).c_str(),datavec.at(1).at(1).c_str(),raw_file_name.c_str());
-//  			printf("Voltage %.2e Vcth %d V_read %s I_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(),raw_file_name.c_str());
+ 			printf("Voltage %.2e Vcth %d V_read %s I_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(),raw_file_name.c_str());
 			int keithleys=0;
-			cout<<"looping keithleyss"<<endl;
 			for(auto files:Outfilenames)
 			{
 				if ( boost::filesystem::exists( files ) )
@@ -248,15 +247,11 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 						std::cout << "File not opened!" << std::endl;
 						return;
 					}
-					cout<<"looping keithleyss 1"<<files<<endl;
 					for(auto m : datavec[keithleys])
 					{
 						tmp<<m<<"\t";
-						cout<<m<<"\t";
 					}
-					cout<<endl;
-					tmp<<endl;
-					tmp.close();
+					tmp<<endl;tmp.close();
 				}
 				keithleys++;
 			}
@@ -267,9 +262,9 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			param.append_attribute("Vcth");
 			param.attribute("Vcth").xml_attribute::set_value(Vcth);
  			param.append_attribute("V");
-// 			param.attribute("V").set_value(datavec.at(0).c_str());
+ 			param.attribute("V").set_value(datavec.at(0).at(0).c_str());
  			param.append_attribute("I");
-// 			param.attribute("I").set_value(datavec.at(1).c_str());
+ 			param.attribute("I").set_value(datavec.at(0).at(1).c_str());
  			param.append_attribute("V1");
 // 			param.attribute("V1").set_value(datavec1.at(0).c_str());
  			param.append_attribute("I1");
@@ -299,33 +294,27 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		for(auto j: keithleyvec)
 		{
 			j.SourVoltLev(to_string(V));
-
-			// 		k.SourVoltLev(to_string(V));
-			// k1.SourVoltLev(to_string(V));
-			
 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
-// 			j.Read(readstr);
+ 			j.Read(readstr);
+			Tokenizer(data_v, readstr,boost::char_separator<char>(","));
+			k++;
+			for(auto l: data_v)
+				cout<<l<<"\t";
+			cout<<endl;
 		}
-// 			k.Read(readstr);
- 		// k1.Read(readstr1);
-// 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
-// 		printf("Voltage %.2e V_read %s I_read %s\n",V, datavec.at(0).c_str(), datavec.at(1).c_str());
 	}
-	
 	preramp(false,keithleyvec);
 
-for(auto j: keithleyvec)	
-{
-	j.SourVoltLev("0");
-}
-	std::this_thread::sleep_for(std::chrono::seconds(1));
-
 	for(auto j: keithleyvec)	
-{
-	j.Read(readstr);
-	j.Outp(0);
-}
-
+	{
+		j.SourVoltLev("0");
+	}
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+	for(auto j: keithleyvec)	
+	{
+		j.Read(readstr);
+		j.Outp(0);
+	}
 }
 
 void SCAN::Scan::FileGenerator()
