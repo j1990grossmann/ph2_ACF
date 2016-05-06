@@ -19,6 +19,7 @@
 
 // #include "BufferedAsyncSerial.h"
 #include "AsyncSerial.h"
+#include "BufferedAsyncSerial.h"
 #include "Initserial.h"
 #include "../SCPIUtils/pugixml.hpp"
 #include "../SCPIUtils/ConsoleColor.h"
@@ -37,21 +38,16 @@ namespace KEITHLEY2410{
 			fFilename=pFilename;
 			endline = "\n";
 			ParseSettingsXML(fFilename, std::cout);
-// 			BufferedAsyncSerial serial;
-			// 			Initialise(serial);		
 // 			INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
 			INITSERIAL::Serial().Initialise(serial1, fSerialSettingsmap);
 		}
 		
-		// 		BufferedAsyncSerial serial("/dev/MuxTest",115200);
 		~Keithley2410() {
-// 			serial.close();
 			serial1->close();
 			std::cout<<"closed serial interface"<<std::endl;
 		}
 		
 		// methods
-		void Initialise();  // wants to be called after SystemController::ReadHW, ReadSettings
 		void Configure();
 		void ConfigureSingleRead();
 		void ConfigureMultipleRead(int no_samples);
@@ -109,7 +105,6 @@ namespace KEITHLEY2410{
 		
 	private:
 		
-// 		AsyncSerial serial;
 		shared_ptr<BufferedAsyncSerial>serial1;
 		KeithleyChannelMap fHamegChannelMap;
 		KeithleyChannelMap fHamegChannelMapCurr;
@@ -119,14 +114,12 @@ namespace KEITHLEY2410{
 		std::string fFilename;
 		
 	protected:
-// 		Keithley2410( const Keithley2410 &obj);	
 		void WriteSynchronized(string &command);
 		void WriteNotSynchronized(string &command);
 		void ReadSynchronized(string &command, string &readstring);
 		void Timeout();
 		void ParseSettingsXML(const string& pFilename, ostream& os);		
-		
 	};
 };
 
-#endif 
+#endif

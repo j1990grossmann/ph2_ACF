@@ -5,26 +5,6 @@
 
 using namespace KEITHLEY2410;
 
-void Keithley2410::Initialise()
-{	
-// 	serial = new BufferedAsyncSerial();
-	
-	string devname("/dev/ttyUSB0");
-	unsigned int baudrate = 57600;
-	boost::asio::serial_port_base::parity            parity(boost::asio::serial_port_base::parity::none);
-	boost::asio::serial_port_base::character_size    character_size(8);
-	boost::asio::serial_port_base::flow_control      flow_control(boost::asio::serial_port_base::flow_control::none);
-	boost::asio::serial_port_base::stop_bits         stop_bits(boost::asio::serial_port_base::stop_bits::one);
-	endline = "\n";
-	try{
-		serial1->open(devname,baudrate, parity, character_size, flow_control, stop_bits);
-// 		serial.open(devname,baudrate, parity, character_size, flow_control, stop_bits);
-	}catch(boost::system::system_error& e){
-		std::cout<<"boost error catched serial not open  "<<e.what()<<std::endl;
-		exit(1);
-	}
-}
-
 void Keithley2410::Configure()
 {
 	this->Reset();
@@ -436,15 +416,3 @@ void Keithley2410::ParseSettingsXML(const string& pFilename, ostream& os)
 	}
 	fSerialSettingsmap=tmpSerialSettingsMap;
 }
-
-// Keithley2410::Keithley2410(const Keithley2410& obj)
-// {
-// 	endline = obj.endline;
-// 	ParseSettingsXML(obj.fFilename, std::cout);
-// 	fHamegChannelMap=obj.fHamegChannelMap;
-// 	fHamegChannelMapCurr=obj.fHamegChannelMapCurr;
-// 	fSerialSettingsmap=obj.fSerialSettingsmap;
-// 	fFilename=obj.fFilename;
-// 	AsyncSerial serialcp;
-// 	INITSERIAL::Serial().Initialise(serialcp, obj.fSerialSettingsmap);
-// }
