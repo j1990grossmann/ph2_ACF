@@ -378,7 +378,7 @@ void Keithley2410::WriteNotSynchronized(string& command)
 	this->serial->writeString(command+endline);
 	std::cout<<"written "<<command<<std::endl;
 //  	auto start = std::chrono::system_clock::now();
-	std::this_thread::sleep_for(std::chrono::seconds(1));
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 // 	std::cout<<"time for completion of command\t"<<elapsed.count()<<std::endl;
