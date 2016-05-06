@@ -189,7 +189,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 				k++;
 				for(auto l: data_v)
 					cout<<l;
-				cout<<end;
+				cout<<endl;
 			}
 			
 //  			k.Read(readstr);
