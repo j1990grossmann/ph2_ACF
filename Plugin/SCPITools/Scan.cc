@@ -138,14 +138,13 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	this->FileGenerator();
 	
  	std::vector <KEITHLEY2410::Keithley2410> keithleyvec;
+	std::vector <string> readstring_vec;
 	for(auto i:fScanconfig.SerialConfigVec)
 	{
  		keithleyvec.push_back(KEITHLEY2410::Keithley2410(i.second));
-		cout<<i.second<<endl;
+		readstring_vec.push_back();
 	}
 	
-//  	KEITHLEY2410::Keithley2410  k(fScanconfig.SerialFileKeithley);
-	// KEITHLEY2410::Keithley2410  k1(fScanconfig.SerialFileKeithley1);
 	string readstr;
 	string readstr1("0,0");
 	for(auto i: keithleyvec)
@@ -154,22 +153,12 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		i.SenseCurrProt(to_string(fScanconfig.I_compliance));
 		i.Outp(1);
 	}
-// 	k.Configure();
-// 	k.SenseCurrProt(to_string(fScanconfig.I_compliance));
-// 	k.Outp(1);
-
- 	// k1.Configure();
- 	// k1.SenseCurrProt(to_string(fScanconfig.I_compliance));
- 	// k1.Outp(1);
 
 	pugi::xml_node node = cFile.append_child();
 	node.set_name("Noise_VS_Bias");
 
-// 	cout<<readstr<<endl;
-
-// Now preramp up 
-	// preramp(true,k, k1);
-// 	preramp(true,k, k);
+	// Now preramp up 
+	preramp(true,keithleyvec);
 	for(int i=0; i<V_steps; i++)
 	{
 		double V=fScanconfig.V_min+fScanconfig.V_step*i*V_dir;
@@ -193,13 +182,13 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			int Vcth=fScanconfig.Vcth_min+fScanconfig.Vcth_step*j*Vcth_dir;
 			for(auto i: keithleyvec)
 			{
-				i.Read(readstr);
-				Tokenizer(datavec, readstr,boost::char_separator<char>(","));
+// 				i.Read(readstr);
+// 				Tokenizer(datavec, readstr,boost::char_separator<char>(","));
 
 			}
 //  			k.Read(readstr);
  			// k1.Read(readstr1);
-			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
+// 			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
 			if(!cIV){
 				this->ReadSetConfigFile(Vcth, cbc1configfilename);
 				this->ReadSetConfigFile(Vcth, cbc2configfilename);
@@ -241,7 +230,6 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			
 			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str(),raw_file_name.c_str());
 			ivFile<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
-			ivFile1<<datavec1.at(0)<<"\t"<<datavec1.at(1)<<endl;
 			pugi::xml_node param = descr.append_child();
 			param.set_name("Vcth");
 			param.append_attribute("Filename");
@@ -286,22 +274,21 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			// k1.SourVoltLev(to_string(V));
 			
 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
-			j.Read(readstr);
+// 			j.Read(readstr);
 		}
 // 			k.Read(readstr);
  		// k1.Read(readstr1);
-		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
+// 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
 		printf("Voltage %.2e V_read %s I_read %s\n",V, datavec.at(0).c_str(), datavec.at(1).c_str());
 	}
 	
-	// preramp(false,k, k1);
-// 	preramp(false,k, k);
+	preramp(false,keithleyvec);
 
 for(auto j: keithleyvec)	
 {
 	j.SourVoltLev("0");
 }
-	std::this_thread::sleep_for(std::chrono::seconds(5));
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	for(auto j: keithleyvec)	
 {
@@ -309,16 +296,6 @@ for(auto j: keithleyvec)
 	j.Outp(0);
 }
 
-
-// 	k.SourVoltLev("0");
- 	// k1.SourVoltLev("0");
-
-// 	k.Read(readstr);
-// 	k.Outp(0);
-	
- 	// k1.Read(readstr);
- 	// k1.Outp(0);
-	
 }
 
 void SCAN::Scan::FileGenerator()
@@ -446,21 +423,24 @@ string SCAN::Scan::IntToHexStr(int x)
 	stream<<x;
 	return std::string( stream.str() );
 }
-void SCAN::Scan::preramp(bool up, KEITHLEY2410::Keithley2410&  k,KEITHLEY2410::Keithley2410&  k1)
+void SCAN::Scan::preramp(bool up, vector<KEITHLEY2410::Keithley2410> & keithleyvec)
 {
   int rampdir= up ? 1 : -1;
-  int no_of_steps=20;
+  int no_of_steps=50;
   double V_stepsize, V_start;
-  
   V_stepsize=fScanconfig.V_min/(double)no_of_steps;
+  double dT =fabs(V_stepsize/fScanconfig.dV_dt);
+  cout<<GREEN<<"Delta t = V_step_preramp / dV/dt = "<<YELLOW<<dT<<" s"<<RESET<<endl;
   V_start=up? 0: fScanconfig.V_min;
-  if(fScanconfig.V_min<0.00001 && fScanconfig.V_min>-0.00001)
+  if(abs(fScanconfig.V_min)<0.00001)
 	  no_of_steps=1;
+  int dT_int=round(dT)*1000000;
   for(int i=0; i<no_of_steps; i++)
   {
-	  std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	  std::this_thread::sleep_for(std::chrono::microseconds(dT_int));
 	  double V=V_stepsize*(i+1)*rampdir+V_start;
-	  k.SourVoltLev(to_string(V));
+	  for(auto j : keithleyvec)
+		  j.SourVoltLev(to_string(V));
 	  // k1.SourVoltLev(to_string(V));
   }
 // 	this->FileGenerator();

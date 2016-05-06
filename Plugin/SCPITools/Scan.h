@@ -95,8 +95,7 @@ namespace SCAN{
 		
 		pugi::xml_document cFile;
 		std::fstream cbc1config;
-		vector<string> datavec;
-		vector<string> datavec1;
+		vector<vector<string>> datavec;
 		Scanconfig fScanconfig;
 	protected:
 		void ParseSettingsXML( const std::string& pFilename, std::ostream& os = std::cout);
@@ -105,7 +104,7 @@ namespace SCAN{
 		void FileGenerator();
 		void Tokenizer(vector< string >& datavec, string& datastring, boost::char_separator<char> sep);
 		string IntToHexStr(int x);
-		void preramp(bool up, KEITHLEY2410::Keithley2410&  k,KEITHLEY2410::Keithley2410&  k1);
+		void preramp(bool up, vector<KEITHLEY2410::Keithley2410> & keithleyvec);
 	};
 };
 #endif

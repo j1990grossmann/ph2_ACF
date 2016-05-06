@@ -348,7 +348,7 @@ void Keithley2410::WriteSynchronized(string& command)
 	this->serial->writeString("*CLS"+endline);
 	this->serial->writeString(command+endline);
 	this->serial->writeString("*OPC?"+endline);
-	std::cout<<"written "<<command<<std::endl;
+// 	std::cout<<"written "<<command<<std::endl;
   	auto start = std::chrono::system_clock::now();
 	read_str ="";
 	while(read_str.empty())
