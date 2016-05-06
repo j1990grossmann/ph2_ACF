@@ -351,7 +351,7 @@ void Keithley2410::ReadSynchronized(string& command, string& read_str)
 	{		
 //  		if(counter == 10000){break;}
  		Timeout();
- 		read_str=serial.readStringUntil(endline);
+ 		read_str=serial1->readStringUntil(endline);
 // 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
 		counter++;
 	}
@@ -363,9 +363,9 @@ void Keithley2410::ReadSynchronized(string& command, string& read_str)
 void Keithley2410::WriteSynchronized(string& command)
 {
 	int counter = 0;
-	this->serial.writeString("*CLS"+endline);
-	this->serial.writeString(command+endline);
-	this->serial.writeString("*OPC?"+endline);
+	this->serial1->writeString("*CLS"+endline);
+	this->serial1->writeString(command+endline);
+	this->serial1->writeString("*OPC?"+endline);
 	std::cout<<"written "<<command<<std::endl;
 //  	auto start = std::chrono::system_clock::now();
 	read_str ="";
@@ -377,7 +377,7 @@ void Keithley2410::WriteSynchronized(string& command)
 			break;
 		}
  		this->Timeout();
- 		read_str=serial.readStringUntil(endline);
+ 		read_str=serial1->readStringUntil(endline);
 		if(!read_str.empty()){
 // 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 		}
@@ -395,7 +395,7 @@ void Keithley2410::WriteSynchronized(string& command)
 void Keithley2410::WriteNotSynchronized(string& command)
 {
 	int counter = 0;
-	this->serial.writeString(command+endline);
+	this->serial1->writeString(command+endline);
 	std::cout<<"written "<<command<<std::endl;
 //  	auto start = std::chrono::system_clock::now();
 	for(int i=0; i<10000; i++){
