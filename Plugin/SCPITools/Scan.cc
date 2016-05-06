@@ -129,7 +129,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	
 	if(fScanconfig.dV_dt<0.001 && -0.001<fScanconfig.dV_dt)
 	{
-		fScanconfig.Dt=fabs(fScanconfig.dV_dt/fScanconfig.V_step);
+		fScanconfig.Dt=fabs(fScanconfig.V_step/fScanconfig.dV_dt);
 	}
 	this->FileGenerator();
 	
