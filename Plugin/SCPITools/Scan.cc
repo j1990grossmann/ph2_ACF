@@ -241,8 +241,8 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			{
 				if ( boost::filesystem::exists( files ) )
 				{
-					std::fstream tmp;
-					tmp.open( files, std::fstream::app);
+					std::ofstream tmp;
+					tmp.open( files, std::ofstream::app);
 					if ( !tmp.is_open() )
 					{
 						std::cout << "File not opened!" << std::endl;
