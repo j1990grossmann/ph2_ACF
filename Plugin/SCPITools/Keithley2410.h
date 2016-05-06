@@ -1,5 +1,5 @@
 /*
- * File:   MuxTest.h
+ * File:   Keithley2410.h
  * Author: Johannes Grossmann
  * Distributed under the Boost Software License, Version 1.0.
  * Created on February 19th, 2015, 10:46 AM
@@ -30,21 +30,19 @@ using namespace std;
 
 namespace KEITHLEY2410{
 	typedef std::map< int, std::vector<double> >  KeithleyChannelMap;
-	
+
 	class Keithley2410
 	{
 	public:
-		Keithley2410(const std::string& pFilename) :fFilename(""){
+		Keithley2410(const std::string& pFilename){
 			fFilename=pFilename;
 			endline = "\n";
 			ParseSettingsXML(fFilename, std::cout);
-// 			INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
-			serial1=make_shared<BufferedAsyncSerial>();
-			INITSERIAL::Serial().Initialise(serial1, fSerialSettingsmap);
+			serial=make_shared<BufferedAsyncSerial>();
+			INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
 		}
 		
 		~Keithley2410() {
-// 			serial1->close();
 // 			std::cout<<"closed serial interface"<<std::endl;
 		}
 		
@@ -106,9 +104,7 @@ namespace KEITHLEY2410{
 		
 	private:
 		
-		shared_ptr<BufferedAsyncSerial>serial1;
-		KeithleyChannelMap fHamegChannelMap;
-		KeithleyChannelMap fHamegChannelMapCurr;
+		shared_ptr<BufferedAsyncSerial>serial;
 		INITSERIAL::SerialSettingsMap fSerialSettingsmap;
 		std::string endline;
 		std::string write_str,read_str;
