@@ -36,7 +36,7 @@
 // 		exit(1);
 // 	}
 // }
-void INITSERIAL::Serial::Initialise(shared_ptr<AsyncSerial> serial, INITSERIAL::SerialSettingsMap& fSerialSettingMap)
+void INITSERIAL::Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, INITSERIAL::SerialSettingsMap& fSerialSettingMap)
 {
 	map <string,boost::asio::serial_port_base::parity::type > paritymap;
 	map <string,boost::asio::serial_port_base::flow_control::type > flow_controlmap;
