@@ -185,16 +185,13 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			{
  				i.Read(readstr);
  				Tokenizer(data_v, readstr,boost::char_separator<char>(","));
-// 				datavec[k].push_back(data_v);
+ 				datavec.at(k).push_back(data_v);
 				k++;
 				for(auto l: data_v)
-					cout<<l;
+					cout<<l<<"\t";
 				cout<<endl;
 			}
 			
-//  			k.Read(readstr);
- 			// k1.Read(readstr1);
-// 			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
 			if(!cIV){
 				this->ReadSetConfigFile(Vcth, cbc1configfilename);
 				this->ReadSetConfigFile(Vcth, cbc2configfilename);
