@@ -297,7 +297,6 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
  			j.Read(readstr);
 			Tokenizer(data_v, readstr,boost::char_separator<char>(","));
-			k++;
 			for(auto l: data_v)
 				cout<<l<<"\t";
 			cout<<endl;
