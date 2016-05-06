@@ -130,7 +130,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	if(fScanconfig.dV_dt>0.001 || -0.001>fScanconfig.dV_dt)
 	{
 		fScanconfig.Dt=fabs(fScanconfig.V_step/fScanconfig.dV_dt);
-		cout<<"Wait Time between two sets in s"<<fScanconfig.Dt<<endl;
+		cout<<"Wait Time between two set points in s"<<fScanconfig.Dt<<endl;
 	}
 	this->FileGenerator();
 	
