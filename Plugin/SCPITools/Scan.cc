@@ -127,10 +127,13 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	V_dir = ((fScanconfig.V_max-fScanconfig.V_min)>0)?1:-1;
 	Vcth_dir = ((fScanconfig.Vcth_max-fScanconfig.Vcth_min)>0)?1:-1;
 	
-	if(fScanconfig.dV_dt>0.001 || -0.001>fScanconfig.dV_dt)
+	if(abs(fScanconfig.dV_dt)>0.000001)
 	{
 		fScanconfig.Dt=fabs(fScanconfig.V_step/fScanconfig.dV_dt);
 		cout<<"Wait Time between two set points in s"<<fScanconfig.Dt<<endl;
+	}else{
+		cout<<"A zero value for ramprate was specified"<<endl;
+		return 1;
 	}
 	this->FileGenerator();
 	
