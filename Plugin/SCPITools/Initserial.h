@@ -18,6 +18,7 @@
 
 #include "../SCPIUtils/ConsoleColor.h"
 #include "AsyncSerial.h"
+#include "BufferedAsyncSerial.h"
 
 using namespace std;
 // using namespace BufferedAsyncSerial;
@@ -35,7 +36,7 @@ namespace INITSERIAL{
 		}
 		// methods
 // 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
-		void Initialise(shared_ptr<AsyncSerial> serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
+		void Initialise(shared_ptr<BufferedAsyncSerial> serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
 		std::string endline;
 	};
 }

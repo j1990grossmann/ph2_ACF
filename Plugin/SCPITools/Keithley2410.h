@@ -110,7 +110,7 @@ namespace KEITHLEY2410{
 	private:
 		
 // 		AsyncSerial serial;
-		shared_ptr<AsyncSerial>serial1;
+		shared_ptr<BufferedAsyncSerial>serial1;
 		KeithleyChannelMap fHamegChannelMap;
 		KeithleyChannelMap fHamegChannelMapCurr;
 		INITSERIAL::SerialSettingsMap fSerialSettingsmap;
