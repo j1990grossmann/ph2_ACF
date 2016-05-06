@@ -25,7 +25,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "Hameg4040.h"
+// #include "Hameg4040.h"
 #include "Keithley2410.h"
 #include "RunCounter.h"
 
