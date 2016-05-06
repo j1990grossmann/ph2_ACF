@@ -239,17 +239,16 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			cout<<"looping keithleyss"<<endl;
 			for(auto files:Outfilenames)
 			{
-				cout<<"looping keithleyss 1"<<endl;
+				cout<<"looping keithleyss 1"<<files<<endl;
 				if ( boost::filesystem::exists( files ) )
 				{
 					std::fstream tmp;
-					tmp.open( files, std::fstream::app);
+					tmp.open( "NoiseScanData/run_045/run_045_iv_0.txt", std::fstream::app);
 					if ( !tmp.is_open() )
 					{
 						std::cout << "File not opened!" << std::endl;
 						return;
 					}
-					cout<<"looping keithleyss"<<endl;
 					for(auto m : datavec[keithleys])
 					{
 						tmp<<m<<"\t";
