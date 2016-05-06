@@ -2,6 +2,7 @@
 <Settings>
   <Setting rs232_file="Hameg4040">Plugin/SCPISettings/Hameg.xml</Setting>
   <Setting rs232_file="Keithley">Plugin/SCPISettings/Keithley.xml</Setting>
+  <Setting rs232_file="Keithley">Plugin/SCPISettings/Keithley.xml</Setting>
   <Setting rs232_file="Keithley1">Plugin/SCPISettings/Keithley1.xml</Setting>
   <Voltages>
     <Voltage Id="min">0</Voltage>

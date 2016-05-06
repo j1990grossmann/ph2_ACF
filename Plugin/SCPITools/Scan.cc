@@ -130,7 +130,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	if(abs(fScanconfig.dV_dt)>0.000001)
 	{
 		fScanconfig.Dt=fabs(fScanconfig.V_step/fScanconfig.dV_dt);
-		cout<<"Wait Time between two set points in s"<<fScanconfig.Dt<<endl;
+		cout<<GREEN<<"Delta t = V_step / dV/dt = "<<YELLOW<<fScanconfig.Dt<<" s"<<RESET<<endl;
 	}else{
 		cout<<"A zero value for ramprate was specified"<<endl;
 		exit(1);
