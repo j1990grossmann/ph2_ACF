@@ -63,6 +63,7 @@ void INITSERIAL::Serial::Initialise(shared_ptr<AsyncSerial> serial, INITSERIAL::
 	boost::asio::serial_port_base::stop_bits         stop_bits(fSerialSettingMap["stop_bits"].empty() ? boost::asio::serial_port_base::stop_bits::one : stop_bitsmap[fSerialSettingMap["stop_bits"]]);
 	endline = "\n";
 	try{
+// 		serial=new AsyncSerial();
 		serial->open(devname,baudrate, parity, character_size, flow_control, stop_bits);
 	}catch(boost::system::system_error& e){
 		std::cout<<"boost error catched serial not open  "<<e.what()<<std::endl;

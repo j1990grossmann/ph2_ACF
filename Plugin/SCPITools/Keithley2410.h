@@ -39,7 +39,6 @@ namespace KEITHLEY2410{
 			ParseSettingsXML(fFilename, std::cout);
 // 			BufferedAsyncSerial serial;
 			// 			Initialise(serial);		
-			serial1=new AsyncSerial();
 // 			INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
 			INITSERIAL::Serial().Initialise(serial1, fSerialSettingsmap);
 		}
