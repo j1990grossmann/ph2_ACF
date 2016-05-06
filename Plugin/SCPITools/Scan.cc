@@ -185,7 +185,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			{
  				i.Read(readstr);
  				Tokenizer(data_v, readstr,boost::char_separator<char>(","));
-				datavec[k].push_back(data_v);
+// 				datavec[k].push_back(data_v);
 				k++;
 				for(auto l: data_v)
 					cout<<l;
