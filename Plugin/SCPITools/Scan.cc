@@ -165,6 +165,8 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 		for(auto i: keithleyvec)
 		{
 			i.SourVoltLev(to_string(V));
+			vector<string> fill;
+			datavec.push_back(fill);
 		}
 
  		// k1.SourVoltLev(to_string(V));
@@ -185,7 +187,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			{
  				i.Read(readstr);
  				Tokenizer(data_v, readstr,boost::char_separator<char>(","));
- 				datavec.push_back(data_v);
+ 				datavec.at(k)=data_v;
 				k++;
 				for(auto l: data_v)
 					cout<<l<<"\t";
