@@ -151,9 +151,9 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 // // 		i.SenseCurrProt(to_string(fScanconfig.I_compliance));
 // // 		i.Outp(1);
 // // 	}
-// 	k.Configure();
-// 	k.SenseCurrProt(to_string(fScanconfig.I_compliance));
-// 	k.Outp(1);
+	k.Configure();
+	k.SenseCurrProt(to_string(fScanconfig.I_compliance));
+	k.Outp(1);
 // 
 //  	// k1.Configure();
 //  	// k1.SenseCurrProt(to_string(fScanconfig.I_compliance));
