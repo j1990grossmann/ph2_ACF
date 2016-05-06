@@ -143,180 +143,180 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	
   	KEITHLEY2410::Keithley2410  k(fScanconfig.SerialFileKeithley);
 	// KEITHLEY2410::Keithley2410  k1(fScanconfig.SerialFileKeithley1);
-	string readstr;
-	string readstr1("0,0");
-// 	for(auto i: keithleyvec)
-// 	{
-// 		i.Configure();
-// 		i.SenseCurrProt(to_string(fScanconfig.I_compliance));
-// 		i.Outp(1);
-// 	}
-	k.Configure();
-	k.SenseCurrProt(to_string(fScanconfig.I_compliance));
-	k.Outp(1);
-
- 	// k1.Configure();
- 	// k1.SenseCurrProt(to_string(fScanconfig.I_compliance));
- 	// k1.Outp(1);
-
-	pugi::xml_node node = cFile.append_child();
-	node.set_name("Noise_VS_Bias");
-
-// 	cout<<readstr<<endl;
-
-// Now preramp up 
-	// preramp(true,k, k1);
-// 	preramp(true,k, k);
-	for(int i=0; i<V_steps; i++)
-	{
-		double V=fScanconfig.V_min+fScanconfig.V_step*i*V_dir;
-// 		for(auto i: keithleyvec)
-// 		{
-// 			i.SourVoltLev(to_string(V));
-// 		}
-
- 		// k1.SourVoltLev(to_string(V));
-		if(cIV)
-			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
-		else
-			std::this_thread::sleep_for(std::chrono::seconds(5));
-		pugi::xml_node descr = node.append_child();
-		descr.set_name("Measurement");
-		descr.append_attribute("V_set") = V;
-		if(cIV)
-			Vcth_steps=1;
-		for(int j=0; j<Vcth_steps;j++)
-		{
-			int Vcth=fScanconfig.Vcth_min+fScanconfig.Vcth_step*j*Vcth_dir;
-// 			for(auto i: keithleyvec)
-// 			{
-// 				i.Read(readstr);
-// 				Tokenizer(datavec, readstr,boost::char_separator<char>(","));
+// 	string readstr;
+// 	string readstr1("0,0");
+// // 	for(auto i: keithleyvec)
+// // 	{
+// // 		i.Configure();
+// // 		i.SenseCurrProt(to_string(fScanconfig.I_compliance));
+// // 		i.Outp(1);
+// // 	}
+// 	k.Configure();
+// 	k.SenseCurrProt(to_string(fScanconfig.I_compliance));
+// 	k.Outp(1);
 // 
-// 			}
-//  			k.Read(readstr);
- 			// k1.Read(readstr1);
-			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
-			if(!cIV){
-				this->ReadSetConfigFile(Vcth, cbc1configfilename);
-				this->ReadSetConfigFile(Vcth, cbc2configfilename);
-			}
-			string execstring="miniDAQ -f settings/Beamtest_Nov15.xml -e ";
-			std::chrono::time_point<std::chrono::system_clock> start, end;
-			// Start the run here
-			start = std::chrono::system_clock::now();
-			execstring+=to_string(fScanconfig.No_events);
-			
-			string raw_file_name;
-			if(!cIV)
-			{
-				raw_file_name=this->exec(execstring.c_str());
-				// raw_file_name="test";
-			}
-			else
-				raw_file_name="IV_Curve";
-				
-			end = std::chrono::system_clock::now();
-
-			std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-			std::time_t start_time = std::chrono::system_clock::to_time_t(start);
-
-			struct tm *end_time_tm;
-			struct tm *start_time_tm;
-
-			int elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>
-			(end-start).count();
-			double Rate;
-			if(elapsed_milliseconds!=0)
-				Rate=(fScanconfig.No_events*1000)/(elapsed_milliseconds);
-			else
-				Rate=66666666666;
-			end_time_tm = localtime(&end_time);
-			start_time_tm = localtime(&start_time);char buffer [80];char buffer1 [80];
-			strftime (buffer,80,"%FT%TZ",start_time_tm);
-			strftime (buffer1,80,"%FT%TZ",end_time_tm);
-			
-			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str(),raw_file_name.c_str());
-			ivFile<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
-			ivFile1<<datavec1.at(0)<<"\t"<<datavec1.at(1)<<endl;
-			pugi::xml_node param = descr.append_child();
-			param.set_name("Vcth");
-			param.append_attribute("Filename");
-			param.attribute("Filename").xml_attribute::set_value(raw_file_name.c_str());
-			param.append_attribute("Vcth");
-			param.attribute("Vcth").xml_attribute::set_value(Vcth);
- 			param.append_attribute("V");
-			param.attribute("V").set_value(datavec.at(0).c_str());
- 			param.append_attribute("I");
-			param.attribute("I").set_value(datavec.at(1).c_str());
- 			param.append_attribute("V1");
-			param.attribute("V1").set_value(datavec1.at(0).c_str());
- 			param.append_attribute("I1");
-			param.attribute("I1").set_value(datavec1.at(1).c_str());
- 			param.append_attribute("Nevents");
-			param.attribute("Nevents").set_value(fScanconfig.No_events);
- 			param.append_attribute("Start");
-			param.attribute("Start").set_value(buffer);
- 			param.append_attribute("Stop");
-			param.attribute("Stop").set_value(buffer1);
- 			param.append_attribute("Rate_Hz");
-			param.attribute("Rate_Hz").set_value(Rate);
- 			param.append_attribute("Position_x");
-			param.attribute("Position_x").set_value(cPosX.c_str());
- 			param.append_attribute("Position_z");
-			param.attribute("Position_z").set_value(cPosZ.c_str());
- 			param.append_attribute("Angle");
-			param.attribute("Angle").set_value(cAngle.c_str());
-			cFile.save_file(Data_name.c_str());	
-		}
-	}
-// 	Rampdown
-	V_dir=V_dir*-1;
-	for(int i=0; i<V_steps; i++)
-	{
-		double V=fScanconfig.V_max+fScanconfig.V_step*i*V_dir;
-// 		for(auto j: keithleyvec)
-// 		{
-// 			j.SourVoltLev(to_string(V));
-
-			// 		k.SourVoltLev(to_string(V));
-			// k1.SourVoltLev(to_string(V));
-			
+//  	// k1.Configure();
+//  	// k1.SenseCurrProt(to_string(fScanconfig.I_compliance));
+//  	// k1.Outp(1);
+// 
+// 	pugi::xml_node node = cFile.append_child();
+// 	node.set_name("Noise_VS_Bias");
+// 
+// // 	cout<<readstr<<endl;
+// 
+// // Now preramp up 
+// 	// preramp(true,k, k1);
+// // 	preramp(true,k, k);
+// 	for(int i=0; i<V_steps; i++)
+// 	{
+// 		double V=fScanconfig.V_min+fScanconfig.V_step*i*V_dir;
+// // 		for(auto i: keithleyvec)
+// // 		{
+// // 			i.SourVoltLev(to_string(V));
+// // 		}
+// 
+//  		// k1.SourVoltLev(to_string(V));
+// 		if(cIV)
 // 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
-// 			j.Read(readstr);
+// 		else
+// 			std::this_thread::sleep_for(std::chrono::seconds(5));
+// 		pugi::xml_node descr = node.append_child();
+// 		descr.set_name("Measurement");
+// 		descr.append_attribute("V_set") = V;
+// 		if(cIV)
+// 			Vcth_steps=1;
+// 		for(int j=0; j<Vcth_steps;j++)
+// 		{
+// 			int Vcth=fScanconfig.Vcth_min+fScanconfig.Vcth_step*j*Vcth_dir;
+// // 			for(auto i: keithleyvec)
+// // 			{
+// // 				i.Read(readstr);
+// // 				Tokenizer(datavec, readstr,boost::char_separator<char>(","));
+// // 
+// // 			}
+// //  			k.Read(readstr);
+//  			// k1.Read(readstr1);
+// 			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
+// 			if(!cIV){
+// 				this->ReadSetConfigFile(Vcth, cbc1configfilename);
+// 				this->ReadSetConfigFile(Vcth, cbc2configfilename);
+// 			}
+// 			string execstring="miniDAQ -f settings/Beamtest_Nov15.xml -e ";
+// 			std::chrono::time_point<std::chrono::system_clock> start, end;
+// 			// Start the run here
+// 			start = std::chrono::system_clock::now();
+// 			execstring+=to_string(fScanconfig.No_events);
+// 			
+// 			string raw_file_name;
+// 			if(!cIV)
+// 			{
+// 				raw_file_name=this->exec(execstring.c_str());
+// 				// raw_file_name="test";
+// 			}
+// 			else
+// 				raw_file_name="IV_Curve";
+// 				
+// 			end = std::chrono::system_clock::now();
+// 
+// 			std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+// 			std::time_t start_time = std::chrono::system_clock::to_time_t(start);
+// 
+// 			struct tm *end_time_tm;
+// 			struct tm *start_time_tm;
+// 
+// 			int elapsed_milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>
+// 			(end-start).count();
+// 			double Rate;
+// 			if(elapsed_milliseconds!=0)
+// 				Rate=(fScanconfig.No_events*1000)/(elapsed_milliseconds);
+// 			else
+// 				Rate=66666666666;
+// 			end_time_tm = localtime(&end_time);
+// 			start_time_tm = localtime(&start_time);char buffer [80];char buffer1 [80];
+// 			strftime (buffer,80,"%FT%TZ",start_time_tm);
+// 			strftime (buffer1,80,"%FT%TZ",end_time_tm);
+// 			
+// 			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str(),raw_file_name.c_str());
+// 			ivFile<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
+// 			ivFile1<<datavec1.at(0)<<"\t"<<datavec1.at(1)<<endl;
+// 			pugi::xml_node param = descr.append_child();
+// 			param.set_name("Vcth");
+// 			param.append_attribute("Filename");
+// 			param.attribute("Filename").xml_attribute::set_value(raw_file_name.c_str());
+// 			param.append_attribute("Vcth");
+// 			param.attribute("Vcth").xml_attribute::set_value(Vcth);
+//  			param.append_attribute("V");
+// 			param.attribute("V").set_value(datavec.at(0).c_str());
+//  			param.append_attribute("I");
+// 			param.attribute("I").set_value(datavec.at(1).c_str());
+//  			param.append_attribute("V1");
+// 			param.attribute("V1").set_value(datavec1.at(0).c_str());
+//  			param.append_attribute("I1");
+// 			param.attribute("I1").set_value(datavec1.at(1).c_str());
+//  			param.append_attribute("Nevents");
+// 			param.attribute("Nevents").set_value(fScanconfig.No_events);
+//  			param.append_attribute("Start");
+// 			param.attribute("Start").set_value(buffer);
+//  			param.append_attribute("Stop");
+// 			param.attribute("Stop").set_value(buffer1);
+//  			param.append_attribute("Rate_Hz");
+// 			param.attribute("Rate_Hz").set_value(Rate);
+//  			param.append_attribute("Position_x");
+// 			param.attribute("Position_x").set_value(cPosX.c_str());
+//  			param.append_attribute("Position_z");
+// 			param.attribute("Position_z").set_value(cPosZ.c_str());
+//  			param.append_attribute("Angle");
+// 			param.attribute("Angle").set_value(cAngle.c_str());
+// 			cFile.save_file(Data_name.c_str());	
 // 		}
-// 			k.Read(readstr);
- 		// k1.Read(readstr1);
-		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
-		printf("Voltage %.2e V_read %s I_read %s\n",V, datavec.at(0).c_str(), datavec.at(1).c_str());
-	}
-	
-	// preramp(false,k, k1);
-// 	preramp(false,k, k);
-
-// for(auto j: keithleyvec)	
-// {
-// 	j.SourVoltLev("0");
-// }
-k.SourVoltLev("0");
-	std::this_thread::sleep_for(std::chrono::seconds(5));
-
-// 	for(auto j: keithleyvec)	
-// {
-// 	j.Read(readstr);
-// 	j.Outp(0);
-// }
-k.Outp(0);
-
-// 	k.SourVoltLev("0");
- 	// k1.SourVoltLev("0");
-
-// 	k.Read(readstr);
-// 	k.Outp(0);
-	
- 	// k1.Read(readstr);
- 	// k1.Outp(0);
-	
+// 	}
+// // 	Rampdown
+// 	V_dir=V_dir*-1;
+// 	for(int i=0; i<V_steps; i++)
+// 	{
+// 		double V=fScanconfig.V_max+fScanconfig.V_step*i*V_dir;
+// // 		for(auto j: keithleyvec)
+// // 		{
+// // 			j.SourVoltLev(to_string(V));
+// 
+// 			// 		k.SourVoltLev(to_string(V));
+// 			// k1.SourVoltLev(to_string(V));
+// 			
+// // 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(fScanconfig.Dt*1000)));
+// // 			j.Read(readstr);
+// // 		}
+// // 			k.Read(readstr);
+//  		// k1.Read(readstr1);
+// 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
+// 		printf("Voltage %.2e V_read %s I_read %s\n",V, datavec.at(0).c_str(), datavec.at(1).c_str());
+// 	}
+// 	
+// 	// preramp(false,k, k1);
+// // 	preramp(false,k, k);
+// 
+// // for(auto j: keithleyvec)	
+// // {
+// // 	j.SourVoltLev("0");
+// // }
+// k.SourVoltLev("0");
+// 	std::this_thread::sleep_for(std::chrono::seconds(5));
+// 
+// // 	for(auto j: keithleyvec)	
+// // {
+// // 	j.Read(readstr);
+// // 	j.Outp(0);
+// // }
+// k.Outp(0);
+// 
+// // 	k.SourVoltLev("0");
+//  	// k1.SourVoltLev("0");
+// 
+// // 	k.Read(readstr);
+// // 	k.Outp(0);
+// 	
+//  	// k1.Read(readstr);
+//  	// k1.Outp(0);
+// 	
 }
 
 void SCAN::Scan::FileGenerator()
