@@ -16,7 +16,7 @@
 #include <string.h>
 #include <vector>
 
-#include "BufferedAsyncSerial.h"
+// #include "BufferedAsyncSerial.h"
 #include "AsyncSerial.h"
 #include "Initserial.h"
 #include "../SCPIUtils/pugixml.hpp"
@@ -106,7 +106,7 @@ namespace KEITHLEY2410{
 		
 	private:
 		
-		BufferedAsyncSerial serial;
+		AsyncSerial serial;
 		KeithleyChannelMap fHamegChannelMap;
 		KeithleyChannelMap fHamegChannelMapCurr;
 		INITSERIAL::SerialSettingsMap fSerialSettingsmap;
