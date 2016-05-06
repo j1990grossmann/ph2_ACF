@@ -1,5 +1,5 @@
 #include "Initserial.h"
-void INITSERIAL::Serial::Initialise(BufferedAsyncSerial& serial, INITSERIAL::SerialSettingsMap& fSerialSettingMap)
+void INITSERIAL::Serial::Initialise(AsyncSerial& serial, INITSERIAL::SerialSettingsMap& fSerialSettingMap)
 {
 // 	for(auto it: fSerialSettingMap)
 // 	{
