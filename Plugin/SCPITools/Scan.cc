@@ -141,8 +141,8 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 	for(auto i:fScanconfig.SerialConfigVec)
 	{
  		keithleyvec.push_back(KEITHLEY2410::Keithley2410(i.second));
-		vector<string> data;
-		datavec.push_back(data);
+// 		vector<string> data;
+// 		datavec.push_back(data);
 	}
 	
 	string readstr;
@@ -185,7 +185,7 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			{
  				i.Read(readstr);
  				Tokenizer(data_v, readstr,boost::char_separator<char>(","));
- 				datavec.at(k).push_back(data_v);
+ 				datavec.push_back(data_v);
 				k++;
 				for(auto l: data_v)
 					cout<<l<<"\t";
@@ -231,7 +231,8 @@ void SCAN::Scan::StartScan(bool cIV, string cAngle, string cPosX, string cPosZ)
 			strftime (buffer,80,"%FT%TZ",start_time_tm);
 			strftime (buffer1,80,"%FT%TZ",end_time_tm);
 			
-// 			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str(),raw_file_name.c_str());
+//  			printf("Voltage %.2e Vcth %d V_read %s I_read %s V1_read %s I1_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(), datavec.at(1).at(0).c_str(),datavec.at(1).at(1).c_str(),raw_file_name.c_str());
+ 			printf("Voltage %.2e Vcth %d V_read %s I_read %s Filename %s\n",V, Vcth, datavec.at(0).at(0).c_str(), datavec.at(0).at(1).c_str(),raw_file_name.c_str());
 // 			ivFile<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
 			pugi::xml_node param = descr.append_child();
 			param.set_name("Vcth");
