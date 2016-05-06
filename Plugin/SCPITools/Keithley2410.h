@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "BufferedAsyncSerial.h"
+#include "AsyncSerial.h"
 #include "Initserial.h"
 #include "../SCPIUtils/pugixml.hpp"
 #include "../SCPIUtils/ConsoleColor.h"
@@ -31,9 +32,10 @@ namespace KEITHLEY2410{
 	class Keithley2410
 	{
 	public:
-		Keithley2410(const std::string& pFilename) {
+		Keithley2410(const std::string& pFilename) :fFilename(""){
+			fFilename=pFilename;
 			endline = "\n";
-			ParseSettingsXML(pFilename, std::cout);
+			ParseSettingsXML(fFilename, std::cout);
 // 			BufferedAsyncSerial serial;
 			// 			Initialise(serial);			
 			INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
@@ -110,13 +112,16 @@ namespace KEITHLEY2410{
 		INITSERIAL::SerialSettingsMap fSerialSettingsmap;
 		std::string endline;
 		std::string write_str,read_str;
+		std::string fFilename;
 		
 	protected:
+		Keithley2410( const Keithley2410 &obj);	
 		void WriteSynchronized(string &command);
 		void WriteNotSynchronized(string &command);
 		void ReadSynchronized(string &command, string &readstring);
 		void Timeout();
 		void ParseSettingsXML(const string& pFilename, ostream& os);		
+		
 	};
 };
 

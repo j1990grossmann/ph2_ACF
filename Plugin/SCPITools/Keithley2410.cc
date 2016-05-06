@@ -436,3 +436,14 @@ void Keithley2410::ParseSettingsXML(const string& pFilename, ostream& os)
 	fSerialSettingsmap=tmpSerialSettingsMap;
 }
 
+Keithley2410::Keithley2410(const Keithley2410& obj)
+{
+	endline = obj.endline;
+	ParseSettingsXML(obj.fFilename, std::cout);
+	fHamegChannelMap=obj.fHamegChannelMap;
+	fHamegChannelMapCurr=obj.fHamegChannelMapCurr;
+	fSerialSettingsmap=obj.fSerialSettingsmap;
+	fFilename=obj.fFilename;
+	AsyncSerial serialcp;
+	INITSERIAL::Serial().Initialise(serialcp, obj.fSerialSettingsmap);
+}
