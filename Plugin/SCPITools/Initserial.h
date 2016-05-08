@@ -8,14 +8,13 @@
 #ifndef INITSERIAL_H
 #define	INITSERIAL_H
 
+#include <chrono>
 #include <cstdlib>
 #include <iostream>
-#include <string>
-#include <chrono>
-#include <thread>
-#include <string.h>
 #include <memory>
-
+#include <string>
+#include <thread>
+#include <vector>
 #include "../SCPIUtils/pugixml.hpp"
 #include "../SCPIUtils/ConsoleColor.h"
 #include "AsyncSerial.h"
@@ -34,7 +33,7 @@ namespace INITSERIAL{
   Serial(){
    ParseSettingsXML(fFilename, std::cout);
    serial=make_shared<BufferedAsyncSerial>();
-   this->Initialise(serial, fSerialSettingsmap);
+   this->Initialise(serial, gSerialSettingsmap);
    this->EmptyBuffer(serial);
   }
   ~Serial(){
@@ -48,9 +47,8 @@ namespace INITSERIAL{
   void ParseSettingsXML(const string& pFilename, ostream& os);
  private:
   shared_ptr<BufferedAsyncSerial>serial;
-  SerialSettingsMap fSerialSettingsmap;
   string fFilename;
-
+  SerialSettingsMap gSerialSettingsmap;
  };
 }
 

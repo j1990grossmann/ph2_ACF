@@ -1,4 +1,6 @@
 #include "Initserial.h"
+using namespace INITSERIAL;
+
 void INITSERIAL::Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, INITSERIAL::SerialSettingsMap& fSerialSettingMap)
 {
 	map <string,boost::asio::serial_port_base::parity::type > paritymap;
@@ -63,5 +65,5 @@ void INITSERIAL::ParseSettingsXML(const string& pFilename, ostream& os)
             }
         }
     }
-    fSerialSettingsmap=tmpSerialSettingsMap;
+    gSerialSettingsmap=tmpSerialSettingsMap;
 }
