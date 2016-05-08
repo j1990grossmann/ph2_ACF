@@ -4,26 +4,6 @@
 
 using namespace KEITHLEY2700;
 
-void Keithley2700::Initialise()
-{	
-	serial = new BufferedAsyncSerial();
-	
-	string devname("/dev/Moxa");
-	unsigned int baudrate = 19200;
-	boost::asio::serial_port_base::parity            parity(boost::asio::serial_port_base::parity::none);
-	boost::asio::serial_port_base::character_size    character_size(8);
-	boost::asio::serial_port_base::flow_control      flow_control(boost::asio::serial_port_base::flow_control::hardware);
-	boost::asio::serial_port_base::stop_bits         stop_bits(boost::asio::serial_port_base::stop_bits::one);
-	endline = "\n";
-	try{
-		serial->open(devname,baudrate, parity, character_size, flow_control, stop_bits);
-	}catch(boost::system::system_error& e){
-		std::cout<<"boost error catched serial not open  "<<e.what()<<std::endl;
-		exit(1);
-	}
-	
-}
-
 void Keithley2700::Configure()
 {
 	this->Reset();
@@ -293,9 +273,7 @@ void Keithley2700::WriteNotSynchronized(string& command)
 	this->serial->writeString(command+endline);
 	std::cout<<"written "<<command<<std::endl;
 //  	auto start = std::chrono::system_clock::now();
-	for(int i=0; i<10000; i++){
-		this->Timeout();	
-	}
+        std::this_thread::sleep_for(std::chrono::seconds(2));
 // 	auto end = std::chrono::system_clock::now();
 // 	auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 // 	std::cout<<"time for completion of command\t"<<elapsed.count()<<std::endl;
@@ -306,4 +284,28 @@ void Keithley2700::Timeout()
 {
 	std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
-
+void Keithley2700::ParseSettingsXML(const string& pFilename, ostream& os)
+{
+    endline='\n';
+    INITSERIAL::SerialSettingsMap tmpSerialSettingsMap;
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file( pFilename.c_str() );
+    if ( !result )
+    {
+        cout << "ERROR :\n Unable to open the file : " << pFilename<< std::endl;
+        cout << "Error description : " << result.description() << std::endl;
+        return ;
+    }
+    for ( pugi::xml_node nSettings = doc.child( "Settings" ); nSettings; nSettings = nSettings.next_sibling() )
+    {
+        pugi::xml_attribute attr;
+        for ( pugi::xml_node nSetting = nSettings.child( "Setting" ); nSetting; nSetting = nSetting.next_sibling() )
+        {
+            if(attr=nSetting.attribute( "rs232" )){
+                tmpSerialSettingsMap[nSetting.attribute( "rs232" ).value()]=nSetting.first_child().value();
+                cout << RED << "Setting" << RESET << " --" << BOLDCYAN << nSetting.attribute( "rs232" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
+            }
+        }
+    }
+    fSerialSettingsmap=tmpSerialSettingsMap;
+}
