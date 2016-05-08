@@ -31,15 +31,12 @@ using namespace std;
 namespace KEITHLEY2410{
  typedef std::map< int, std::vector<double> >  KeithleyChannelMap;
  
- class Keithley2410
+ class Keithley2410 : public INITSERIAL::Serial
  {
  public:
   Keithley2410(const std::string& pFilename){
    fFilename=pFilename;
    endline = "\n";
-   ParseSettingsXML(fFilename, std::cout);
-   serial=make_shared<BufferedAsyncSerial>();
-   INITSERIAL::Serial().Initialise(serial, fSerialSettingsmap);
   }
   
   ~Keithley2410() {
@@ -98,24 +95,19 @@ namespace KEITHLEY2410{
   void MeasAcVolt(double& volt);
   void TrigRetSingle(double&   value);
   void TrigRetMultiple(int no_samples, vector<double> &values);
-  // 		void MeasAll(HamegChannelMap &fGetHamegChannelMap);
-  // 		void GetHamegChannelMap(HamegChannelMap &fGetHamegChannelMap);
   
   
  private:
   
-  shared_ptr<BufferedAsyncSerial>serial;
-  INITSERIAL::SerialSettingsMap fSerialSettingsmap;
   std::string endline;
   std::string write_str,read_str;
-  std::string fFilename;
   
  protected:
   void WriteSynchronized(string &command);
   void WriteNotSynchronized(string &command);
   void ReadSynchronized(string &command, string &readstring);
   void Timeout();
-  void ParseSettingsXML(const string& pFilename, ostream& os);		
+//   void ParseSettingsXML(const string& pFilename, ostream& os);		
  };
 };
 

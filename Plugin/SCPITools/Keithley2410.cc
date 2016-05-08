@@ -391,28 +391,3 @@ void Keithley2410::Timeout()
 {
     std::this_thread::sleep_for(std::chrono::microseconds(1));
 }
-void Keithley2410::ParseSettingsXML(const string& pFilename, ostream& os)
-{
-    endline='\n';
-    INITSERIAL::SerialSettingsMap tmpSerialSettingsMap;
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file( pFilename.c_str() );
-    if ( !result )
-    {
-        cout << "ERROR :\n Unable to open the file : " << pFilename<< std::endl;
-        cout << "Error description : " << result.description() << std::endl;
-        return ;
-    }
-    for ( pugi::xml_node nSettings = doc.child( "Settings" ); nSettings; nSettings = nSettings.next_sibling() )
-    {
-        pugi::xml_attribute attr;
-        for ( pugi::xml_node nSetting = nSettings.child( "Setting" ); nSetting; nSetting = nSetting.next_sibling() )
-        {
-            if(attr=nSetting.attribute( "rs232" )){
-                tmpSerialSettingsMap[nSetting.attribute( "rs232" ).value()]=nSetting.first_child().value();
-                cout << RED << "Setting" << RESET << " --" << BOLDCYAN << nSetting.attribute( "rs232" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
-            }
-        }
-    }
-    fSerialSettingsmap=tmpSerialSettingsMap;
-}
