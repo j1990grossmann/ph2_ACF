@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
 		printf("Read File %s\n",cHWFile.c_str());
 //  	if ( !batchMode ) cApp.Run();
 	Timer timer;
- 	HAMEG4040::Hameg4040 h(cHWFile.c_str());
+ 	HAMEG4040::Hameg4040 h(cHWFile.c_str(), cConfigFile.c_str());
 	timer.start();
 	h.Configure();
 	timer.stop();

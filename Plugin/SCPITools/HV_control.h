@@ -68,7 +68,7 @@ namespace HV_CONTROL{
 		}
 		~Controller() {
 			ivFile.close();
-			ivFile1.close();
+// 			ivFile1.close();
 		}
 		// methods
 	private:
