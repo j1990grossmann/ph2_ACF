@@ -41,10 +41,10 @@
       // methods
       // 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
       std::string endline;
+    protected:
       void EmptyBuffer();  // wants to be called after SystemController::ReadHW, ReadSettings
       void Initialise(SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
       void ParseSettingsXML(const string& pFilename, ostream& os);
-    protected:
       string fFilename;
       shared_ptr<BufferedAsyncSerial>serial;
       SerialSettingsMap gSerialSettingsmap;
