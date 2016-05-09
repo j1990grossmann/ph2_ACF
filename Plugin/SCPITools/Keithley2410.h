@@ -36,6 +36,7 @@ namespace KEITHLEY2410{
  public:
   Keithley2410(const std::string& pFilename){
    this->Serial::fFilename=pFilename;
+   this->Serial::Initialise(this->Serial::gSerialSettingsmap);
    std::cout<<this->Serial::fFilename<<"\tfilename"<<std::endl;
    endline = "\n";
   }
@@ -107,8 +108,7 @@ namespace KEITHLEY2410{
   void WriteSynchronized(string &command);
   void WriteNotSynchronized(string &command);
   void ReadSynchronized(string &command, string &readstring);
-  void Timeout();
-//   void ParseSettingsXML(const string& pFilename, ostream& os);		
+  void Timeout();		
  };
 };
 
