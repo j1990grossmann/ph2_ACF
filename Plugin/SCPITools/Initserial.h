@@ -34,11 +34,8 @@ namespace INITSERIAL{
 			// 	ParseSettingsXML(fFilename, std::cout);
 			serial=make_shared<BufferedAsyncSerial>();
 			this->Serial::ParseSettingsXML(pFilename,std::cout);
-			this->Serial::Initialise(this->Serial::gSerialSettingsmap);
-			this->Serial::EmptyBuffer();
-			this->Initialise(gSerialSettingsmap);
-			
-			// 	this->EmptyBuffer();
+			this->Serial::Initialise(gSerialSettingsmap);
+			this->Serial::EmptyBuffer();			
 		}
 		~Serial(){
 		}

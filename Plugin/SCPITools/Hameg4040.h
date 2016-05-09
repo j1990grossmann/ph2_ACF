@@ -31,7 +31,7 @@ namespace HAMEG4040{
 	class Hameg4040: public INITSERIAL::Serial
 	{
 	public:
-		Hameg4040(const std::string& pFilename): Serial(pFilename) {
+		Hameg4040(const std::string& pFilename, const std::string& pSerialConfig): Serial(pSerialConfig) {
 			fHamegChannelMap.resize(4, vector<double>( 2 , 0. ) );
 			fHamegChannelMapCurr.resize(4, vector<double>( 2 , 0. ) );
 			endline = "\n";

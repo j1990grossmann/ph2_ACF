@@ -38,14 +38,17 @@ int main(int argc, char* argv[])
 	ArgvParser cmd;
 	
 	// init
-	cmd.setIntroductoryDescription( "Hameg 4040 test program" );
+	cmd.setIntroductoryDescription( "Hameg 4040 program" );
 	// error codes
 	cmd.addErrorCode( 0, "Success" );
 	cmd.addErrorCode( 1, "Error" );
 	// options
 	cmd.setHelpOption( "h", "help", "Print this help page" );
 	
-	cmd.defineOption( "file", "Hw Description File . Default value: SMUSettings/Hameg.xml", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
+	cmd.defineOption( "file", "Hw Description File . Default value: Plugin/SCPISettings/LV_Control.xml", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
+	cmd.defineOptionAlternative( "file", "f" );
+
+	cmd.defineOption( "serialconfig", "Serial configuration. Default value: Plugin/SCPISettings/Hameg.xml", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
 	cmd.defineOptionAlternative( "file", "f" );
 	
 	cmd.defineOption( "output", "Output Directory . Default value: NoiseScanData", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
@@ -64,7 +67,8 @@ int main(int argc, char* argv[])
 		exit( 1 );
 	}
 	// now query the parsing results
-	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "SCPISettings/Hameg.xml";
+	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "Plugin/SCPISettings/LV_Control.xml";
+	std::string cConfigFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "Plugin/SCPISettings/Hameg.xml";
 	std::string cDirectory = ( cmd.foundOption( "output" ) ) ? cmd.optionValue( "output" ) : "NoiseScanData/Hameg";
  	std::string on_off_str = ( cmd.foundOption( "on_off" ) ) ? cmd.optionValue( "on_off" ) : "on";
 	

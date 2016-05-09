@@ -9,14 +9,13 @@ using namespace std;
 
 void Hameg4040::Configure()
 {
-	this->EmptyBuffer();
 	this->IDNCheck();
 	this->Reset();
-	std::this_thread::sleep_for(std::chrono::milliseconds(250));
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	this->SystBeeperImmediate();
 	this->SystRemote();
 	// 	SystMix();
-	std::cout<<"Initialized and Reset and Locked"<<std::endl;
+	std::cout<<YELLOW<<"Initialized and Reset and Locked"<<RESET<<std::endl;
 	std::cout<<"Channel Voltage Current"<<std::endl;
 
 	for(int i=0;i<4;i++)
@@ -186,7 +185,7 @@ void Hameg4040::EmptyBuffer()
 	while(!read_str.empty())
 	{		
 		if(counter == 10000){break;}
-		read_str=serial.readStringUntil(endline);
+		read_str=serial->readStringUntil(endline);
 // 		std:cout<<"counter"<<counter<<"\t"<<read_str<<std::endl;
 		counter++;
 	}
@@ -197,14 +196,14 @@ void Hameg4040::ReadSynchronized(string& command, string& read_str)
 {
 	int counter = 0;
 // 	std::cout<<command<<std::endl;
-	this->serial.writeString(command+endline);
+	this->serial->writeString(command+endline);
 // 	auto start = std::chrono::system_clock::now();
 	read_str="";
 	while(read_str.empty())
 	{		
 		if(counter == 10000){cout<<"communication error";break;}
 		Timeout();
-		read_str=serial.readStringUntil(endline);
+		read_str=serial->readStringUntil(endline);
 		// 		std:cout<<readstring<<"\ttest\t"<<counter<<std::endl;
 		counter++;
 	}
@@ -218,7 +217,7 @@ void Hameg4040::ReadSynchronizedLines(string &command, std::vector<std::string> 
 	readstringvec.clear();
 // 	std::cout<<command<<std::endl;
 	string tmp="";
-	this->serial.writeString(command+endline);
+	this->serial->writeString(command+endline);
 // 	auto start = std::chrono::system_clock::now();
 	for(int i=0; i<lines; i++)
 	{
@@ -228,7 +227,7 @@ void Hameg4040::ReadSynchronizedLines(string &command, std::vector<std::string> 
 		{		
 			if(counter == 10000){cout<<"communication error";break;}
 			Timeout();
-			read_str=serial.readStringUntil(endline);
+			read_str=serial->readStringUntil(endline);
 			counter++;
 			if(!read_str.empty())
 			{
@@ -244,16 +243,16 @@ void Hameg4040::ReadSynchronizedLines(string &command, std::vector<std::string> 
 void Hameg4040::WriteSynchronized(string& command)
 {
 	int counter = 0;
-	this->serial.writeString("*CLS"+endline);
-	this->serial.writeString(command+endline);
-	this->serial.writeString("*OPC?"+endline);
+	this->serial->writeString("*CLS"+endline);
+	this->serial->writeString(command+endline);
+	this->serial->writeString("*OPC?"+endline);
 	//  	auto start = std::chrono::system_clock::now();
 	read_str ="";
 	while(read_str.empty())
 	{		
 		//  		if(counter == 10000){break;}
 		this->Timeout();
-		read_str=serial.readStringUntil(endline);
+		read_str=serial->readStringUntil(endline);
 		if(!read_str.empty()){
 // 			std:cout<<read_str<<"\ttest\t"<<counter<<std::endl;
 		}
@@ -267,7 +266,7 @@ void Hameg4040::WriteSynchronized(string& command)
 void Hameg4040::WriteNotSynchronized(string& command)
 {
 	int counter = 0;
-	this->serial.writeString(command+endline);
+	this->serial->writeString(command+endline);
 	//  	auto start = std::chrono::system_clock::now();
 	for(int i=0; i<100; i++){
 		this->Timeout();	
@@ -286,8 +285,8 @@ void Hameg4040::Timeout()
 void Hameg4040::ParseSettingsXML(const string& pFilename, ostream& os)
 {
   endline='\n';
-	INITSERIAL::SerialSettingsMap tmpHamegSettingsMap;
-	HAMEG4040::HamegChannelMap  tmpHamegChannelMap;tmpHamegChannelMap.resize(4, vector<double>( 2 , 0. ) );
+	HAMEG4040::HamegChannelMap  tmpHamegChannelMap;
+	tmpHamegChannelMap.resize(4, vector<double>( 2 , 0. ) );
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file( pFilename.c_str() );
 	if ( !result )
@@ -299,13 +298,6 @@ void Hameg4040::ParseSettingsXML(const string& pFilename, ostream& os)
 	for ( pugi::xml_node nSettings = doc.child( "Settings" ); nSettings; nSettings = nSettings.next_sibling() )
 	{
 		pugi::xml_attribute attr;
-		for ( pugi::xml_node nSetting = nSettings.child( "Setting" ); nSetting; nSetting = nSetting.next_sibling() )
-		{
-			if(attr=nSetting.attribute( "rs232" )){
-				tmpHamegSettingsMap[nSetting.attribute( "rs232" ).value()]=nSetting.first_child().value();
-				cout << RED << "Setting" << RESET << " --" << BOLDCYAN << nSetting.attribute( "rs232" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
-			}
-		}
 		for ( pugi::xml_node nSetting = nSettings.child( "Voltages" ).child("Voltage"); nSetting; nSetting = nSetting.next_sibling() )
 		{				
 			if(attr=nSetting.attribute( "Id" )){
@@ -321,6 +313,5 @@ void Hameg4040::ParseSettingsXML(const string& pFilename, ostream& os)
 			}
 		}
 	}
-	fHamegSettingsMap=tmpHamegSettingsMap;
 	fHamegChannelMap=tmpHamegChannelMap;
 }
