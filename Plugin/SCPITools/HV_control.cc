@@ -183,7 +183,8 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 			strftime (buffer,80,"%FT%TZ",start_time_tm);
 			strftime (buffer1,80,"%FT%TZ",end_time_tm);
 			
-			printf("Time %s V1 %s V2 %s I1 %s I2 %s \n",buffer1, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str());
+// 			printf("Time %s V1 %s V2 %s I1 %s I2 %s \n",buffer1, datavec.at(0).c_str(), datavec.at(1).c_str(), datavec1.at(0).c_str(),datavec1.at(1).c_str());
+			printf("Time %s V1 %s I1 %s \n",buffer1, datavec.at(0).c_str(), datavec.at(1).c_str());
 			ivFile<<buffer1<<"\t"<<datavec.at(0)<<"\t"<<datavec.at(1)<<endl;
 // 			ivFile1<<buffer1<<"\t"<<datavec1.at(0)<<"\t"<<datavec1.at(1)<<endl;
 			// 				pugi::xml_node param = descr.append_child();
