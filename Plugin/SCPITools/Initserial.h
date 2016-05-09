@@ -34,7 +34,7 @@
     ParseSettingsXML(fFilename, std::cout);
     serial=make_shared<BufferedAsyncSerial>();
     this->Initialise(gSerialSettingsmap);
-    this->EmptyBuffer(serial);
+    this->EmptyBuffer();
     }
     ~Serial(){
     }
