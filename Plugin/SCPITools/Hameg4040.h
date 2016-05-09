@@ -31,23 +31,18 @@ namespace HAMEG4040{
 	class Hameg4040: public INITSERIAL::Serial
 	{
 	public:
-		Hameg4040(const std::string& pFilename) {
+		Hameg4040(const std::string& pFilename): Serial(pFilename) {
 			fHamegChannelMap.resize(4, vector<double>( 2 , 0. ) );
 			fHamegChannelMapCurr.resize(4, vector<double>( 2 , 0. ) );
 			endline = "\n";
-			ParseSettingsXML(pFilename);
-// 			serial = new BufferedAsyncSerial();
-// 			Initialise(serial);			
-			INITSERIAL::Serial().Initialise(serial, fHamegSettingsMap);
 		}
-		
 		~Hameg4040() {
-			if(serial.isOpen())
+			if(this->Serial::serial->isOpen())
 			{
  				cout<<RED<<"Set output off Hameg4040"<<RESET<<endl;
 				OutPutGen(0);
 				SystLocal();
- 				serial.close();			
+ 				this->Serial::serial->close();			
 			}else
  				cout<<GREEN<<"Nothing to do for Hameg4040"<<RESET<<endl;				
 		}
@@ -60,7 +55,6 @@ namespace HAMEG4040{
 		void WriteChannelNo(int channelno, double voltage, double current);
 		void SourVolt(int channelno, double voltage);
 		void SourCurr(int channelno, double current);
-		
 		
 		void InstSelect(int channelno);
 		int  InstSelectQuery();
@@ -76,23 +70,18 @@ namespace HAMEG4040{
 		void SystMix();
 		void SystVersion();
 		
-		
 		//Measure Methods
 		void MeasCurr(double &amp);
 		void MeasVolt(double &volt);
 		void MeasAll(HamegChannelMap &fGetHamegChannelMap);		
 		void GetHamegChannelMap(HamegChannelMap &fGetHamegChannelMap);
 		
-		
 	private:
 		
-		BufferedAsyncSerial serial;
 		HamegChannelMap  fHamegChannelMap;
 		HamegChannelMap  fHamegChannelMapCurr;
-		INITSERIAL::SerialSettingsMap fHamegSettingsMap;
 		std::string endline = "\n";
 		std::string write_str,read_str;
-		
 	protected:
 		void WriteSynchronized(string &command);
 		void WriteNotSynchronized(string &command);
@@ -105,4 +94,4 @@ namespace HAMEG4040{
 	};
 };
 
-#endif 
+#endif
