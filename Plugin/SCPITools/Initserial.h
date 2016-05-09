@@ -30,8 +30,7 @@
     {
       
     public:
-      Serial(const std::string& pFilename){
-	fFilename=pFilename;
+      Serial(const std::string& pFilename) : fFilename(pFilename) {
 	ParseSettingsXML(fFilename, std::cout);
 	serial=make_shared<BufferedAsyncSerial>();
 	this->Initialise(gSerialSettingsmap);
