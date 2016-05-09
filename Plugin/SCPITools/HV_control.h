@@ -52,8 +52,8 @@ namespace HV_CONTROL{
 		I_compliance2(2E-5),
 		Wait_ms(500),
 		Wait_ms_ramp(500),
-		SerialFileKeithley("SMUSettings/Keithley.xml"),
-		SerialFileKeithley1("SMUSettings/Keithley1.xml")
+		SerialFileKeithley("Plugin/SCPISettings/Keithley.xml"),
+		SerialFileKeithley1("Plugin/SCPISettings/Keithley1.xml")
 		{}
 	};
 	class Controller

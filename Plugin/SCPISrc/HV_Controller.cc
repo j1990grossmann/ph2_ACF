@@ -41,14 +41,14 @@ int main(int argc, char* argv[])
 	ArgvParser cmd;
 	
 	// init
-	cmd.setIntroductoryDescription( "Switch HV on and of according to config file SMUSetting/HV_Control.xml and save timestamps and currents to file" );
+	cmd.setIntroductoryDescription( "Switch HV on and of according to config file Plugin/SCPISettings/HV_Control.xml and save timestamps and currents to file" );
 	// error codes
 	cmd.addErrorCode( 0, "Success" );
 	cmd.addErrorCode( 1, "Error" );
 	// options
 	cmd.setHelpOption( "h", "help", "Print this help page" );
 	
-	cmd.defineOption( "file", "Config File . Default value: SMUSettings/HV_control.xml", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
+	cmd.defineOption( "file", "Config File . Default value: Plugin/SCPISettings/HV_control.xml", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
 	cmd.defineOptionAlternative( "file", "f" );
 	
 	cmd.defineOption( "output", "Output Directory . Default value: NoiseScanData", ArgvParser::OptionRequiresValue /*| ArgvParser::OptionRequired*/ );
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 	}
 	
 	// now query the parsing results
-	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "SMUSettings/HV_Control.xml";
+	std::string cHWFile = ( cmd.foundOption( "file" ) ) ? cmd.optionValue( "file" ) : "Plugin/SCPISettings/HV_Control.xml";
 	std::string cDirectory = ( cmd.foundOption( "output" ) ) ? cmd.optionValue( "output" ) : "NoiseScanData/";
 
 	bool batchMode = ( cmd.foundOption( "batch" ) ) ? true : false;
