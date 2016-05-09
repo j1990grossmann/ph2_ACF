@@ -33,7 +33,7 @@ namespace INITSERIAL{
 		Serial(const std::string& pFilename) : fFilename(pFilename) {
 			// 	ParseSettingsXML(fFilename, std::cout);
 			serial=make_shared<BufferedAsyncSerial>();
-			// 	   this->Serial::ParseSettingsXML(pFilename,std::cout);
+			this->Serial::ParseSettingsXML(pFilename,std::cout);
 			this->Serial::Initialise(this->Serial::gSerialSettingsmap);
 			this->Serial::EmptyBuffer();
 			this->Initialise(gSerialSettingsmap);
