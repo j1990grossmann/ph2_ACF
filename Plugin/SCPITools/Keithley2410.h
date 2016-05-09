@@ -36,6 +36,9 @@ namespace KEITHLEY2410{
  public:
   Keithley2410(const std::string& pFilename): Serial(pFilename) {
    endline = "\n";
+   this->Serial::ParseSettingsXML(pFilename,std::cout);
+   this->Serial::Initialise(this->Serial::gSerialSettingsmap);
+   this->Serial::EmptyBuffer();
   }
   
   ~Keithley2410() {

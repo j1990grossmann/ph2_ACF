@@ -31,10 +31,10 @@
       
     public:
       Serial(const std::string& pFilename) : fFilename(pFilename) {
-	ParseSettingsXML(fFilename, std::cout);
+// 	ParseSettingsXML(fFilename, std::cout);
 	serial=make_shared<BufferedAsyncSerial>();
-	this->Initialise(gSerialSettingsmap);
-	this->EmptyBuffer();
+// 	this->Initialise(gSerialSettingsmap);
+// 	this->EmptyBuffer();
       }
       ~Serial(){
       }
