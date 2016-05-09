@@ -36,6 +36,7 @@ namespace KEITHLEY2410{
  public:
   Keithley2410(const std::string& pFilename){
    fFilename=pFilename;
+   std::cout<<this->Serial::fFilename<<std::endl;
    endline = "\n";
   }
   
