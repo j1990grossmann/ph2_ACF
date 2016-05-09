@@ -1,7 +1,7 @@
 #<?xml version='1.0' encoding = 'UTF-8' ?>
 <Settings>
-  <Setting rs232_file="Keithley">SMUSettings/Keithley.xml</Setting>
-  <Setting rs232_file="Keithley1">SMUSettings/Keithley1.xml</Setting>
+  <Setting rs232_file="Keithley">Plugin/SCPISettings/Keithley.xml</Setting>
+  <Setting rs232_file="Keithley1">Plugin/SCPISettings/Keithley1.xml</Setting>
   <Voltages>
     <Voltage Id="V_1">-250</Voltage>
     <Voltage Id="V_2">-250</Voltage>
@@ -12,7 +12,7 @@
     <CurrentMax Id="I_max_2">5E-5</CurrentMax>
   </CurrentsMax>
   <Wait>
-    <Setting Wait="Wait_ms">1000</Setting>
+    <Setting Wait="Wait_ms">500</Setting>
     <Setting Wait="Wait_ms_ramp">500</Setting>
   </Wait>  
 </Settings>
