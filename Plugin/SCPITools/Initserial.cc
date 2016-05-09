@@ -1,7 +1,30 @@
 #include "Initserial.h"
 using namespace INITSERIAL;
-
-void INITSERIAL::Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, INITSERIAL::SerialSettingsMap& fSerialSettingMap)
+void Serial::ParseSettingsXML(const string& pFilename, ostream& os)
+{
+    SerialSettingsMap tmpSerialSettingsMap;
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file( pFilename.c_str() );
+    if ( !result )
+    {
+        cout << "ERROR :\n Unable to open the file : " << pFilename<< std::endl;
+        cout << "Error description : " << result.description() << std::endl;
+        return ;
+    }
+    for ( pugi::xml_node nSettings = doc.child( "Settings" ); nSettings; nSettings = nSettings.next_sibling() )
+    {
+        pugi::xml_attribute attr;
+        for ( pugi::xml_node nSetting = nSettings.child( "Setting" ); nSetting; nSetting = nSetting.next_sibling() )
+        {
+            if(attr=nSetting.attribute( "rs232" )){
+                tmpSerialSettingsMap[nSetting.attribute( "rs232" ).value()]=nSetting.first_child().value();
+                cout << RED << "Setting" << RESET << " --" << BOLDCYAN << nSetting.attribute( "rs232" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
+            }
+        }
+    }
+    gSerialSettingsmap=tmpSerialSettingsMap;
+}
+void Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, SerialSettingsMap& fSerialSettingMap)
 {
 	map <string,boost::asio::serial_port_base::parity::type > paritymap;
 	map <string,boost::asio::serial_port_base::flow_control::type > flow_controlmap;
@@ -34,7 +57,7 @@ void INITSERIAL::Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, INIT
 		exit(1);
 	}
 }
-void INITSERIAL::Serial::EmptyBuffer(shared_ptr< BufferedAsyncSerial > serial)
+void Serial::EmptyBuffer(shared_ptr< BufferedAsyncSerial > serial)
 {
 	string read_str="a";
 	while(!read_str.empty())
@@ -42,28 +65,4 @@ void INITSERIAL::Serial::EmptyBuffer(shared_ptr< BufferedAsyncSerial > serial)
 		std::this_thread::sleep_for(std::chrono::milliseconds(4));
 		read_str=serial->readStringUntil();	
 	}	
-}
-void INITSERIAL::ParseSettingsXML(const string& pFilename, ostream& os)
-{
-    INITSERIAL::SerialSettingsMap tmpSerialSettingsMap;
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file( pFilename.c_str() );
-    if ( !result )
-    {
-        cout << "ERROR :\n Unable to open the file : " << pFilename<< std::endl;
-        cout << "Error description : " << result.description() << std::endl;
-        return ;
-    }
-    for ( pugi::xml_node nSettings = doc.child( "Settings" ); nSettings; nSettings = nSettings.next_sibling() )
-    {
-        pugi::xml_attribute attr;
-        for ( pugi::xml_node nSetting = nSettings.child( "Setting" ); nSetting; nSetting = nSetting.next_sibling() )
-        {
-            if(attr=nSetting.attribute( "rs232" )){
-                tmpSerialSettingsMap[nSetting.attribute( "rs232" ).value()]=nSetting.first_child().value();
-                cout << RED << "Setting" << RESET << " --" << BOLDCYAN << nSetting.attribute( "rs232" ).value() << RESET << ":" << BOLDYELLOW << nSetting.first_child().value()  << RESET << std:: endl;
-            }
-        }
-    }
-    gSerialSettingsmap=tmpSerialSettingsMap;
 }
