@@ -45,9 +45,9 @@
     void EmptyBuffer(shared_ptr<BufferedAsyncSerial> serial);  // wants to be called after SystemController::ReadHW, ReadSettings
     void Initialise(shared_ptr<BufferedAsyncSerial> serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
     void ParseSettingsXML(const string& pFilename, ostream& os);
+    string fFilename;
   private:
     shared_ptr<BufferedAsyncSerial>serial;
-    string fFilename;
     SerialSettingsMap gSerialSettingsmap;
   };
   }
