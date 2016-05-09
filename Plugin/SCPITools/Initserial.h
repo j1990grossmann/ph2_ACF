@@ -4,10 +4,10 @@
   * Distributed under the Boost Software License, Version 1.0.
   * Created on February 19th, 2015, 10:46 AM
   */
-
+  
   #ifndef INITSERIAL_H
   #define	INITSERIAL_H
-
+  
   #include <chrono>
   #include <cstdlib>
   #include <iostream>
@@ -19,37 +19,38 @@
   #include "../SCPIUtils/ConsoleColor.h"
   #include "AsyncSerial.h"
   #include "BufferedAsyncSerial.h"
-
+  
   using namespace std;
   // using namespace BufferedAsyncSerial;
-
-  namespace INITSERIAL{
-  typedef std::map<std::string, std::string>    SerialSettingsMap;
   
-  class Serial
-  {
+  namespace INITSERIAL{
+    typedef std::map<std::string, std::string>    SerialSettingsMap;
     
-  public:
-    Serial(){	
-    ParseSettingsXML(fFilename, std::cout);
-    serial=make_shared<BufferedAsyncSerial>();
-    this->Initialise(gSerialSettingsmap);
-    this->EmptyBuffer();
-    }
-    ~Serial(){
-    }
-    // methods
-    // 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
-    std::string endline;
-  protected:
-    void EmptyBuffer();  // wants to be called after SystemController::ReadHW, ReadSettings
-    void Initialise(SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
-    void ParseSettingsXML(const string& pFilename, ostream& os);
-    string fFilename;
-    shared_ptr<BufferedAsyncSerial>serial;
-    SerialSettingsMap gSerialSettingsmap;
-  private:
-  };
+    class Serial
+    {
+      
+    public:
+      Serial(const std::string& pFilename){
+	fFilename=pFilename;
+	ParseSettingsXML(fFilename, std::cout);
+	serial=make_shared<BufferedAsyncSerial>();
+	this->Initialise(gSerialSettingsmap);
+	this->EmptyBuffer();
+      }
+      ~Serial(){
+      }
+      // methods
+      // 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
+      std::string endline;
+    protected:
+      void EmptyBuffer();  // wants to be called after SystemController::ReadHW, ReadSettings
+      void Initialise(SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
+      void ParseSettingsXML(const string& pFilename, ostream& os);
+      string fFilename;
+      shared_ptr<BufferedAsyncSerial>serial;
+      SerialSettingsMap gSerialSettingsmap;
+    private:
+    };
   }
-
+  
   #endif 

@@ -34,10 +34,7 @@ namespace KEITHLEY2410{
  class Keithley2410 : public INITSERIAL::Serial
  {
  public:
-  Keithley2410(const std::string& pFilename){
-   this->Serial::fFilename=pFilename;
-   this->Serial::Initialise(this->Serial::gSerialSettingsmap);
-   std::cout<<this->Serial::fFilename<<"\tfilename"<<std::endl;
+  Keithley2410(const std::string& pFilename): Serial(pFilename) {
    endline = "\n";
   }
   
