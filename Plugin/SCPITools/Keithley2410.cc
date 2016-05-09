@@ -1,6 +1,5 @@
 #include "Keithley2410.h"
 
-
 #include <iostream>
 
 using namespace KEITHLEY2410;

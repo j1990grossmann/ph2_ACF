@@ -31,9 +31,7 @@ void signalHandler( int signum )
   
   // cleanup and close up stuff here  
   // terminate program  
-
   stop=1;
-
 }
 
 int main(int argc, char* argv[])
@@ -93,8 +91,6 @@ int main(int argc, char* argv[])
 	
 	printf("Read File %s\n",cHWFile.c_str());
 //  	if ( !batchMode ) cApp.Run();
-	
-	
 
 	HV_CONTROL::Controller(cHWFile, cDirectory, cUp, stop);
 	

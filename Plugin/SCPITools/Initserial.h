@@ -21,7 +21,7 @@
 #include "BufferedAsyncSerial.h"
 
 using namespace std;
-// using namespace BufferedAsyncSerial;
+
 
 namespace INITSERIAL{
 	typedef std::map<std::string, std::string>    SerialSettingsMap;
@@ -44,14 +44,14 @@ namespace INITSERIAL{
 		}
 		// methods
 		// 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
-		std::string endline;
 	protected:
-		void EmptyBuffer();  // wants to be called after SystemController::ReadHW, ReadSettings
-		void Initialise(SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
-		void ParseSettingsXML(const string& pFilename, ostream& os);
+		std::string endline;
 		string fFilename;
 		shared_ptr<BufferedAsyncSerial>serial;
 		SerialSettingsMap gSerialSettingsmap;
+		void EmptyBuffer();  // wants to be called after SystemController::ReadHW, ReadSettings
+		void Initialise(SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
+		void ParseSettingsXML(const string& pFilename, ostream& os);
 	private:
 	};
 }

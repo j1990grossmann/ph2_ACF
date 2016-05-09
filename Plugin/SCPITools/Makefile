@@ -1,6 +1,6 @@
 # Objs            = AsyncSerial.o BufferedAsyncSerial.o Initserial.o Hameg4040.o Keithley2700.o Keithley2410.o RunCounter.o Scan.o HV_control.o
-# Objs            = AsyncSerial.o BufferedAsyncSerial.o Initserial.o Keithley2700.o Keithley2410.o RunCounter.o Scan.o HV_control.o
-Objs            = AsyncSerial.o BufferedAsyncSerial.o Initserial.o Keithley2410.o RunCounter.o Scan.o HV_control.o
+Objs            = AsyncSerial.o BufferedAsyncSerial.o Initserial.o Keithley2700.o Keithley2410.o RunCounter.o Scan.o HV_control.o
+# Objs            = AsyncSerial.o BufferedAsyncSerial.o Initserial.o Keithley2410.o RunCounter.o Scan.o HV_control.o
 CC              = gcc
 CXX             = g++
 CCFlags         = -g -O1 -w -Wall -pedantic -std=c++11 -fPIC -Wcpp 
