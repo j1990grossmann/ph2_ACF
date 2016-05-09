@@ -24,7 +24,7 @@ void Serial::ParseSettingsXML(const string& pFilename, ostream& os)
     }
     gSerialSettingsmap=tmpSerialSettingsMap;
 }
-void Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, SerialSettingsMap& fSerialSettingMap)
+void Serial::Initialise(SerialSettingsMap& fSerialSettingMap)
 {
 	map <string,boost::asio::serial_port_base::parity::type > paritymap;
 	map <string,boost::asio::serial_port_base::flow_control::type > flow_controlmap;
@@ -57,7 +57,7 @@ void Serial::Initialise(shared_ptr<BufferedAsyncSerial> serial, SerialSettingsMa
 		exit(1);
 	}
 }
-void Serial::EmptyBuffer(shared_ptr< BufferedAsyncSerial > serial)
+void Serial::EmptyBuffer()
 {
 	string read_str="a";
 	while(!read_str.empty())

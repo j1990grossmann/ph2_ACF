@@ -33,7 +33,7 @@
     Serial(){	
     ParseSettingsXML(fFilename, std::cout);
     serial=make_shared<BufferedAsyncSerial>();
-    this->Initialise(serial, gSerialSettingsmap);
+    this->Initialise(gSerialSettingsmap);
     this->EmptyBuffer(serial);
     }
     ~Serial(){
@@ -42,8 +42,8 @@
     // 		void Initialise(AsyncSerial &serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
     std::string endline;
   protected:
-    void EmptyBuffer(shared_ptr<BufferedAsyncSerial> serial);  // wants to be called after SystemController::ReadHW, ReadSettings
-    void Initialise(shared_ptr<BufferedAsyncSerial> serial, SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
+    void EmptyBuffer();  // wants to be called after SystemController::ReadHW, ReadSettings
+    void Initialise(SerialSettingsMap &fSerialSettingMap);  // wants to be called after SystemController::ReadHW, ReadSettings
     void ParseSettingsXML(const string& pFilename, ostream& os);
     string fFilename;
   private:

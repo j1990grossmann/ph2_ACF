@@ -46,10 +46,10 @@ void Keithley2410::ConfigureMultipleRead(int no_samples)
 
 void Keithley2410::Reset()
 {
-    this->EmptyBuffer();
+    this->Serial::EmptyBuffer();
     write_str = "*RST";
     this->WriteNotSynchronized(write_str);
-    this->EmptyBuffer();
+    this->Serial::EmptyBuffer();
 }
 
 void Keithley2410::SenseCurr()
