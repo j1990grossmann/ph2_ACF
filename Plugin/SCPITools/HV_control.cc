@@ -83,7 +83,7 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 	double V_stepsize_1, V_stepsize_2, V_start_1, V_start_2;
 	
 	KEITHLEY2410::Keithley2410  k(fHV_control.SerialFileKeithley);
-	KEITHLEY2410::Keithley2410  k1(fHV_control.SerialFileKeithley1);
+// 	KEITHLEY2410::Keithley2410  k1(fHV_control.SerialFileKeithley1);
 	
 	if(up)
 	{
@@ -96,18 +96,18 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 		k.SenseCurrProt(to_string(fHV_control.I_compliance1));
 		k.Outp(1);
 		
-		k1.Configure();
-		k1.SenseCurrProt(to_string(fHV_control.I_compliance2));
-		k1.Outp(1);
+// 		k1.Configure();
+// 		k1.SenseCurrProt(to_string(fHV_control.I_compliance2));
+// 		k1.Outp(1);
 	}else
 	{
 		string readstr, readstr1;
 		
 		k.Read(readstr);
-		k1.Read(readstr1);
+// 		k1.Read(readstr1);
 		
 		k.Read(readstr);
-		k1.Read(readstr1);
+// 		k1.Read(readstr1);
 
 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
 		Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
@@ -137,7 +137,7 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 		double V=V_start_1+V_stepsize_1*(i+1)*V_dir;
 		double V1=V_start_2+V_stepsize_2*(i+1)*V_dir;
 		k.SourVoltLev(to_string(V));
-		k1.SourVoltLev(to_string(V));
+// 		k1.SourVoltLev(to_string(V));
 		
 		std::this_thread::sleep_for(std::chrono::milliseconds(fHV_control.Wait_ms_ramp));
 		
@@ -153,9 +153,9 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 			raw_file_name="IV_Curve";
 			
 			k.Read(readstr);
-			k1.Read(readstr1);
+// 			k1.Read(readstr1);
 			Tokenizer(datavec, readstr,boost::char_separator<char>(","));
-			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
+// 			Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
 			
 			std::chrono::time_point<std::chrono::system_clock> start, end;
 			// Start the run here
@@ -223,13 +223,13 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 		if(!up)
 		{
 			k.SourVoltLev("0");
-			k1.SourVoltLev("0");
+// 			k1.SourVoltLev("0");
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 			k.Read(readstr);
 			k.Outp(0);
 			
-			k1.Read(readstr);
-			k1.Outp(0);
+// 			k1.Read(readstr);
+// 			k1.Outp(0);
 		}	
 }
 void HV_CONTROL::Controller::FileGenerator()
@@ -267,8 +267,8 @@ void HV_CONTROL::Controller::FileGenerator()
 	ivFile<<"Run started at:"<<endl<<asctime(newtime);
 	ivFile<<"Time Voltage [V]   Current [A]    Stepsize[V]:\t"<<setprecision(3)<<scientific<<"\tCompliance[A]: "<<fHV_control.I_compliance1<<endl;
 	
-	ivFile1<<"Run started at:"<<endl<<asctime(newtime);
-	ivFile1<<"Time Voltage [V]   Current [A]    Stepsize[V]:\t"<<setprecision(3)<<scientific<<"\tCompliance[A]: "<<fHV_control.I_compliance2<<endl;
+// 	ivFile1<<"Run started at:"<<endl<<asctime(newtime);
+// 	ivFile1<<"Time Voltage [V]   Current [A]    Stepsize[V]:\t"<<setprecision(3)<<scientific<<"\tCompliance[A]: "<<fHV_control.I_compliance2<<endl;
 }
 void HV_CONTROL::Controller::Tokenizer(vector< string >& datavec, string& datastring, boost::char_separator< char > sep)
 {
