@@ -75,8 +75,8 @@ namespace HV_CONTROL{
 		std::string fOutFilename, Data_name;
 		std::fstream ivFile, ivFile1;
 		pugi::xml_document cFile;
-		vector<string> datavec;
-		vector<string> datavec1;
+		vector<std::string> datavec;
+		vector<std::string> datavec1;
 		HV_control fHV_control;
 	protected:
 		void ParseSettingsXML( const std::string& pFilename, std::ostream& os = std::cout);
