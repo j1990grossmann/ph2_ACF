@@ -277,7 +277,9 @@ void HV_CONTROL::Controller::Tokenizer(vector< string >& datavec, string& datast
 	boost::tokenizer< boost::char_separator<char> > tok(datastring, sep);
 	for(boost::tokenizer< boost::char_separator<char> >::iterator beg = tok.begin(); beg != tok.end(); ++beg)
 	{
-		datavec.push_back(*beg);	
+		stringstream ss;
+		ss<<*beg<<std::endl;
+		datavec.push_back(ss);	
 		// 		cout<<*beg<<endl;
 	}
 }
