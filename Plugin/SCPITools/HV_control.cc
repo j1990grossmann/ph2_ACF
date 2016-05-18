@@ -127,7 +127,7 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 		// cout<<"startvalues rampdown"<<atof(datavec.at(0).c_str())<<"\t"<<atof(datavec.at(1).c_str())<<endl;
 		cout<<"startvalues rampdown"<<datavec.at(0).c_str()<<"\t"<<datavec.at(1).c_str()<<endl;
 		cout<<"readsrt"<<readstr<<endl;
-		cout<<"V_start_1 "<<V_start_1<<"function"<<stod(datavec.at(0),&sz)<<endl;
+		cout<<"V_start_1 "<<V_start_1<<"function"<<stod(tmp,&sz)<<endl;
 // 		cout<<readstr1<<endl;
 		V_stepsize_1=V_start_1/(double)no_of_steps;
 // 		V_stepsize_2=V_start_2/(double)no_of_steps;
