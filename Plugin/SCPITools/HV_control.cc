@@ -287,7 +287,7 @@ void HV_CONTROL::Controller::Tokenizer(vector< string >& datavec, string& datast
 	{
 		stringstream ss;
 		ss<<*beg<<std::endl;
-		datavec.push_back(ss);	
+		datavec.push_back(ss.str());	
 		// 		cout<<*beg<<endl;
 	}
 }
