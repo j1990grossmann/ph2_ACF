@@ -117,7 +117,7 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 		
 		k.Read(readstr);
 // 		k1.Read(readstr1);
-
+		readstr="-2.500000E+02,-1.246771E-10,+9.910000E+37,+8.085647E+03,+2.150800E+04";
 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
 // 		Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
 		for (auto looper : datavec)
