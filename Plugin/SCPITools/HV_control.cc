@@ -118,7 +118,6 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 		k.Read(readstr);
 // 		k1.Read(readstr1);
 		Tokenizer(datavec, readstr,boost::char_separator<char>(","));
-		string test = (string)readstr.substr(0,14);
 		std::string::size_type sz;
 		string tmp=datavec.at(0);
  		V_start_1=stod(tmp,&sz);
