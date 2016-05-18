@@ -73,7 +73,14 @@ void HV_CONTROL::Controller::ParseSettingsXML(const string& pFilename, ostream& 
 		// 		printf("%s %s\n", fScanconfig.SerialFileKeithley.c_str(), fScanconfig.SerialFileHameg.c_str());
 	}
 }
-
+void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
+{
+	string test("-2.500000E+02,-1.246771E-10,+9.910000E+37,+8.085647E+03,+2.150800E+04");
+	Tokenizer(datavec, test,boost::char_separator<char>(","));
+	double V_start_1=atof(datavec.at(0).c_str());
+	cout<<V_start_1<<endl;
+}
+#if 0
 void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 {
 	char linestring[10000];
@@ -233,6 +240,7 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 // 			k1.Outp(0);
 		}	
 }
+#endif
 void HV_CONTROL::Controller::FileGenerator()
 {
 	
