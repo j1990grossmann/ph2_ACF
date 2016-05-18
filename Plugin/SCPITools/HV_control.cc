@@ -122,7 +122,9 @@ void HV_CONTROL::Controller::ramp(bool up, volatile sig_atomic_t& stop)
 // 		Tokenizer(datavec1, readstr1,boost::char_separator<char>(","));
 		for (auto looper : datavec)
 			cout<<looper<<endl;
-		V_start_1=atof(datavec.at(0).c_str());
+		std::string teststr = datavec.at(0);
+		cout<<teststr<<atof(teststr.c_str())<<endl;
+// 		V_start_1=atof(teststr.c_str());
 		cout<<V_start_1<<endl;
 		// 		V_start_2=atof(datavec1.at(0).c_str());
 		// cout<<"startvalues rampdown"<<atof(datavec.at(0).c_str())<<"\t"<<atof(datavec.at(1).c_str())<<endl;
